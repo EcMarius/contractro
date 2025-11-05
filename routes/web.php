@@ -247,5 +247,129 @@ Route::post('/unsubscribe/process', [\App\Http\Controllers\GrowthHackingControll
 Route::get('/track/open/{token}', [\App\Http\Controllers\GrowthHackingController::class, 'trackOpen'])->name('growth-hack.track-open');
 Route::get('/track/click', [\App\Http\Controllers\GrowthHackingController::class, 'trackClick'])->name('growth-hack.track-click');
 
+// ContractRO - Public Signing Routes (no authentication required)
+Route::prefix('sign')->name('signing.')->group(function () {
+    Route::get('/{partyId}/{token}', [\App\Http\Controllers\ContractSigningController::class, 'show'])->name('show');
+    Route::post('/{partyId}/{token}/initiate-sms', [\App\Http\Controllers\ContractSigningController::class, 'initiateSms'])->name('initiate-sms');
+    Route::post('/{partyId}/{token}/verify-sms', [\App\Http\Controllers\ContractSigningController::class, 'verifySms'])->name('verify-sms');
+    Route::post('/{partyId}/{token}/resend-sms', [\App\Http\Controllers\ContractSigningController::class, 'resendSms'])->name('resend-sms');
+    Route::post('/{partyId}/{token}/upload-handwritten', [\App\Http\Controllers\ContractSigningController::class, 'uploadHandwritten'])->name('upload-handwritten');
+    Route::get('/{partyId}/{token}/success', [\App\Http\Controllers\ContractSigningController::class, 'success'])->name('success');
+    Route::get('/{partyId}/{token}/download', [\App\Http\Controllers\ContractSigningController::class, 'downloadPdf'])->name('download');
+});
+
+// ContractRO - Authenticated Routes
+Route::middleware(['auth'])->group(function () {
+
+    // Company Routes
+    Route::prefix('companies')->name('companies.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\CompanyController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\CompanyController::class, 'create'])->name('create');
+        Route::post('/', [\App\Http\Controllers\CompanyController::class, 'store'])->name('store');
+        Route::get('/{company}', [\App\Http\Controllers\CompanyController::class, 'show'])->name('show');
+        Route::get('/{company}/edit', [\App\Http\Controllers\CompanyController::class, 'edit'])->name('edit');
+        Route::put('/{company}', [\App\Http\Controllers\CompanyController::class, 'update'])->name('update');
+        Route::delete('/{company}', [\App\Http\Controllers\CompanyController::class, 'destroy'])->name('destroy');
+        Route::post('/{company}/switch', [\App\Http\Controllers\CompanyController::class, 'switch'])->name('switch');
+        Route::post('/validate-cui', [\App\Http\Controllers\CompanyController::class, 'validateCui'])->name('validate-cui');
+    });
+
+    // Contract Routes
+    Route::prefix('contracts')->name('contracts.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\ContractController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\ContractController::class, 'create'])->name('create');
+        Route::post('/', [\App\Http\Controllers\ContractController::class, 'store'])->name('store');
+        Route::get('/{contract}', [\App\Http\Controllers\ContractController::class, 'show'])->name('show');
+        Route::get('/{contract}/edit', [\App\Http\Controllers\ContractController::class, 'edit'])->name('edit');
+        Route::put('/{contract}', [\App\Http\Controllers\ContractController::class, 'update'])->name('update');
+        Route::delete('/{contract}', [\App\Http\Controllers\ContractController::class, 'destroy'])->name('destroy');
+        Route::post('/{contract}/send-for-signing', [\App\Http\Controllers\ContractController::class, 'sendForSigning'])->name('send-for-signing');
+        Route::post('/{contract}/cancel', [\App\Http\Controllers\ContractController::class, 'cancel'])->name('cancel');
+        Route::post('/{contract}/duplicate', [\App\Http\Controllers\ContractController::class, 'duplicate'])->name('duplicate');
+        Route::get('/{contract}/download', [\App\Http\Controllers\ContractController::class, 'downloadPdf'])->name('download');
+        Route::post('/{contract}/add-party', [\App\Http\Controllers\ContractController::class, 'addParty'])->name('add-party');
+        Route::delete('/{contract}/parties/{partyId}', [\App\Http\Controllers\ContractController::class, 'removeParty'])->name('remove-party');
+
+        // Contract Amendments
+        Route::prefix('{contract}/amendments')->name('amendments.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\ContractAmendmentController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\ContractAmendmentController::class, 'create'])->name('create');
+            Route::post('/', [\App\Http\Controllers\ContractAmendmentController::class, 'store'])->name('store');
+            Route::get('/{amendment}', [\App\Http\Controllers\ContractAmendmentController::class, 'show'])->name('show');
+            Route::get('/{amendment}/edit', [\App\Http\Controllers\ContractAmendmentController::class, 'edit'])->name('edit');
+            Route::put('/{amendment}', [\App\Http\Controllers\ContractAmendmentController::class, 'update'])->name('update');
+            Route::delete('/{amendment}', [\App\Http\Controllers\ContractAmendmentController::class, 'destroy'])->name('destroy');
+            Route::get('/{amendment}/download', [\App\Http\Controllers\ContractAmendmentController::class, 'download'])->name('download');
+        });
+
+        // Contract Attachments
+        Route::prefix('{contract}/attachments')->name('attachments.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\ContractAttachmentController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\ContractAttachmentController::class, 'create'])->name('create');
+            Route::post('/', [\App\Http\Controllers\ContractAttachmentController::class, 'store'])->name('store');
+            Route::post('/bulk', [\App\Http\Controllers\ContractAttachmentController::class, 'bulkUpload'])->name('bulk-upload');
+            Route::get('/{attachment}', [\App\Http\Controllers\ContractAttachmentController::class, 'show'])->name('show');
+            Route::get('/{attachment}/edit', [\App\Http\Controllers\ContractAttachmentController::class, 'edit'])->name('edit');
+            Route::put('/{attachment}', [\App\Http\Controllers\ContractAttachmentController::class, 'update'])->name('update');
+            Route::delete('/{attachment}', [\App\Http\Controllers\ContractAttachmentController::class, 'destroy'])->name('destroy');
+            Route::get('/{attachment}/download', [\App\Http\Controllers\ContractAttachmentController::class, 'download'])->name('download');
+        });
+
+        // Contract Tasks
+        Route::prefix('{contract}/tasks')->name('tasks.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\ContractTaskController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\ContractTaskController::class, 'create'])->name('create');
+            Route::post('/', [\App\Http\Controllers\ContractTaskController::class, 'store'])->name('store');
+            Route::get('/{task}', [\App\Http\Controllers\ContractTaskController::class, 'show'])->name('show');
+            Route::get('/{task}/edit', [\App\Http\Controllers\ContractTaskController::class, 'edit'])->name('edit');
+            Route::put('/{task}', [\App\Http\Controllers\ContractTaskController::class, 'update'])->name('update');
+            Route::delete('/{task}', [\App\Http\Controllers\ContractTaskController::class, 'destroy'])->name('destroy');
+            Route::post('/{task}/complete', [\App\Http\Controllers\ContractTaskController::class, 'complete'])->name('complete');
+            Route::post('/{task}/start', [\App\Http\Controllers\ContractTaskController::class, 'start'])->name('start');
+            Route::post('/{task}/reopen', [\App\Http\Controllers\ContractTaskController::class, 'reopen'])->name('reopen');
+            Route::post('/{task}/assign', [\App\Http\Controllers\ContractTaskController::class, 'assign'])->name('assign');
+        });
+    });
+
+    // Invoice Routes
+    Route::prefix('invoices')->name('invoices.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\InvoiceController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\InvoiceController::class, 'create'])->name('create');
+        Route::post('/', [\App\Http\Controllers\InvoiceController::class, 'store'])->name('store');
+        Route::get('/{invoice}', [\App\Http\Controllers\InvoiceController::class, 'show'])->name('show');
+        Route::get('/{invoice}/edit', [\App\Http\Controllers\InvoiceController::class, 'edit'])->name('edit');
+        Route::put('/{invoice}', [\App\Http\Controllers\InvoiceController::class, 'update'])->name('update');
+        Route::delete('/{invoice}', [\App\Http\Controllers\InvoiceController::class, 'destroy'])->name('destroy');
+        Route::post('/{invoice}/issue', [\App\Http\Controllers\InvoiceController::class, 'issue'])->name('issue');
+        Route::post('/{invoice}/mark-as-paid', [\App\Http\Controllers\InvoiceController::class, 'markAsPaid'])->name('mark-as-paid');
+        Route::post('/{invoice}/cancel', [\App\Http\Controllers\InvoiceController::class, 'cancel'])->name('cancel');
+        Route::post('/{invoice}/duplicate', [\App\Http\Controllers\InvoiceController::class, 'duplicate'])->name('duplicate');
+        Route::get('/{invoice}/download', [\App\Http\Controllers\InvoiceController::class, 'downloadPdf'])->name('download');
+        Route::post('/{invoice}/send-email', [\App\Http\Controllers\InvoiceController::class, 'sendEmail'])->name('send-email');
+        Route::get('/from-contract/{contract}', [\App\Http\Controllers\InvoiceController::class, 'createFromContract'])->name('from-contract');
+    });
+
+    // Financial Report Routes
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\FinancialReportController::class, 'index'])->name('index');
+        Route::get('/dashboard', [\App\Http\Controllers\FinancialReportController::class, 'dashboard'])->name('dashboard');
+        Route::get('/create', [\App\Http\Controllers\FinancialReportController::class, 'create'])->name('create');
+        Route::post('/', [\App\Http\Controllers\FinancialReportController::class, 'store'])->name('store');
+        Route::get('/{report}', [\App\Http\Controllers\FinancialReportController::class, 'show'])->name('show');
+        Route::delete('/{report}', [\App\Http\Controllers\FinancialReportController::class, 'destroy'])->name('destroy');
+        Route::post('/{report}/refresh', [\App\Http\Controllers\FinancialReportController::class, 'refresh'])->name('refresh');
+        Route::get('/{report}/download', [\App\Http\Controllers\FinancialReportController::class, 'downloadPdf'])->name('download');
+        Route::get('/{report}/export', [\App\Http\Controllers\FinancialReportController::class, 'exportExcel'])->name('export');
+        Route::post('/revenue', [\App\Http\Controllers\FinancialReportController::class, 'revenueReport'])->name('revenue');
+        Route::post('/cleanup', [\App\Http\Controllers\FinancialReportController::class, 'cleanup'])->name('cleanup');
+    });
+
+    // My Tasks Routes
+    Route::prefix('tasks')->name('tasks.')->group(function () {
+        Route::get('/my-tasks', [\App\Http\Controllers\ContractTaskController::class, 'myTasks'])->name('my-tasks');
+        Route::get('/overdue', [\App\Http\Controllers\ContractTaskController::class, 'overdue'])->name('overdue');
+    });
+});
+
 // Wave routes
 Wave::routes();
