@@ -243,9 +243,9 @@ $integrations = [
 
 // Status badges
 $statusBadges = [
-    'available' => ['text' => 'Disponibil', 'class' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'],
-    'planned' => ['text' => 'În curând', 'class' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'],
-    'beta' => ['text' => 'Beta', 'class' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'],
+    'available' => ['text' => __('common.available'), 'class' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'],
+    'planned' => ['text' => __('common.coming_soon'), 'class' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'],
+    'beta' => ['text' => __('common.beta'), 'class' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'],
 ];
 ?>
 
@@ -253,9 +253,9 @@ $statusBadges = [
     <x-app.container class="space-y-6">
         <!-- Page Header -->
         <div class="text-center">
-            <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Integrări</h1>
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-white">{{ __('common.integrations') }}</h1>
             <p class="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-                Conectează ContractRO cu instrumentele tale preferate de business. Automatizează procesele și crește productivitatea echipei.
+                {{ __('common.integrations_description') }}
             </p>
         </div>
 
@@ -263,15 +263,15 @@ $statusBadges = [
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center">
                 <div class="text-3xl font-bold text-blue-600 dark:text-blue-400">30+</div>
-                <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">Integrări disponibile</div>
+                <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ __('common.integrations_available') }}</div>
             </div>
             <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center">
                 <div class="text-3xl font-bold text-green-600 dark:text-green-400">5000+</div>
-                <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">Aplicații prin Zapier</div>
+                <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ __('common.apps_via_zapier') }}</div>
             </div>
             <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center">
                 <div class="text-3xl font-bold text-purple-600 dark:text-purple-400">API</div>
-                <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">REST API complet</div>
+                <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ __('common.full_rest_api') }}</div>
             </div>
         </div>
 
@@ -307,12 +307,12 @@ $statusBadges = [
                             @if($integration['status'] === 'available')
                                 <a href="{{ route('integrations.configure', ['integration' => Str::slug($integration['name'])]) }}"
                                    class="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-800 focus:outline-none transition">
-                                    Configurează
+                                    {{ __('common.configure') }}
                                 </a>
                             @elseif($integration['status'] === 'planned')
                                 <button disabled
                                         class="inline-flex items-center justify-center w-full px-4 py-2 bg-gray-300 dark:bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest cursor-not-allowed">
-                                    În curând
+                                    {{ __('common.coming_soon') }}
                                 </button>
                             @endif
                         </div>
@@ -323,13 +323,13 @@ $statusBadges = [
 
         <!-- Custom Integration CTA -->
         <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-xl p-8 text-center text-white">
-            <h2 class="text-3xl font-bold mb-4">Ai nevoie de o integrare personalizată?</h2>
+            <h2 class="text-3xl font-bold mb-4">{{ __('common.need_custom_integration') }}</h2>
             <p class="text-lg mb-6 opacity-90">
-                Echipa noastră poate dezvolta integrări custom pentru nevoile specifice ale afacerii tale.
+                {{ __('common.custom_integration_description') }}
             </p>
             <a href="{{ route('contact') }}"
                class="inline-flex items-center px-6 py-3 bg-white text-blue-600 rounded-md font-semibold text-sm uppercase tracking-widest hover:bg-gray-100 active:bg-gray-200 focus:outline-none transition">
-                Contactează-ne
+                {{ __('common.contact_us') }}
             </a>
         </div>
     </x-app.container>

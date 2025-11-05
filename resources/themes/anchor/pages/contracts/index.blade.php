@@ -52,12 +52,12 @@
 
 	// Status options
 	$statusOptions = [
-		'draft' => 'Ciornă',
-		'pending' => 'În așteptare',
-		'signed' => 'Semnat',
-		'active' => 'Activ',
-		'expired' => 'Expirat',
-		'terminated' => 'Reziliat',
+		'draft' => __('contracts.status.draft'),
+		'pending' => __('contracts.status.pending'),
+		'signed' => __('contracts.status.signed'),
+		'active' => __('contracts.status.active'),
+		'expired' => __('contracts.status.expired'),
+		'terminated' => __('contracts.status.terminated'),
 	];
 
 	$statusColors = [
@@ -77,17 +77,17 @@
 		<div class="flex items-center justify-between">
 			<div>
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
-					Contracte
+					{{ __('contracts.contracts') }}
 				</h1>
 				<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-					Gestionează toate contractele tale
+					{{ __('contracts.manage_all_contracts') }}
 				</p>
 			</div>
 			<a href="{{ route('contracts.create') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
 				<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
 				</svg>
-				Contract Nou
+				{{ __('contracts.new_contract') }}
 			</a>
 		</div>
 
@@ -98,10 +98,10 @@
 					{{-- Company Filter --}}
 					<div>
 						<label for="company" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-							Companie
+							{{ __('companies.company') }}
 						</label>
 						<select name="company" id="company" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-							<option value="">Toate companiile</option>
+							<option value="">{{ __('contracts.filters.all_companies') }}</option>
 							@foreach($companies as $company)
 								<option value="{{ $company->id }}" {{ $selectedCompany == $company->id ? 'selected' : '' }}>
 									{{ $company->name }}
@@ -113,10 +113,10 @@
 					{{-- Status Filter --}}
 					<div>
 						<label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-							Status
+							{{ __('contracts.status_label') }}
 						</label>
 						<select name="status" id="status" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-							<option value="">Toate statusurile</option>
+							<option value="">{{ __('contracts.filters.all_statuses') }}</option>
 							@foreach($statusOptions as $value => $label)
 								<option value="{{ $value }}" {{ $selectedStatus == $value ? 'selected' : '' }}>
 									{{ $label }}
@@ -128,10 +128,10 @@
 					{{-- Type Filter --}}
 					<div>
 						<label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-							Tip Contract
+							{{ __('contracts.contract_type') }}
 						</label>
 						<select name="type" id="type" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-							<option value="">Toate tipurile</option>
+							<option value="">{{ __('contracts.filters.all_types') }}</option>
 							@foreach($contractTypes as $type)
 								<option value="{{ $type->id }}" {{ $selectedType == $type->id ? 'selected' : '' }}>
 									{{ $type->name }}
@@ -143,22 +143,22 @@
 					{{-- Search --}}
 					<div>
 						<label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-							Căutare
+							{{ __('common.search') }}
 						</label>
-						<input type="text" name="search" id="search" value="{{ $search }}" placeholder="Nr. contract, titlu, client..." class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+						<input type="text" name="search" id="search" value="{{ $search }}" placeholder="{{ __('contracts.filters.search_placeholder') }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
 					</div>
 				</div>
 
 				<div class="flex items-center justify-between">
 					<div class="text-sm text-gray-600 dark:text-gray-400">
-						{{ $contracts->total() }} {{ $contracts->total() == 1 ? 'contract găsit' : 'contracte găsite' }}
+						{{ $contracts->total() }} {{ trans_choice('contracts.contracts_found', $contracts->total()) }}
 					</div>
 					<div class="flex gap-2">
 						<a href="{{ route('contracts.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
-							Resetează
+							{{ __('contracts.filters.reset') }}
 						</a>
 						<button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-							Filtrează
+							{{ __('contracts.filters.apply') }}
 						</button>
 					</div>
 				</div>
@@ -174,7 +174,7 @@
 							<tr>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
 									<a href="{{ route('contracts.index', array_merge(request()->all(), ['sort_by' => 'contract_number', 'sort_dir' => $sortBy == 'contract_number' && $sortDir == 'asc' ? 'desc' : 'asc'])) }}" class="flex items-center hover:text-gray-700 dark:hover:text-gray-300">
-										Nr. Contract
+										{{ __('contracts.contract_number') }}
 										@if($sortBy == 'contract_number')
 											<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 												@if($sortDir == 'asc')
@@ -187,20 +187,20 @@
 									</a>
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-									Companie
+									{{ __('companies.company') }}
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-									Titlu / Client
+									{{ __('contracts.title_client') }}
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-									Tip
+									{{ __('contracts.type') }}
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-									Status
+									{{ __('contracts.status_label') }}
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
 									<a href="{{ route('contracts.index', array_merge(request()->all(), ['sort_by' => 'start_date', 'sort_dir' => $sortBy == 'start_date' && $sortDir == 'asc' ? 'desc' : 'asc'])) }}" class="flex items-center hover:text-gray-700 dark:hover:text-gray-300">
-										Data Început
+										{{ __('contracts.start_date') }}
 										@if($sortBy == 'start_date')
 											<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 												@if($sortDir == 'asc')
@@ -214,7 +214,7 @@
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
 									<a href="{{ route('contracts.index', array_merge(request()->all(), ['sort_by' => 'value', 'sort_dir' => $sortBy == 'value' && $sortDir == 'asc' ? 'desc' : 'asc'])) }}" class="flex items-center hover:text-gray-700 dark:hover:text-gray-300">
-										Valoare
+										{{ __('contracts.value') }}
 										@if($sortBy == 'value')
 											<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 												@if($sortDir == 'asc')
@@ -227,7 +227,7 @@
 									</a>
 								</th>
 								<th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-									Acțiuni
+									{{ __('contracts.actions') }}
 								</th>
 							</tr>
 						</thead>
@@ -266,13 +266,13 @@
 									</td>
 									<td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
 										<div class="flex items-center justify-end gap-2">
-											<a href="{{ route('contracts.show', $contract->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400" title="Vezi">
+											<a href="{{ route('contracts.show', $contract->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400" title="{{ __('common.view') }}">
 												<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
 													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
 												</svg>
 											</a>
-											<a href="{{ route('contracts.edit', $contract->id) }}" class="text-gray-600 hover:text-gray-900 dark:text-gray-400" title="Editează">
+											<a href="{{ route('contracts.edit', $contract->id) }}" class="text-gray-600 hover:text-gray-900 dark:text-gray-400" title="{{ __('common.edit') }}">
 												<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
 												</svg>
@@ -298,25 +298,25 @@
 				<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
 				</svg>
-				<h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">Nu există contracte</h3>
+				<h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('contracts.messages.no_contracts') }}</h3>
 				<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
 					@if(request()->hasAny(['company', 'status', 'type', 'search']))
-						Niciun contract nu corespunde filtrelor selectate.
+						{{ __('contracts.no_matching_filters') }}
 					@else
-						Începe prin a crea primul tău contract.
+						{{ __('contracts.create_first_contract') }}
 					@endif
 				</p>
 				<div class="mt-6">
 					@if(request()->hasAny(['company', 'status', 'type', 'search']))
 						<a href="{{ route('contracts.index') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
-							Resetează filtrele
+							{{ __('contracts.reset_filters') }}
 						</a>
 					@else
 						<a href="{{ route('contracts.create') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
 							<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
 							</svg>
-							Creează primul contract
+							{{ __('contracts.create_first_contract') }}
 						</a>
 					@endif
 				</div>

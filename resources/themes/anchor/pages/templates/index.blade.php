@@ -49,8 +49,8 @@ $contractTypes = \App\Models\ContractType::whereIn('company_id', $companyIds)->g
         <!-- Page Header -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Șabloane Contracte</h1>
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Gestionați șabloanele de contracte reutilizabile</p>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ __('common.contract_templates') }}</h1>
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ __('common.manage_contract_templates') }}</p>
             </div>
             <div class="mt-4 sm:mt-0">
                 <a href="{{ route('templates.create') }}"
@@ -58,7 +58,7 @@ $contractTypes = \App\Models\ContractType::whereIn('company_id', $companyIds)->g
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
-                    Șablon Nou
+                    {{ __('common.new_template') }}
                 </a>
             </div>
         </div>
@@ -68,20 +68,20 @@ $contractTypes = \App\Models\ContractType::whereIn('company_id', $companyIds)->g
             <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <!-- Search -->
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Căutare</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ __('common.search') }}</label>
                     <input type="text"
                            name="search"
                            value="{{ $search }}"
-                           placeholder="Căutați după nume sau descriere..."
+                           placeholder="{{ __('common.search_by_name_description') }}"
                            class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-blue-500 focus:ring-blue-500">
                 </div>
 
                 <!-- Type Filter -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tip Contract</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ __('contracts.contract_type') }}</label>
                     <select name="type"
                             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                        <option value="">Toate tipurile</option>
+                        <option value="">{{ __('contracts.filters.all_types') }}</option>
                         @foreach($contractTypes as $type)
                             <option value="{{ $type->id }}" {{ $typeFilter == $type->id ? 'selected' : '' }}>
                                 {{ $type->name }}
@@ -92,23 +92,23 @@ $contractTypes = \App\Models\ContractType::whereIn('company_id', $companyIds)->g
 
                 <!-- Status Filter -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ __('contracts.status_label') }}</label>
                     <select name="status"
                             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-blue-500 focus:ring-blue-500">
-                        <option value="">Toate</option>
-                        <option value="active" {{ $statusFilter === 'active' ? 'selected' : '' }}>Activ</option>
-                        <option value="inactive" {{ $statusFilter === 'inactive' ? 'selected' : '' }}>Inactiv</option>
+                        <option value="">{{ __('common.all') }}</option>
+                        <option value="active" {{ $statusFilter === 'active' ? 'selected' : '' }}>{{ __('common.active') }}</option>
+                        <option value="inactive" {{ $statusFilter === 'inactive' ? 'selected' : '' }}>{{ __('common.inactive') }}</option>
                     </select>
                 </div>
 
                 <div class="md:col-span-4 flex gap-2">
                     <button type="submit"
                             class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition">
-                        Filtrează
+                        {{ __('common.filter') }}
                     </button>
                     <a href="{{ route('templates.index') }}"
                        class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition">
-                        Resetează
+                        {{ __('common.reset') }}
                     </a>
                 </div>
             </form>
@@ -131,7 +131,7 @@ $contractTypes = \App\Models\ContractType::whereIn('company_id', $companyIds)->g
                                     </p>
                                 </div>
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $template->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' }}">
-                                    {{ $template->is_active ? 'Activ' : 'Inactiv' }}
+                                    {{ $template->is_active ? __('common.active') : __('common.inactive') }}
                                 </span>
                             </div>
 
@@ -144,13 +144,13 @@ $contractTypes = \App\Models\ContractType::whereIn('company_id', $companyIds)->g
                             <!-- Template Stats -->
                             <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
                                 <div>
-                                    <p class="text-gray-500 dark:text-gray-400">Variabile</p>
+                                    <p class="text-gray-500 dark:text-gray-400">{{ __('common.variables') }}</p>
                                     <p class="font-medium text-gray-900 dark:text-white">
                                         {{ is_array($template->variables) ? count($template->variables) : 0 }}
                                     </p>
                                 </div>
                                 <div>
-                                    <p class="text-gray-500 dark:text-gray-400">Utilizări</p>
+                                    <p class="text-gray-500 dark:text-gray-400">{{ __('common.uses') }}</p>
                                     <p class="font-medium text-gray-900 dark:text-white">
                                         {{ $template->contracts_count ?? 0 }}
                                     </p>
@@ -158,7 +158,7 @@ $contractTypes = \App\Models\ContractType::whereIn('company_id', $companyIds)->g
                             </div>
 
                             <div class="mt-4 text-xs text-gray-500 dark:text-gray-400">
-                                Creat: {{ $template->created_at->format('d.m.Y') }}
+                                {{ __('common.created') }}: {{ $template->created_at->format('d.m.Y') }}
                             </div>
                         </div>
 
@@ -166,31 +166,31 @@ $contractTypes = \App\Models\ContractType::whereIn('company_id', $companyIds)->g
                         <div class="bg-gray-50 dark:bg-gray-900 px-6 py-3 flex items-center justify-between">
                             <a href="{{ route('templates.preview', $template->id) }}"
                                class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">
-                                Previzualizează
+                                {{ __('common.preview') }}
                             </a>
                             <div class="flex items-center space-x-3">
                                 <a href="{{ route('contracts.create', ['template_id' => $template->id]) }}"
                                    class="text-sm text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 font-medium"
-                                   title="Folosește șablonul">
+                                   title="{{ __('common.use_template') }}">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                                     </svg>
                                 </a>
                                 <a href="{{ route('templates.edit', $template->id) }}"
                                    class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300 font-medium"
-                                   title="Editează">
+                                   title="{{ __('common.edit') }}">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                     </svg>
                                 </a>
                                 <form method="POST" action="{{ route('templates.destroy', $template->id) }}"
-                                      onsubmit="return confirm('Sigur doriți să ștergeți acest șablon?');"
+                                      onsubmit="return confirm('{{ __('common.confirm_delete_template') }}');"
                                       class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
                                             class="text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-medium"
-                                            title="Șterge">
+                                            title="{{ __('common.delete') }}">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
@@ -212,15 +212,15 @@ $contractTypes = \App\Models\ContractType::whereIn('company_id', $companyIds)->g
                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
-                <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">Niciun șablon</h3>
+                <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('common.no_templates') }}</h3>
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    {{ $search || $typeFilter || $statusFilter ? 'Nu s-au găsit șabloane cu criteriile selectate.' : 'Începeți prin a crea primul șablon de contract.' }}
+                    {{ $search || $typeFilter || $statusFilter ? __('common.no_templates_match_criteria') : __('common.create_first_template') }}
                 </p>
                 <div class="mt-6">
                     @if($search || $typeFilter || $statusFilter)
                         <a href="{{ route('templates.index') }}"
                            class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition">
-                            Resetează filtrele
+                            {{ __('contracts.reset_filters') }}
                         </a>
                     @else
                         <a href="{{ route('templates.create') }}"
@@ -228,7 +228,7 @@ $contractTypes = \App\Models\ContractType::whereIn('company_id', $companyIds)->g
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
-                            Creează primul șablon
+                            {{ __('common.create_first_template_action') }}
                         </a>
                     @endif
                 </div>

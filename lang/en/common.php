@@ -27,6 +27,8 @@ return [
     'select' => 'Select',
     'apply' => 'Apply',
     'submit' => 'Submit',
+    'actions' => 'Actions',
+    'view_all' => 'View All',
 
     // Navigation
     'dashboard' => 'Dashboard',

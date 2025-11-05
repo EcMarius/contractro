@@ -22,12 +22,12 @@
 
 	// Status labels and colors
 	$statusLabels = [
-		'draft' => 'Ciornă',
-		'pending' => 'În așteptare',
-		'signed' => 'Semnat',
-		'active' => 'Activ',
-		'expired' => 'Expirat',
-		'terminated' => 'Reziliat',
+		'draft' => __('contracts.status.draft'),
+		'pending' => __('contracts.status.pending'),
+		'signed' => __('contracts.status.signed'),
+		'active' => __('contracts.status.active'),
+		'expired' => __('contracts.status.expired'),
+		'terminated' => __('contracts.status.terminated'),
 	];
 
 	$statusColors = [
@@ -60,7 +60,7 @@
 					<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
 					</svg>
-					Înapoi la Contracte
+					{{ __('contracts.back_to_contracts') }}
 				</a>
 				<div class="flex items-center gap-3">
 					<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
@@ -82,7 +82,7 @@
 							<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
 							</svg>
-							Trimite spre semnare
+							{{ __('contracts.send_for_signing') }}
 						</button>
 					</form>
 				@endif
@@ -90,16 +90,16 @@
 					<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
 					</svg>
-					Editează
+					{{ __('common.edit') }}
 				</a>
-				<form method="POST" action="{{ route('contracts.destroy', $contract->id) }}" onsubmit="return confirm('Sigur dorești să ștergi acest contract?');">
+				<form method="POST" action="{{ route('contracts.destroy', $contract->id) }}" onsubmit="return confirm('{{ __('contracts.messages.confirm_delete') }}');">
 					@csrf
 					@method('DELETE')
 					<button type="submit" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
 						<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
 						</svg>
-						Șterge
+						{{ __('common.delete') }}
 					</button>
 				</form>
 			</div>
@@ -116,11 +116,15 @@
 					</div>
 					<div class="ml-3">
 						<h3 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-							Contract în așteptare semnare
+							{{ __('contracts.contract_waiting_signature') }}
 						</h3>
 						<div class="mt-2 text-sm text-yellow-700 dark:text-yellow-300">
-							<p>Acest contract așteaptă să fie semnat de {{ $contract->parties->count() }} {{ $contract->parties->count() == 1 ? 'parte' : 'părți' }}.
-							{{ $contract->parties->filter(fn($p) => $p->hasSigned())->count() }} din {{ $contract->parties->count() }} au semnat.</p>
+							<p>{{ __('contracts.parties_waiting_message', [
+								'count' => $contract->parties->count(),
+								'parties' => trans_choice('contracts.party_singular|contracts.party_plural', $contract->parties->count()),
+								'signed' => $contract->parties->filter(fn($p) => $p->hasSigned())->count(),
+								'total' => $contract->parties->count()
+							]) }}</p>
 						</div>
 					</div>
 				</div>
@@ -137,10 +141,10 @@
 					</div>
 					<div class="ml-3">
 						<h3 class="text-sm font-medium text-green-800 dark:text-green-200">
-							Contract semnat complet
+							{{ __('contracts.contract_fully_signed') }}
 						</h3>
 						<div class="mt-2 text-sm text-green-700 dark:text-green-300">
-							<p>Toate părțile au semnat acest contract cu succes.</p>
+							<p>{{ __('contracts.all_parties_signed') }}</p>
 						</div>
 					</div>
 				</div>

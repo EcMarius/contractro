@@ -27,6 +27,8 @@ return [
     'select' => 'Selectează',
     'apply' => 'Aplică',
     'submit' => 'Trimite',
+    'actions' => 'Acțiuni',
+    'view_all' => 'Vezi toate',
 
     // Navigation
     'dashboard' => 'Dashboard',

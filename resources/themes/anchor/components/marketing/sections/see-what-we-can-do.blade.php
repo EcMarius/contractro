@@ -34,15 +34,15 @@
             <!-- Badge and Heading -->
             <div class="space-y-4">
                 <span class="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-zinc-900 text-white">
-                    Features
+                    {{ __('marketing.see_what_features_badge') }}
                 </span>
 
                 <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
-                    See what we can do
+                    {{ __('marketing.see_what_title') }}
                 </h2>
 
                 <p class="text-lg text-zinc-600 dark:text-zinc-400">
-                    Discover how ContractRO helps you find leads, engage with your audience, and grow your business across multiple platforms.
+                    {{ __('marketing.see_what_subtitle') }}
                 </p>
             </div>
 

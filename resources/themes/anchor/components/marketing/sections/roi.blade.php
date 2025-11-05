@@ -11,10 +11,10 @@
         <!-- Section Header -->
         <div class="text-center mb-16">
             <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 mb-4">
-                Calculate Your Return on Investment
+                {{ __('marketing.roi_title') }}
             </h2>
             <p class="text-lg text-zinc-600 max-w-3xl mx-auto">
-                See how ContractRO transforms your lead generation into measurable revenue.
+                {{ __('marketing.roi_subtitle') }}
             </p>
         </div>
 
@@ -26,8 +26,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
-                <div class="text-4xl font-bold text-zinc-900 mb-2">15+ hours</div>
-                <div class="text-zinc-600">Saved per week</div>
+                <div class="text-4xl font-bold text-zinc-900 mb-2">15+ {{ __('marketing.roi_time_saved') }}</div>
+                <div class="text-zinc-600">{{ __('marketing.roi_time_saved_label') }}</div>
             </div>
 
             <div class="bg-white rounded-lg border-2 border-zinc-200 p-8 text-center">
@@ -36,8 +36,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
-                <div class="text-4xl font-bold text-zinc-900 mb-2">3x</div>
-                <div class="text-zinc-600">Higher lead quality</div>
+                <div class="text-4xl font-bold text-zinc-900 mb-2">{{ __('marketing.roi_lead_quality') }}</div>
+                <div class="text-zinc-600">{{ __('marketing.roi_lead_quality_label') }}</div>
             </div>
 
             <div class="bg-white rounded-lg border-2 border-zinc-200 p-8 text-center">
@@ -46,8 +46,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                     </svg>
                 </div>
-                <div class="text-4xl font-bold text-zinc-900 mb-2">40%</div>
-                <div class="text-zinc-600">Lower CAC</div>
+                <div class="text-4xl font-bold text-zinc-900 mb-2">{{ __('marketing.roi_lower_cac') }}</div>
+                <div class="text-zinc-600">{{ __('marketing.roi_lower_cac_label') }}</div>
             </div>
         </div>
 
@@ -90,9 +90,9 @@
              }">
 
             <div class="p-8">
-                <h3 class="text-2xl font-bold text-zinc-900 mb-2 text-center">ROI Calculator</h3>
+                <h3 class="text-2xl font-bold text-zinc-900 mb-2 text-center">{{ __('marketing.roi_calculator') }}</h3>
                 <p class="text-zinc-600 mb-8 text-center text-sm">
-                    Select your plan and average deal value to see potential returns
+                    {{ __('marketing.roi_calculator_desc') }}
                 </p>
 
                 <!-- Calculator Form -->
@@ -100,7 +100,7 @@
                     <!-- Plan Selector -->
                     <div>
                         <label class="flex justify-between text-sm font-medium text-zinc-700 mb-2">
-                            <span>Select Plan</span>
+                            <span>{{ __('marketing.roi_select_plan') }}</span>
                             <span class="font-bold text-emerald-600" x-text="currentPlan.name + ' - €' + currentPlan.price + '/mo'"></span>
                         </label>
                         <select x-model="selectedPlan"
@@ -111,18 +111,18 @@
                                 </option>
                             @endforeach
                         </select>
-                        <p class="mt-1.5 text-xs text-zinc-500">Choose your subscription plan to calculate ROI</p>
+                        <p class="mt-1.5 text-xs text-zinc-500">{{ __('marketing.roi_select_plan') }}</p>
                     </div>
 
                     <!-- Average Deal Value -->
                     <div>
                         <label class="flex justify-between text-sm font-medium text-zinc-700 mb-2">
-                            <span>Average Deal Value</span>
+                            <span>{{ __('marketing.roi_avg_deal_value') }}</span>
                             <span class="font-bold text-emerald-600">€<span x-text="avgDealValue.toLocaleString()"></span></span>
                         </label>
                         <input type="range" x-model.number="avgDealValue" min="20" max="50000" step="10"
                                class="w-full h-2 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-zinc-900">
-                        <p class="mt-1.5 text-xs text-zinc-500">How much is each customer worth to your business?</p>
+                        <p class="mt-1.5 text-xs text-zinc-500">{{ __('marketing.roi_avg_deal_value_desc') }}</p>
                     </div>
                 </div>
 
@@ -130,29 +130,29 @@
                 <div class="bg-zinc-50 rounded-lg p-6 border-2 border-zinc-200 mb-6">
                     <div class="grid grid-cols-2 gap-6 mb-4">
                         <div>
-                            <div class="text-xs text-zinc-600 mb-1">Monthly Investment</div>
+                            <div class="text-xs text-zinc-600 mb-1">{{ __('marketing.roi_monthly_investment') }}</div>
                             <div class="text-2xl font-bold text-zinc-900">€<span x-text="cost"></span></div>
                         </div>
                         <div>
-                            <div class="text-xs text-zinc-600 mb-1">Expected Conversions</div>
+                            <div class="text-xs text-zinc-600 mb-1">{{ __('marketing.roi_expected_conversions') }}</div>
                             <div class="text-2xl font-bold text-zinc-900" x-text="Math.round(conversions)"></div>
                         </div>
                         <div>
-                            <div class="text-xs text-zinc-600 mb-1">Monthly Revenue</div>
+                            <div class="text-xs text-zinc-600 mb-1">{{ __('marketing.roi_monthly_revenue') }}</div>
                             <div class="text-2xl font-bold text-emerald-600">€<span x-text="revenue.toLocaleString()"></span></div>
                         </div>
                         <div>
-                            <div class="text-xs text-zinc-600 mb-1">Net Profit</div>
+                            <div class="text-xs text-zinc-600 mb-1">{{ __('marketing.roi_net_profit') }}</div>
                             <div class="text-2xl font-bold text-emerald-600">€<span x-text="netProfit.toLocaleString()"></span></div>
                         </div>
                     </div>
                     <div class="pt-4 border-t-2 border-zinc-200">
-                        <div class="text-sm text-zinc-600 mb-2">Return on Investment</div>
+                        <div class="text-sm text-zinc-600 mb-2">{{ __('marketing.roi_return') }}</div>
                         <div class="text-5xl font-bold text-emerald-600">
                             <span x-text="roi"></span>%
                         </div>
                         <p class="text-sm text-zinc-500 mt-2">
-                            For every €1 invested, you get €<span x-text="(revenue / cost).toFixed(2)"></span> back
+                            {{ __('marketing.roi_return_desc', ['amount' => '<span x-text="(revenue / cost).toFixed(2)"></span>']) }}
                         </p>
                     </div>
                 </div>
@@ -163,14 +163,14 @@
                         <svg class="w-4 h-4 inline-block mr-1 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                         </svg>
-                        <strong>Illustrative Example Only.</strong> Results vary significantly based on your industry, sales process, market conditions, lead quality, and conversion capabilities. Calculations use estimated lead volume (2-3 campaign syncs/month) and industry-standard B2B SaaS conversion rate (2.5%). Your actual results may be higher or lower. No guarantee of specific results is provided.
+                        {!! __('marketing.roi_disclaimer') !!}
                     </p>
                 </div>
 
                 <!-- CTA -->
                 <div class="text-center">
                     <a href="/register" class="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-zinc-900 hover:bg-zinc-800 rounded-lg transition-all">
-                        See Your ROI - Start Free Trial
+                        {{ __('marketing.roi_see_roi_cta') }}
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                         </svg>

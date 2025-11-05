@@ -10,7 +10,7 @@
 
 @if($showTestimonials && $testimonials->isNotEmpty())
 <section class="w-full">
-    <x-marketing.elements.heading level="h2" title="Trusted by Growing Businesses" description="See how ContractRO is helping companies discover high-quality leads and grow their customer base." />
+    <x-marketing.elements.heading level="h2" title="{{ __('marketing.testimonials_title') }}" description="{{ __('marketing.testimonials_subtitle') }}" />
     <div class="grid grid-cols-1 gap-6 py-12 mx-auto max-w-5xl lg:grid-cols-2">
         @foreach($testimonials as $testimonial)
         <div class="bg-white dark:bg-zinc-800 rounded-lg shadow-md border border-zinc-200 dark:border-zinc-700 p-6 hover:shadow-lg transition-shadow">

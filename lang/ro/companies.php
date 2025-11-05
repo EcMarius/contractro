@@ -54,6 +54,14 @@ return [
         'cui_invalid' => 'CUI-ul introdus nu este valid.',
         'cui_valid' => 'CUI-ul este valid.',
         'first_company_prompt' => 'Creează prima ta companie pentru a începe.',
+        'manage_companies' => 'Gestionează companiile tale și datele fiscale',
+        'fill_company_info' => 'Completează informațiile despre compania ta',
+        'update_company_info' => 'Actualizează informațiile companiei tale',
+        'save_company' => 'Salvează Compania',
+        'save_changes' => 'Salvează Modificările',
+        'current_logo' => 'Logo curent',
+        'remove_current_logo' => 'Șterge logo-ul curent',
+        'replace_logo' => 'Înlocuiește logo-ul',
     ],
 
     // Validation

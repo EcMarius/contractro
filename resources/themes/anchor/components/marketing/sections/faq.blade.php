@@ -12,8 +12,8 @@
 <section class="w-full" x-data="{ openFaq: null }">
     <x-marketing.elements.heading
         level="h2"
-        title="Frequently Asked Questions"
-        description="Get answers to common questions about ContractRO"
+        title="{{ __('marketing.frequently_asked') }}"
+        description="{{ __('marketing.faq_subtitle') }}"
     />
 
     <div class="mx-auto max-w-3xl mt-12 space-y-4">

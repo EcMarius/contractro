@@ -23,13 +23,13 @@
 				<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
 				</svg>
-				Înapoi la Contracte
+				{{ __('contracts.back_to_contracts') }}
 			</a>
 			<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
-				Contract Nou
+				{{ __('contracts.new_contract') }}
 			</h1>
 			<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-				Creează un contract nou pentru compania ta
+				{{ __('contracts.create_new_contract_desc') }}
 			</p>
 		</div>
 
@@ -44,14 +44,14 @@
 					</div>
 					<div class="ml-3">
 						<h3 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-							Necesită companie
+							{{ __('contracts.requires_company') }}
 						</h3>
 						<div class="mt-2 text-sm text-yellow-700 dark:text-yellow-300">
-							<p>Trebuie să ai cel puțin o companie creată pentru a putea crea contracte.</p>
+							<p>{{ __('contracts.messages.requires_company') }}</p>
 						</div>
 						<div class="mt-4">
 							<a href="{{ route('companies.create') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-yellow-800 bg-yellow-100 rounded-lg hover:bg-yellow-200 dark:bg-yellow-800 dark:text-yellow-100 dark:hover:bg-yellow-700">
-								Creează o companie
+								{{ __('companies.create_company') }}
 							</a>
 						</div>
 					</div>
@@ -65,17 +65,17 @@
 				{{-- Company & Type Selection --}}
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-						Companie & Tip Contract
+						{{ __('contracts.company_and_type') }}
 					</h2>
 
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 						{{-- Company --}}
 						<div>
 							<label for="company_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Companie <span class="text-red-500">*</span>
+								{{ __('companies.company') }} <span class="text-red-500">*</span>
 							</label>
 							<select name="company_id" id="company_id" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-								<option value="">Selectează compania</option>
+								<option value="">{{ __('contracts.select_company') }}</option>
 								@foreach($companies as $company)
 									<option value="{{ $company->id }}" {{ $selectedCompanyId == $company->id ? 'selected' : '' }}>
 										{{ $company->name }}
@@ -90,10 +90,10 @@
 						{{-- Contract Type --}}
 						<div>
 							<label for="contract_type_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Tip Contract <span class="text-red-500">*</span>
+								{{ __('contracts.contract_type') }} <span class="text-red-500">*</span>
 							</label>
 							<select name="contract_type_id" id="contract_type_id" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-								<option value="">Selectează tipul</option>
+								<option value="">{{ __('contracts.select_type') }}</option>
 								@foreach($contractTypes as $type)
 									<option value="{{ $type->id }}" {{ old('contract_type_id') == $type->id ? 'selected' : '' }}>
 										{{ $type->name }}
@@ -110,18 +110,18 @@
 				{{-- Basic Information --}}
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-						Informații de Bază
+						{{ __('contracts.basic_information') }}
 					</h2>
 
 					<div class="space-y-4">
 						{{-- Title --}}
 						<div>
 							<label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Titlu Contract <span class="text-red-500">*</span>
+								{{ __('contracts.title') }} <span class="text-red-500">*</span>
 							</label>
 							<input type="text" name="title" id="title" required
 								value="{{ old('title') }}"
-								placeholder="ex: Contract de prestări servicii IT"
+								placeholder="{{ __('contracts.title_placeholder') }}"
 								class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
 							@error('title')
 								<p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -131,14 +131,14 @@
 						{{-- Client Name --}}
 						<div>
 							<label for="client_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Nume Client
+								{{ __('contracts.client_name') }}
 							</label>
 							<input type="text" name="client_name" id="client_name"
 								value="{{ old('client_name') }}"
-								placeholder="ex: SC Exemplu SRL"
+								placeholder="{{ __('contracts.client_name_placeholder') }}"
 								class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
 							<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-								Numele clientului cu care semnezi contractul
+								{{ __('contracts.client_name_help') }}
 							</p>
 							@error('client_name')
 								<p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -148,10 +148,10 @@
 						{{-- Description --}}
 						<div>
 							<label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Descriere
+								{{ __('contracts.description') }}
 							</label>
 							<textarea name="description" id="description" rows="3"
-								placeholder="Descriere scurtă a contractului..."
+								placeholder="{{ __('contracts.description_placeholder') }}"
 								class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">{{ old('description') }}</textarea>
 							@error('description')
 								<p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -163,18 +163,18 @@
 				{{-- Contract Content --}}
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-						Conținut Contract
+						{{ __('contracts.contract_content_section') }}
 					</h2>
 
 					<div>
 						<label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-							Conținut <span class="text-red-500">*</span>
+							{{ __('contracts.content') }} <span class="text-red-500">*</span>
 						</label>
 						<textarea name="content" id="content" rows="15" required
-							placeholder="Introduceți conținutul complet al contractului aici..."
+							placeholder="{{ __('contracts.content_placeholder') }}"
 							class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 font-mono text-sm">{{ old('content') }}</textarea>
 						<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-							Conținutul integral al contractului. Puteți folosi formatare simplă sau HTML.
+							{{ __('contracts.content_help') }}
 						</p>
 						@error('content')
 							<p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -185,14 +185,14 @@
 				{{-- Contract Dates & Value --}}
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-						Date & Valoare
+						{{ __('contracts.dates_and_value') }}
 					</h2>
 
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 						{{-- Start Date --}}
 						<div>
 							<label for="start_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Data Început <span class="text-red-500">*</span>
+								{{ __('contracts.start_date') }} <span class="text-red-500">*</span>
 							</label>
 							<input type="date" name="start_date" id="start_date" required
 								value="{{ old('start_date') }}"
@@ -205,13 +205,13 @@
 						{{-- End Date --}}
 						<div>
 							<label for="end_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Data Sfârșit
+								{{ __('contracts.end_date') }}
 							</label>
 							<input type="date" name="end_date" id="end_date"
 								value="{{ old('end_date') }}"
 								class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
 							<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-								Opțional - lasă gol pentru contract pe durată nedeterminată
+								{{ __('contracts.end_date_help') }}
 							</p>
 							@error('end_date')
 								<p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -221,7 +221,7 @@
 						{{-- Value --}}
 						<div>
 							<label for="value" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Valoare (RON)
+								{{ __('contracts.value_ron') }}
 							</label>
 							<input type="number" name="value" id="value" step="0.01" min="0"
 								value="{{ old('value') }}"
@@ -235,14 +235,14 @@
 						{{-- Billing Cycle --}}
 						<div>
 							<label for="billing_cycle" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Ciclu Facturare
+								{{ __('contracts.billing_cycle') }}
 							</label>
 							<select name="billing_cycle" id="billing_cycle" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-								<option value="">Niciuna</option>
-								<option value="monthly" {{ old('billing_cycle') == 'monthly' ? 'selected' : '' }}>Lunar</option>
-								<option value="quarterly" {{ old('billing_cycle') == 'quarterly' ? 'selected' : '' }}>Trimestrial</option>
-								<option value="yearly" {{ old('billing_cycle') == 'yearly' ? 'selected' : '' }}>Anual</option>
-								<option value="one-time" {{ old('billing_cycle') == 'one-time' ? 'selected' : '' }}>O singură dată</option>
+								<option value="">{{ __('contracts.billing_cycle_none') }}</option>
+								<option value="monthly" {{ old('billing_cycle') == 'monthly' ? 'selected' : '' }}>{{ __('contracts.billing_cycles.monthly') }}</option>
+								<option value="quarterly" {{ old('billing_cycle') == 'quarterly' ? 'selected' : '' }}>{{ __('contracts.billing_cycles.quarterly') }}</option>
+								<option value="yearly" {{ old('billing_cycle') == 'yearly' ? 'selected' : '' }}>{{ __('contracts.billing_cycles.yearly') }}</option>
+								<option value="one-time" {{ old('billing_cycle') == 'one-time' ? 'selected' : '' }}>{{ __('contracts.billing_cycles.one-time') }}</option>
 							</select>
 							@error('billing_cycle')
 								<p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -256,9 +256,9 @@
 							<input type="checkbox" name="auto_renewal" id="auto_renewal" value="1" {{ old('auto_renewal') ? 'checked' : '' }}
 								class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 mt-1">
 							<span class="ml-2">
-								<span class="text-sm font-medium text-gray-700 dark:text-gray-300">Reînnoire automată</span>
+								<span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('contracts.auto_renewal') }}</span>
 								<span class="block text-xs text-gray-500 dark:text-gray-400">
-									Contractul va fi reînnoit automat la expirare
+									{{ __('contracts.auto_renewal_help') }}
 								</span>
 							</span>
 						</label>
@@ -268,20 +268,20 @@
 				{{-- Status --}}
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-						Status Inițial
+						{{ __('contracts.initial_status') }}
 					</h2>
 
 					<div>
 						<label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-							Status <span class="text-red-500">*</span>
+							{{ __('contracts.status_label') }} <span class="text-red-500">*</span>
 						</label>
 						<select name="status" id="status" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-							<option value="draft" {{ old('status', 'draft') == 'draft' ? 'selected' : '' }}>Ciornă</option>
-							<option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>În așteptare semnare</option>
-							<option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Activ (fără semnare)</option>
+							<option value="draft" {{ old('status', 'draft') == 'draft' ? 'selected' : '' }}>{{ __('contracts.status.draft') }}</option>
+							<option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>{{ __('contracts.status.pending') }}</option>
+							<option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>{{ __('contracts.status.active') }} ({{ __('contracts.no_signing') }})</option>
 						</select>
 						<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-							Ciornă = salvează pentru editare ulterioară | În așteptare = pregătit pentru semnare | Activ = contract activat direct
+							{{ __('contracts.status_help') }}
 						</p>
 						@error('status')
 							<p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -292,10 +292,10 @@
 				{{-- Actions --}}
 				<div class="flex items-center justify-end gap-3">
 					<a href="{{ route('contracts.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">
-						Anulează
+						{{ __('common.cancel') }}
 					</a>
 					<button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-						Creează Contractul
+						{{ __('contracts.create_contract_button') }}
 					</button>
 				</div>
 			</form>

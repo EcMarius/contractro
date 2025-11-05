@@ -43,11 +43,11 @@
 
 	// Status options
 	$statusOptions = [
-		'draft' => 'Ciornă',
-		'issued' => 'Emisă',
-		'paid' => 'Plătită',
-		'overdue' => 'Restantă',
-		'cancelled' => 'Anulată',
+		'draft' => __('invoices.status.draft'),
+		'issued' => __('invoices.status.issued'),
+		'paid' => __('invoices.status.paid'),
+		'overdue' => __('invoices.status.overdue'),
+		'cancelled' => __('invoices.status.cancelled'),
 	];
 
 	$statusColors = [
@@ -71,17 +71,17 @@
 		<div class="flex items-center justify-between">
 			<div>
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
-					Facturi
+					{{ __('invoices.invoices') }}
 				</h1>
 				<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-					Gestionează toate facturile tale
+					{{ __('Gestionează toate facturile tale') }}
 				</p>
 			</div>
 			<a href="{{ route('invoices.create') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
 				<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
 				</svg>
-				Factură Nouă
+				{{ __('invoices.new_invoice') }}
 			</a>
 		</div>
 
@@ -90,7 +90,7 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Facturi</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('invoices.stats.total_amount') }}</p>
 						<p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format($totalAmount, 2, ',', '.') }} RON</p>
 					</div>
 					<div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
@@ -104,7 +104,7 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">Plătite</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('invoices.stats.paid_amount') }}</p>
 						<p class="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">{{ number_format($paidAmount, 2, ',', '.') }} RON</p>
 					</div>
 					<div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
@@ -118,7 +118,7 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">În Așteptare</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('invoices.stats.pending_amount') }}</p>
 						<p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mt-1">{{ number_format($pendingAmount, 2, ',', '.') }} RON</p>
 					</div>
 					<div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
@@ -137,10 +137,10 @@
 					{{-- Company Filter --}}
 					<div>
 						<label for="company" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-							Companie
+							{{ __('invoices.company') }}
 						</label>
 						<select name="company" id="company" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-							<option value="">Toate companiile</option>
+							<option value="">{{ __('invoices.filters.all_companies') }}</option>
 							@foreach($companies as $company)
 								<option value="{{ $company->id }}" {{ $selectedCompany == $company->id ? 'selected' : '' }}>
 									{{ $company->name }}
@@ -152,10 +152,10 @@
 					{{-- Status Filter --}}
 					<div>
 						<label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-							Status
+							{{ __('Status') }}
 						</label>
 						<select name="status" id="status" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-							<option value="">Toate statusurile</option>
+							<option value="">{{ __('invoices.filters.all_statuses') }}</option>
 							@foreach($statusOptions as $value => $label)
 								<option value="{{ $value }}" {{ $selectedStatus == $value ? 'selected' : '' }}>
 									{{ $label }}
@@ -167,22 +167,22 @@
 					{{-- Search --}}
 					<div>
 						<label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-							Căutare
+							{{ __('common.search') }}
 						</label>
-						<input type="text" name="search" id="search" value="{{ $search }}" placeholder="Nr. factură, client, CUI..." class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+						<input type="text" name="search" id="search" value="{{ $search }}" placeholder="{{ __('invoices.filters.search_placeholder') }}" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
 					</div>
 				</div>
 
 				<div class="flex items-center justify-between">
 					<div class="text-sm text-gray-600 dark:text-gray-400">
-						{{ $invoices->total() }} {{ $invoices->total() == 1 ? 'factură găsită' : 'facturi găsite' }}
+						{{ $invoices->total() }} {{ $invoices->total() == 1 ? __('factură găsită') : __('facturi găsite') }}
 					</div>
 					<div class="flex gap-2">
 						<a href="{{ route('invoices.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
-							Resetează
+							{{ __('invoices.filters.reset') }}
 						</a>
 						<button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-							Filtrează
+							{{ __('invoices.filters.apply') }}
 						</button>
 					</div>
 				</div>
@@ -198,7 +198,7 @@
 							<tr>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
 									<a href="{{ route('invoices.index', array_merge(request()->all(), ['sort_by' => 'invoice_number', 'sort_dir' => $sortBy == 'invoice_number' && $sortDir == 'asc' ? 'desc' : 'asc'])) }}" class="flex items-center hover:text-gray-700 dark:hover:text-gray-300">
-										Nr. Factură
+										{{ __('invoices.invoice_number') }}
 										@if($sortBy == 'invoice_number')
 											<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 												@if($sortDir == 'asc')
@@ -211,17 +211,17 @@
 									</a>
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-									Companie
+									{{ __('invoices.company') }}
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-									Client
+									{{ __('Client') }}
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-									Status
+									{{ __('Status') }}
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
 									<a href="{{ route('invoices.index', array_merge(request()->all(), ['sort_by' => 'issue_date', 'sort_dir' => $sortBy == 'issue_date' && $sortDir == 'asc' ? 'desc' : 'asc'])) }}" class="flex items-center hover:text-gray-700 dark:hover:text-gray-300">
-										Data Emitere
+										{{ __('invoices.issue_date') }}
 										@if($sortBy == 'issue_date')
 											<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 												@if($sortDir == 'asc')
@@ -234,11 +234,11 @@
 									</a>
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-									Scadență
+									{{ __('invoices.due_date') }}
 								</th>
 								<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
 									<a href="{{ route('invoices.index', array_merge(request()->all(), ['sort_by' => 'total_amount', 'sort_dir' => $sortBy == 'total_amount' && $sortDir == 'asc' ? 'desc' : 'asc'])) }}" class="flex items-center hover:text-gray-700 dark:hover:text-gray-300">
-										Total
+										{{ __('invoices.total') }}
 										@if($sortBy == 'total_amount')
 											<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 												@if($sortDir == 'asc')
@@ -251,7 +251,7 @@
 									</a>
 								</th>
 								<th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-									Acțiuni
+									{{ __('Acțiuni') }}
 								</th>
 							</tr>
 						</thead>
@@ -292,13 +292,13 @@
 									</td>
 									<td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
 										<div class="flex items-center justify-end gap-2">
-											<a href="{{ route('invoices.show', $invoice->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400" title="Vezi">
+											<a href="{{ route('invoices.show', $invoice->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400" title="{{ __('common.view') }}">
 												<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
 													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
 												</svg>
 											</a>
-											<a href="{{ route('invoices.edit', $invoice->id) }}" class="text-gray-600 hover:text-gray-900 dark:text-gray-400" title="Editează">
+											<a href="{{ route('invoices.edit', $invoice->id) }}" class="text-gray-600 hover:text-gray-900 dark:text-gray-400" title="{{ __('common.edit') }}">
 												<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
 												</svg>
@@ -324,25 +324,25 @@
 				<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.5a.5.5 0 11-1 0 .5.5 0 011 0zm5 5a.5.5 0 11-1 0 .5.5 0 011 0z"></path>
 				</svg>
-				<h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">Nu există facturi</h3>
+				<h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('invoices.messages.no_invoices') }}</h3>
 				<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
 					@if(request()->hasAny(['company', 'status', 'search']))
-						Nicio factură nu corespunde filtrelor selectate.
+						{{ __('Nicio factură nu corespunde filtrelor selectate.') }}
 					@else
-						Începe prin a crea prima ta factură.
+						{{ __('Începe prin a crea prima ta factură.') }}
 					@endif
 				</p>
 				<div class="mt-6">
 					@if(request()->hasAny(['company', 'status', 'search']))
 						<a href="{{ route('invoices.index') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
-							Resetează filtrele
+							{{ __('Resetează filtrele') }}
 						</a>
 					@else
 						<a href="{{ route('invoices.create') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
 							<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
 							</svg>
-							Creează prima factură
+							{{ __('Creează prima factură') }}
 						</a>
 					@endif
 				</div>

@@ -70,10 +70,10 @@
 		<div class="flex items-center justify-between">
 			<div>
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
-					Taskurile Mele
+					{{ __('contracts.tasks') }}
 				</h1>
 				<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-					Gestionează taskurile tale din contracte
+					{{ __('common.manage_your_tasks') }}
 				</p>
 			</div>
 		</div>
@@ -83,7 +83,7 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('common.total') }}</p>
 						<p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ $totalTasks }}</p>
 					</div>
 					<div class="p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
@@ -97,7 +97,7 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">În Așteptare</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('common.pending') }}</p>
 						<p class="text-2xl font-bold text-gray-600 dark:text-gray-400 mt-1">{{ $pendingTasks }}</p>
 					</div>
 					<div class="p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
@@ -111,7 +111,7 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">În Progres</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('contracts.task_status.in_progress') }}</p>
 						<p class="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">{{ $inProgressTasks }}</p>
 					</div>
 					<div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
@@ -125,7 +125,7 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">Completate</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('common.completed') }}</p>
 						<p class="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">{{ $completedTasks }}</p>
 					</div>
 					<div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
@@ -139,7 +139,7 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">Întârziate</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('common.overdue') }}</p>
 						<p class="text-2xl font-bold text-red-600 dark:text-red-400 mt-1">{{ $overdueTasks }}</p>
 					</div>
 					<div class="p-3 bg-red-100 dark:bg-red-900 rounded-lg">
@@ -156,13 +156,13 @@
 			<form method="GET" class="flex gap-4 items-end">
 				<div class="flex-1">
 					<label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-						Status
+						{{ __('contracts.status_label') }}
 					</label>
 					<select name="status" id="status" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-						<option value="">Toate statusurile</option>
-						<option value="pending" {{ $selectedStatus == 'pending' ? 'selected' : '' }}>În Așteptare</option>
-						<option value="in_progress" {{ $selectedStatus == 'in_progress' ? 'selected' : '' }}>În Progres</option>
-						<option value="completed" {{ $selectedStatus == 'completed' ? 'selected' : '' }}>Completate</option>
+						<option value="">{{ __('contracts.filters.all_statuses') }}</option>
+						<option value="pending" {{ $selectedStatus == 'pending' ? 'selected' : '' }}>{{ __('contracts.task_status.pending') }}</option>
+						<option value="in_progress" {{ $selectedStatus == 'in_progress' ? 'selected' : '' }}>{{ __('contracts.task_status.in_progress') }}</option>
+						<option value="completed" {{ $selectedStatus == 'completed' ? 'selected' : '' }}>{{ __('contracts.task_status.completed') }}</option>
 					</select>
 				</div>
 
@@ -170,16 +170,16 @@
 					<label class="flex items-center">
 						<input type="checkbox" name="overdue" value="1" {{ $showOverdue ? 'checked' : '' }}
 							class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
-						<span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Doar întârziate</span>
+						<span class="ml-2 text-sm text-gray-700 dark:text-gray-300">{{ __('common.only_overdue') }}</span>
 					</label>
 				</div>
 
 				<div class="flex gap-2">
 					<a href="{{ route('tasks.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
-						Resetează
+						{{ __('common.reset') }}
 					</a>
 					<button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-						Filtrează
+						{{ __('common.filter') }}
 					</button>
 				</div>
 			</form>
@@ -237,7 +237,7 @@
 											</svg>
 											{{ $task->due_date->format('d.m.Y') }}
 											@if($isOverdue)
-												<span class="ml-1">(Întârziat)</span>
+												<span class="ml-1">({{ __('common.overdue') }})</span>
 											@endif
 										</div>
 									@endif
@@ -261,20 +261,20 @@
 											<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
 											</svg>
-											Completează
+											{{ __('common.complete') }}
 										</button>
 									</form>
 								@else
 									<form method="POST" action="{{ route('contracts.tasks.reopen', [$task->contract_id, $task->id]) }}">
 										@csrf
 										<button type="submit" class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">
-											Redeschide
+											{{ __('common.reopen') }}
 										</button>
 									</form>
 								@endif
 
 								<a href="{{ route('contracts.show', $task->contract_id) }}#tasks" class="inline-flex items-center justify-center px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">
-									Vezi Contract
+									{{ __('contracts.view_contract') }}
 								</a>
 							</div>
 						</div>
@@ -287,18 +287,18 @@
 				<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
 				</svg>
-				<h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">Nu există taskuri</h3>
+				<h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('contracts.messages.no_tasks') }}</h3>
 				<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
 					@if(request()->hasAny(['status', 'overdue']))
-						Niciun task nu corespunde filtrelor selectate.
+						{{ __('contracts.no_matching_filters') }}
 					@else
-						Nu ai niciun task asignat momentan.
+						{{ __('common.no_tasks_assigned') }}
 					@endif
 				</p>
 				@if(request()->hasAny(['status', 'overdue']))
 					<div class="mt-6">
 						<a href="{{ route('tasks.index') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
-							Resetează filtrele
+							{{ __('contracts.reset_filters') }}
 						</a>
 					</div>
 				@endif

@@ -32,13 +32,13 @@
 				<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
 				</svg>
-				Înapoi la Facturi
+				{{ __('Înapoi la Facturi') }}
 			</a>
 			<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
-				Factură Nouă
+				{{ __('invoices.new_invoice') }}
 			</h1>
 			<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-				Creează o factură nouă pentru compania ta
+				{{ __('Creează o factură nouă pentru compania ta') }}
 			</p>
 		</div>
 
@@ -53,14 +53,14 @@
 					</div>
 					<div class="ml-3">
 						<h3 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-							Necesită companie
+							{{ __('Necesită companie') }}
 						</h3>
 						<div class="mt-2 text-sm text-yellow-700 dark:text-yellow-300">
-							<p>Trebuie să ai cel puțin o companie creată pentru a putea crea facturi.</p>
+							<p>{{ __('invoices.messages.requires_company') }}</p>
 						</div>
 						<div class="mt-4">
 							<a href="{{ route('companies.create') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-yellow-800 bg-yellow-100 rounded-lg hover:bg-yellow-200 dark:bg-yellow-800 dark:text-yellow-100 dark:hover:bg-yellow-700">
-								Creează o companie
+								{{ __('Creează o companie') }}
 							</a>
 						</div>
 					</div>
@@ -74,17 +74,17 @@
 				{{-- Company & Contract --}}
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-						Companie & Contract
+						{{ __('Companie & Contract') }}
 					</h2>
 
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 						{{-- Company --}}
 						<div>
 							<label for="company_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Companie <span class="text-red-500">*</span>
+								{{ __('invoices.company') }} <span class="text-red-500">*</span>
 							</label>
 							<select name="company_id" id="company_id" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-								<option value="">Selectează compania</option>
+								<option value="">{{ __('Selectează compania') }}</option>
 								@foreach($companies as $company)
 									<option value="{{ $company->id }}" {{ $selectedCompanyId == $company->id ? 'selected' : '' }}>
 										{{ $company->name }}
@@ -99,10 +99,10 @@
 						{{-- Contract (Optional) --}}
 						<div>
 							<label for="contract_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Contract (opțional)
+								{{ __('invoices.contract') }} ({{ __('common.optional') }})
 							</label>
 							<select name="contract_id" id="contract_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-								<option value="">Fără contract asociat</option>
+								<option value="">{{ __('Fără contract asociat') }}</option>
 								@foreach($contracts as $contract)
 									<option value="{{ $contract->id }}" {{ $selectedContractId == $contract->id ? 'selected' : '' }}>
 										{{ $contract->contract_number }} - {{ $contract->title }}
@@ -119,14 +119,14 @@
 				{{-- Client Information --}}
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-						Informații Client
+						{{ __('Informații Client') }}
 					</h2>
 
 					<div class="space-y-4">
 						{{-- Client Name --}}
 						<div>
 							<label for="client_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Nume Client <span class="text-red-500">*</span>
+								{{ __('invoices.client_name') }} <span class="text-red-500">*</span>
 							</label>
 							<input type="text" name="client_name" id="client_name" required
 								value="{{ old('client_name') }}"
@@ -141,7 +141,7 @@
 							{{-- Client CUI --}}
 							<div>
 								<label for="client_cui" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-									CUI Client
+									{{ __('invoices.client_cui') }}
 								</label>
 								<input type="text" name="client_cui" id="client_cui"
 									value="{{ old('client_cui') }}"
@@ -152,7 +152,7 @@
 							{{-- Client Reg Com --}}
 							<div>
 								<label for="client_reg_com" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-									Nr. Reg. Com. Client
+									{{ __('invoices.client_reg_com') }}
 								</label>
 								<input type="text" name="client_reg_com" id="client_reg_com"
 									value="{{ old('client_reg_com') }}"
@@ -164,10 +164,10 @@
 						{{-- Client Address --}}
 						<div>
 							<label for="client_address" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Adresă Client
+								{{ __('invoices.client_address') }}
 							</label>
 							<textarea name="client_address" id="client_address" rows="2"
-								placeholder="Adresa completă a clientului"
+								placeholder="{{ __('Adresa completă a clientului') }}"
 								class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">{{ old('client_address') }}</textarea>
 						</div>
 					</div>
@@ -176,14 +176,14 @@
 				{{-- Invoice Dates --}}
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-						Date Factură
+						{{ __('Date Factură') }}
 					</h2>
 
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 						{{-- Issue Date --}}
 						<div>
 							<label for="issue_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Data Emitere <span class="text-red-500">*</span>
+								{{ __('invoices.issue_date') }} <span class="text-red-500">*</span>
 							</label>
 							<input type="date" name="issue_date" id="issue_date" required
 								value="{{ old('issue_date', date('Y-m-d')) }}"
@@ -196,7 +196,7 @@
 						{{-- Due Date --}}
 						<div>
 							<label for="due_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-								Data Scadență <span class="text-red-500">*</span>
+								{{ __('invoices.due_date') }} <span class="text-red-500">*</span>
 							</label>
 							<input type="date" name="due_date" id="due_date" required
 								value="{{ old('due_date') }}"
@@ -212,13 +212,13 @@
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 					<div class="flex items-center justify-between mb-4">
 						<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-							Produse / Servicii
+							{{ __('invoices.items') }}
 						</h2>
 						<button type="button" @click="addItem()" class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400">
 							<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
 							</svg>
-							Adaugă Produs/Serviciu
+							{{ __('invoices.add_item') }}
 						</button>
 					</div>
 
@@ -229,14 +229,14 @@
 									{{-- Description --}}
 									<div class="sm:col-span-5">
 										<input type="text" :name="'items[' + index + '][description]'" x-model="item.description" required
-											placeholder="Descriere produs/serviciu"
+											placeholder="{{ __('invoices.description') }}"
 											class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 text-sm">
 									</div>
 
 									{{-- Quantity --}}
 									<div class="sm:col-span-2">
 										<input type="number" :name="'items[' + index + '][quantity]'" x-model="item.quantity" required min="1" step="0.01"
-											placeholder="Cantitate"
+											placeholder="{{ __('invoices.quantity') }}"
 											@input="calculateTotals()"
 											class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 text-sm">
 									</div>
@@ -244,7 +244,7 @@
 									{{-- Unit Price --}}
 									<div class="sm:col-span-2">
 										<input type="number" :name="'items[' + index + '][unit_price]'" x-model="item.unit_price" required min="0" step="0.01"
-											placeholder="Preț unitar"
+											placeholder="{{ __('invoices.unit_price') }}"
 											@input="calculateTotals()"
 											class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 text-sm">
 									</div>
@@ -272,15 +272,15 @@
 					<div class="mt-6 flex justify-end">
 						<div class="w-full sm:w-80 space-y-2">
 							<div class="flex justify-between text-sm">
-								<span class="text-gray-600 dark:text-gray-400">Subtotal:</span>
+								<span class="text-gray-600 dark:text-gray-400">{{ __('invoices.subtotal') }}:</span>
 								<span class="font-medium text-gray-900 dark:text-gray-100" x-text="subtotal.toFixed(2) + ' RON'"></span>
 							</div>
 							<div class="flex justify-between text-sm">
-								<span class="text-gray-600 dark:text-gray-400">TVA (19%):</span>
+								<span class="text-gray-600 dark:text-gray-400">{{ __('invoices.vat') }} (19%):</span>
 								<span class="font-medium text-gray-900 dark:text-gray-100" x-text="vat.toFixed(2) + ' RON'"></span>
 							</div>
 							<div class="flex justify-between text-lg font-bold pt-2 border-t border-gray-200 dark:border-gray-700">
-								<span class="text-gray-900 dark:text-gray-100">Total:</span>
+								<span class="text-gray-900 dark:text-gray-100">{{ __('invoices.total') }}:</span>
 								<span class="text-blue-600 dark:text-blue-400" x-text="total.toFixed(2) + ' RON'"></span>
 							</div>
 						</div>
@@ -295,20 +295,20 @@
 				{{-- Notes --}}
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-						Observații
+						{{ __('invoices.notes') }}
 					</h2>
 					<textarea name="notes" id="notes" rows="3"
-						placeholder="Note sau observații suplimentare (opțional)"
+						placeholder="{{ __('Note sau observații suplimentare (opțional)') }}"
 						class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">{{ old('notes') }}</textarea>
 				</div>
 
 				{{-- Actions --}}
 				<div class="flex items-center justify-end gap-3">
 					<a href="{{ route('invoices.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">
-						Anulează
+						{{ __('common.cancel') }}
 					</a>
 					<button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-						Creează Factura
+						{{ __('invoices.create_invoice') }}
 					</button>
 				</div>
 			</form>

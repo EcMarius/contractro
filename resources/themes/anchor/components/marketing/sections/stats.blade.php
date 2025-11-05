@@ -11,8 +11,8 @@
 @if($showStats && $stats->isNotEmpty())
 <section class="w-full">
     <div class="text-center mb-16">
-        <h2 class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">"Show Me The Numbers"</h2>
-        <p class="mt-4 text-lg text-zinc-600">Key performance indicators across our platform</p>
+        <h2 class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">{{ __('marketing.stats_title') }}</h2>
+        <p class="mt-4 text-lg text-zinc-600">{{ __('marketing.stats_subtitle') }}</p>
     </div>
 
     <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">

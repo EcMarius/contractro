@@ -54,6 +54,14 @@ return [
         'cui_invalid' => 'The entered CUI is not valid.',
         'cui_valid' => 'The CUI is valid.',
         'first_company_prompt' => 'Create your first company to get started.',
+        'manage_companies' => 'Manage your companies and tax information',
+        'fill_company_info' => 'Fill in the information about your company',
+        'update_company_info' => 'Update your company information',
+        'save_company' => 'Save Company',
+        'save_changes' => 'Save Changes',
+        'current_logo' => 'Current logo',
+        'remove_current_logo' => 'Remove current logo',
+        'replace_logo' => 'Replace logo',
     ],
 
     // Validation

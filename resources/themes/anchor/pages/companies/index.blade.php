@@ -19,10 +19,10 @@
 		<div class="flex flex-col md:flex-row md:items-center md:justify-between">
 			<div>
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
-					Companiile Mele
+					{{ __('companies.my_companies') }}
 				</h1>
 				<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-					Gestionează companiile tale și datele fiscale
+					{{ __('companies.messages.manage_companies') }}
 				</p>
 			</div>
 
@@ -31,7 +31,7 @@
 					<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
 					</svg>
-					Adaugă Companie
+					{{ __('companies.create_company') }}
 				</a>
 			</div>
 		</div>
@@ -60,7 +60,7 @@
 										</h3>
 										@if($company->cui)
 											<p class="text-sm text-gray-500 dark:text-gray-400">
-												CUI: {{ $company->cui }}
+												{{ __('companies.cui') }}: {{ $company->cui }}
 											</p>
 										@endif
 									</div>
@@ -103,7 +103,7 @@
 										{{ $company->contracts_count }}
 									</div>
 									<div class="text-xs text-gray-500 dark:text-gray-400">
-										Contracte
+										{{ __('contracts.contracts') }}
 									</div>
 								</div>
 								<div class="text-center">
@@ -111,7 +111,7 @@
 										{{ $company->invoices_count }}
 									</div>
 									<div class="text-xs text-gray-500 dark:text-gray-400">
-										Facturi
+										{{ __('invoices.invoices') }}
 									</div>
 								</div>
 							</div>
@@ -119,10 +119,10 @@
 							{{-- Actions --}}
 							<div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
 								<a href="{{ route('companies.show', $company) }}" class="flex-1 text-center px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 rounded-md transition-colors">
-									Vizualizează
+									{{ __('companies.view_company') }}
 								</a>
 								<a href="{{ route('companies.edit', $company) }}" class="flex-1 text-center px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors">
-									Editează
+									{{ __('common.edit') }}
 								</a>
 							</div>
 						</div>
@@ -137,17 +137,17 @@
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
 					</svg>
 					<h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-						Nicio companie
+						{{ __('companies.messages.no_companies') }}
 					</h3>
 					<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-						Începe prin a adăuga prima ta companie.
+						{{ __('companies.messages.first_company_prompt') }}
 					</p>
 					<div class="mt-6">
 						<a href="{{ route('companies.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
 							<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
 							</svg>
-							Adaugă Prima Companie
+							{{ __('companies.create_company') }}
 						</a>
 					</div>
 				</div>

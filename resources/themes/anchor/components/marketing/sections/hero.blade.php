@@ -10,10 +10,10 @@
                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
-                Start Your {{ $trialDays }}-Day Free Trial Today
+                {{ __('marketing.hero_trial_badge', ['days' => $trialDays]) }}
             </div>
             <h1 class="text-6xl font-bold tracking-tighter text-left sm:text-7xl md:text-[84px] sm:text-center lg:text-left text-zinc-900 text-balance">
-                <span class="block origin-left lg:scale-90">Find Leads</span> <span class="pr-4 text-transparent bg-clip-text bg-gradient-to-b text-neutral-600 from-neutral-900 to-neutral-500">in Seconds</span>
+                <span class="block origin-left lg:scale-90">{{ __('marketing.hero_title') }}</span> <span class="pr-4 text-transparent bg-clip-text bg-gradient-to-b text-neutral-600 from-neutral-900 to-neutral-500">{{ __('marketing.hero_title_highlight') }}</span>
             </h1>
             @php
                 // Get active platforms with caching (1 hour TTL)
@@ -42,11 +42,11 @@
                     : $activePlatforms[0];
             @endphp
             <p class="mx-auto mt-5 text-lg font-normal text-left md:text-xl sm:max-w-md lg:ml-0 lg:max-w-lg sm:text-center lg:text-left text-zinc-500">
-                Stop wasting hours searching for potential customers. ContractRO finds qualified leads from {{ $platformText }} automatically<span class="hidden sm:inline">. Get notified instantly when someone needs your service</span>.
+                {{ __('marketing.hero_subtitle', ['platforms' => $platformText]) }}
             </p>
             <div class="flex flex-col gap-3 justify-center items-center mx-auto mt-8 md:gap-2 lg:justify-start md:ml-0 md:flex-row">
-                <x-button tag="a" href="/register" size="lg" class="w-full lg:w-auto">Start Free Trial</x-button>
-                <x-button tag="a" href="#pricing" size="lg" color="secondary" class="w-full lg:w-auto">View Pricing</x-button>
+                <x-button tag="a" href="/register" size="lg" class="w-full lg:w-auto">{{ __('marketing.hero_cta_trial') }}</x-button>
+                <x-button tag="a" href="#pricing" size="lg" color="secondary" class="w-full lg:w-auto">{{ __('marketing.hero_cta_pricing') }}</x-button>
             </div>
             @php
                 // Get all platforms with caching (1 hour TTL)
@@ -87,7 +87,7 @@
                 ];
             @endphp
             <div class="mt-6 sm:text-center lg:text-left">
-                <p class="text-sm font-medium text-zinc-700 mb-3">Platforms we monitor:</p>
+                <p class="text-sm font-medium text-zinc-700 mb-3">{{ __('marketing.platforms_we_monitor') }}</p>
                 <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
                     @foreach($allPlatforms as $platform)
                         @php
@@ -101,7 +101,7 @@
                             {!! $icon !!}
                             <span class="ml-2 text-sm font-medium {{ $colors['text'] }} whitespace-nowrap">{{ $displayName }}</span>
                             @if(!$isActive)
-                                <span class="ml-2 text-xs {{ $colors['badge-text'] }} {{ $colors['badge-bg'] }} px-2 py-0.5 rounded-full">Soon</span>
+                                <span class="ml-2 text-xs {{ $colors['badge-text'] }} {{ $colors['badge-bg'] }} px-2 py-0.5 rounded-full">{{ __('marketing.platform_soon') }}</span>
                             @endif
                         </div>
                     @endforeach
@@ -213,7 +213,7 @@
                 <div class="relative px-6 py-6 bg-white rounded-lg border border-zinc-200">
                     <div class="space-y-4">
                         <div class="flex items-center justify-between pb-3 border-b border-zinc-200">
-                            <span class="text-sm font-medium text-zinc-700">New Leads Found</span>
+                            <span class="text-sm font-medium text-zinc-700">{{ __('marketing.new_leads_found') }}</span>
                         </div>
                         <div class="space-y-3">
                             <template x-for="(lead, index) in currentLeads" :key="activeBusinessType + '-' + index">
@@ -223,12 +223,12 @@
                                             <!-- Platform Icon - EXACTLY like "Platforms we monitor" section -->
                                             <span x-html="platformIcons[lead.platform] || platformIcons['reddit']"></span>
                                             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                New
+                                                {{ __('marketing.badge_new') }}
                                             </span>
                                             <span class="text-xs text-zinc-500" x-text="lead.platformDetail" x-show="lead.platformDetail"></span>
                                         </div>
                                         <div class="flex flex-col items-end">
-                                            <span class="text-xs text-zinc-500 mb-0.5">Confidence</span>
+                                            <span class="text-xs text-zinc-500 mb-0.5">{{ __('marketing.confidence') }}</span>
                                             <div class="flex items-center space-x-1">
                                                 <span class="text-base font-bold"
                                                       :class="{
@@ -254,7 +254,7 @@
                                             <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                                             </svg>
-                                            Generate reply
+                                            {{ __('marketing.generate_reply') }}
                                         </button>
                                     </div>
                                 </div>
@@ -272,10 +272,10 @@
                     <svg class="w-5 h-5 mr-2 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
                     </svg>
-                    Multi-Platform Monitoring
+                    {{ __('marketing.multiplatform_monitoring') }}
                 </h3>
                 <p class="mt-2 text-sm font-medium text-zinc-500">
-                    Track conversations across {{ $platformText }} 24/7. <span class="hidden lg:inline">Never miss a potential customer looking for solutions you offer.</span>
+                    {{ __('marketing.multiplatform_monitoring_desc', ['platforms' => $platformText]) }}
                 </p>
             </div>
             <div class="pt-5 lg:pt-0 lg:px-10">
@@ -283,10 +283,10 @@
                     <svg class="w-5 h-5 mr-2 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
-                    Fast & Intelligent
+                    {{ __('marketing.fast_intelligent') }}
                 </h3>
                 <p class="mt-2 text-sm text-zinc-500">
-                    AI-powered lead discovery and smart relevance scoring. <span class="hidden lg:inline">Automated syncing finds qualified leads instantly.</span>
+                    {{ __('marketing.fast_intelligent_desc') }}
                 </p>
             </div>
             <div class="pt-5 lg:pt-0 lg:px-10">
@@ -294,10 +294,10 @@
                     <svg class="w-5 h-5 mr-2 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
                     </svg>
-                    Complete Solution
+                    {{ __('marketing.complete_solution') }}
                 </h3>
                 <p class="mt-2 text-sm text-zinc-500">
-                    From lead discovery to engagement. AI replies, post management, and campaign analytics all in one platform.
+                    {{ __('marketing.complete_solution_desc') }}
                 </p>
             </div>
         </div>

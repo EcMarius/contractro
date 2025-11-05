@@ -18,8 +18,8 @@
 <section id="features">
     <x-marketing.elements.heading
         level="h2"
-        title="Everything You Need to <br> Capture More Leads"
-        description="Stop manually searching for potential customers. ContractRO automates lead discovery across {{ $platformText }} and helps you engage at the perfect moment."
+        title="{{ __('marketing.features_title') }}"
+        description="{{ __('marketing.features_subtitle', ['platforms' => $platformText]) }}"
     />
     <div class="text-center">
         <div class="grid grid-cols-2 gap-x-6 gap-y-12 mt-12 text-center lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
@@ -28,9 +28,9 @@
                     <x-phosphor-magnifying-glass class="w-6 h-6 text-emerald-600" />
                 </div>
                 <div class="mt-6">
-                    <h3 class="font-medium text-zinc-900">Multi-Platform Monitoring</h3>
+                    <h3 class="font-medium text-zinc-900">{{ __('marketing.feature_multiplatform_title') }}</h3>
                     <p class="mt-2 text-sm text-zinc-500">
-                        Track conversations across {{ $platformText }} 24/7 with automated syncing to find your ideal customers.
+                        {{ __('marketing.feature_multiplatform_desc', ['platforms' => $platformText]) }}
                     </p>
                 </div>
             </div>
@@ -39,9 +39,9 @@
                     <x-phosphor-robot class="w-6 h-6 text-emerald-600" />
                 </div>
                 <div class="mt-6">
-                    <h3 class="font-medium text-zinc-900">AI-Powered Replies</h3>
+                    <h3 class="font-medium text-zinc-900">{{ __('marketing.feature_ai_replies_title') }}</h3>
                     <p class="mt-2 text-sm text-zinc-500">
-                        Generate contextual, helpful responses with AI that sound natural and authentic across all platforms.
+                        {{ __('marketing.feature_ai_replies_desc') }}
                     </p>
                 </div>
             </div>
@@ -50,9 +50,9 @@
                     <x-phosphor-target class="w-6 h-6 text-emerald-600" />
                 </div>
                 <div class="mt-6">
-                    <h3 class="font-medium text-zinc-900">Smart Lead Scoring</h3>
+                    <h3 class="font-medium text-zinc-900">{{ __('marketing.feature_smart_scoring_title') }}</h3>
                     <p class="mt-2 text-sm text-zinc-500">
-                        AI intelligently ranks leads by relevance so you focus on high-quality opportunities first.
+                        {{ __('marketing.feature_smart_scoring_desc') }}
                     </p>
                 </div>
             </div>
@@ -61,9 +61,9 @@
                     <x-phosphor-chart-line class="w-6 h-6 text-emerald-600" />
                 </div>
                 <div class="mt-6">
-                    <h3 class="font-medium text-zinc-900">Campaign Analytics</h3>
+                    <h3 class="font-medium text-zinc-900">{{ __('marketing.feature_campaign_analytics_title') }}</h3>
                     <p class="mt-2 text-sm text-zinc-500">
-                        Track campaign performance with detailed metrics and optimize your lead generation strategy.
+                        {{ __('marketing.feature_campaign_analytics_desc') }}
                     </p>
                 </div>
             </div>
@@ -72,9 +72,9 @@
                     <x-phosphor-chat-circle-text class="w-6 h-6 text-emerald-600" />
                 </div>
                 <div class="mt-6">
-                    <h3 class="font-medium text-zinc-900">Post Management</h3>
+                    <h3 class="font-medium text-zinc-900">{{ __('marketing.feature_post_management_title') }}</h3>
                     <p class="mt-2 text-sm text-zinc-500">
-                        Manage and sync your own posts across platforms with AI-powered engagement tracking.
+                        {{ __('marketing.feature_post_management_desc') }}
                     </p>
                 </div>
             </div>
@@ -83,9 +83,9 @@
                     <x-phosphor-users-three class="w-6 h-6 text-emerald-600" />
                 </div>
                 <div class="mt-6">
-                    <h3 class="font-medium text-zinc-900">Multi-Account Support</h3>
+                    <h3 class="font-medium text-zinc-900">{{ __('marketing.feature_multiaccount_title') }}</h3>
                     <p class="mt-2 text-sm text-zinc-500">
-                        Connect multiple accounts per platform and manage all your leads from one dashboard.
+                        {{ __('marketing.feature_multiaccount_desc') }}
                     </p>
                 </div>
             </div>
@@ -94,9 +94,9 @@
                     <x-phosphor-folders class="w-6 h-6 text-emerald-600" />
                 </div>
                 <div class="mt-6">
-                    <h3 class="font-medium text-zinc-900">Campaign from Website</h3>
+                    <h3 class="font-medium text-zinc-900">{{ __('marketing.feature_campaign_from_website_title') }}</h3>
                     <p class="mt-2 text-sm text-zinc-500">
-                        Generate targeted campaigns instantly by analyzing your website content with AI.
+                        {{ __('marketing.feature_campaign_from_website_desc') }}
                     </p>
                 </div>
             </div>
@@ -105,9 +105,9 @@
                     <x-phosphor-code class="w-6 h-6 text-emerald-600" />
                 </div>
                 <div class="mt-6">
-                    <h3 class="font-medium text-zinc-900">Developer API</h3>
+                    <h3 class="font-medium text-zinc-900">{{ __('marketing.feature_developer_api_title') }}</h3>
                     <p class="mt-2 text-sm text-zinc-500">
-                        Full REST API with comprehensive documentation for custom integrations and automation.
+                        {{ __('marketing.feature_developer_api_desc') }}
                     </p>
                 </div>
             </div>

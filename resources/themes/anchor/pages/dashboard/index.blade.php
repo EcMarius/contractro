@@ -72,10 +72,10 @@
 		<div class="flex flex-col md:flex-row md:items-center md:justify-between">
 			<div>
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
-					Bine ai venit, {{ $user->name }}!
+					{{ __('dashboard.welcome') }}, {{ $user->name }}!
 				</h1>
 				<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-					Aici găsești o privire de ansamblu asupra activității tale
+					{{ __('dashboard.overview') }}
 				</p>
 			</div>
 
@@ -84,13 +84,13 @@
 					<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
 					</svg>
-					Contract Nou
+					{{ __('contracts.new_contract') }}
 				</a>
 				<a href="{{ route('invoices.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors">
 					<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
 					</svg>
-					Factură Nouă
+					{{ __('invoices.new_invoice') }}
 				</a>
 			</div>
 		</div>
@@ -109,14 +109,14 @@
 						<div class="ml-5 w-0 flex-1">
 							<dl>
 								<dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-									Total Contracte
+									{{ __('dashboard.total_contracts') }}
 								</dt>
 								<dd class="flex items-baseline">
 									<div class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
 										{{ number_format($stats['total_contracts']) }}
 									</div>
 									<div class="ml-2 text-sm text-gray-600 dark:text-gray-400">
-										{{ $stats['active_contracts'] }} active
+										{{ $stats['active_contracts'] }} {{ __('common.active') }}
 									</div>
 								</dd>
 							</dl>
@@ -137,7 +137,7 @@
 						<div class="ml-5 w-0 flex-1">
 							<dl>
 								<dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-									Venituri Totale
+									{{ __('dashboard.total_revenue') }}
 								</dt>
 								<dd class="flex items-baseline">
 									<div class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
@@ -145,7 +145,7 @@
 									</div>
 								</dd>
 								<dd class="text-sm text-gray-600 dark:text-gray-400">
-									{{ number_format($stats['pending_revenue'], 2) }} RON în așteptare
+									{{ number_format($stats['pending_revenue'], 2) }} RON {{ __('common.pending') }}
 								</dd>
 							</dl>
 						</div>
@@ -165,7 +165,7 @@
 						<div class="ml-5 w-0 flex-1">
 							<dl>
 								<dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-									Facturi
+									{{ __('invoices.invoices') }}
 								</dt>
 								<dd class="flex items-baseline">
 									<div class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
@@ -173,9 +173,9 @@
 									</div>
 								</dd>
 								<dd class="text-sm">
-									<span class="text-green-600 dark:text-green-400">{{ $stats['paid_invoices'] }} plătite</span>
+									<span class="text-green-600 dark:text-green-400">{{ $stats['paid_invoices'] }} {{ __('invoices.status.paid') }}</span>
 									@if($stats['overdue_invoices'] > 0)
-										<span class="ml-2 text-red-600 dark:text-red-400">{{ $stats['overdue_invoices'] }} restante</span>
+										<span class="ml-2 text-red-600 dark:text-red-400">{{ $stats['overdue_invoices'] }} {{ __('invoices.status.overdue') }}</span>
 									@endif
 								</dd>
 							</dl>
@@ -196,7 +196,7 @@
 						<div class="ml-5 w-0 flex-1">
 							<dl>
 								<dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-									Sarcini Pendinte
+									{{ __('dashboard.pending_tasks') }}
 								</dt>
 								<dd class="flex items-baseline">
 									<div class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
@@ -204,7 +204,7 @@
 									</div>
 								</dd>
 								<dd class="text-sm text-gray-600 dark:text-gray-400">
-									<a href="{{ route('tasks.my-tasks') }}" class="hover:underline">Vezi toate sarcinile</a>
+									<a href="{{ route('tasks.my-tasks') }}" class="hover:underline">{{ __('common.view_all') }}</a>
 								</dd>
 							</dl>
 						</div>
@@ -221,10 +221,10 @@
 				<div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
 					<div class="flex items-center justify-between">
 						<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-							Contracte Recente
+							{{ __('dashboard.recent_contracts') }}
 						</h2>
 						<a href="{{ route('contracts.index') }}" class="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400">
-							Vezi toate →
+							{{ __('common.view_all') }} →
 						</a>
 					</div>
 				</div>
@@ -259,9 +259,9 @@
 						</a>
 					@empty
 						<div class="px-5 py-8 text-center text-gray-500 dark:text-gray-400">
-							<p>Nu există contracte încă.</p>
+							<p>{{ __('contracts.messages.no_contracts') }}</p>
 							<a href="{{ route('contracts.create') }}" class="text-blue-600 hover:text-blue-700 dark:text-blue-400 text-sm">
-								Creează primul tău contract →
+								{{ __('contracts.messages.create_first_contract') }} →
 							</a>
 						</div>
 					@endforelse
@@ -272,7 +272,7 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg">
 				<div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-						Contracte ce Expiră (30 zile)
+						{{ __('dashboard.expiring_contracts') }}
 					</h2>
 				</div>
 				<div class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -299,7 +299,7 @@
 						</a>
 					@empty
 						<div class="px-5 py-8 text-center text-gray-500 dark:text-gray-400">
-							<p>Nu există contracte care expiră în următoarele 30 de zile.</p>
+							<p>{{ __('dashboard.no_expiring_contracts') }}</p>
 						</div>
 					@endforelse
 				</div>
@@ -313,10 +313,10 @@
 			<div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-						Sarcinile Mele
+						{{ __('dashboard.my_tasks') }}
 					</h2>
 					<a href="{{ route('tasks.my-tasks') }}" class="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400">
-						Vezi toate →
+						{{ __('common.view_all') }} →
 					</a>
 				</div>
 			</div>
@@ -329,7 +329,7 @@
 									{{ $task->title }}
 								</p>
 								<p class="text-sm text-gray-500 dark:text-gray-400">
-									Contract: <a href="{{ route('contracts.show', $task->contract) }}" class="hover:underline">{{ $task->contract->contract_number }}</a>
+									{{ __('contracts.contract') }}: <a href="{{ route('contracts.show', $task->contract) }}" class="hover:underline">{{ $task->contract->contract_number }}</a>
 								</p>
 							</div>
 							<div class="ml-4 flex-shrink-0">
@@ -345,7 +345,7 @@
 								</span>
 								@if($task->due_date)
 									<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-										Scadență: {{ $task->due_date->format('d.m.Y') }}
+										{{ __('contracts.due_date') }}: {{ $task->due_date->format('d.m.Y') }}
 									</p>
 								@endif
 							</div>

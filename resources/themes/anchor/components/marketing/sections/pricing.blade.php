@@ -57,8 +57,8 @@
     @if(!request()->is('plan-selection'))
     <x-marketing.elements.heading
         level="h2"
-        title="Simple, Transparent Pricing"
-        description="Choose the plan that fits your lead generation needs."
+        title="{{ __('marketing.pricing_title') }}"
+        description="{{ __('marketing.pricing_subtitle') }}"
     />
     @endif
 
@@ -117,10 +117,10 @@
             <div class="flex relative justify-start items-center pb-5 -translate-y-2 md:justify-center">
                 <div class="inline-flex relative justify-center items-center p-1 w-auto text-center rounded-full border-2 -translate-y-3 md:mx-auto border-zinc-900 dark:border-zinc-100">
                     <div x-ref="monthly" x-on:click="billing='Monthly'; toggleRepositionMarker($el)" :class="{ 'text-white dark:text-zinc-900': billing == 'Monthly', 'text-zinc-900 dark:text-white' : billing != 'Monthly' }" class="relative z-20 px-3.5 py-1 text-sm font-medium leading-6 rounded-full duration-300 ease-out cursor-pointer">
-                        Monthly
+                        {{ __('marketing.pricing_monthly') }}
                     </div>
                     <div x-ref="yearly" x-on:click="billing='Yearly'; toggleRepositionMarker($el)" :class="{ 'text-white dark:text-zinc-900': billing == 'Yearly', 'text-zinc-900 dark:text-white' : billing != 'Yearly' }" class="relative z-20 px-3.5 py-1 text-sm font-medium leading-6 rounded-full duration-300 ease-out cursor-pointer">
-                        Yearly
+                        {{ __('marketing.pricing_yearly') }}
                     </div>
                     <div x-ref="marker" class="absolute left-0 z-10 w-1/2 h-full opacity-0" x-cloak>
                         <div class="w-full h-full rounded-full shadow-sm bg-zinc-900 dark:bg-zinc-100"></div>
@@ -196,7 +196,7 @@
                         @if($plan->is_seated_plan)
                             <div class="mt-6 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-700">
                                 <div class="flex items-center justify-between">
-                                    <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">Number of Seats</span>
+                                    <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ __('marketing.number_of_seats') }}</span>
                                     <div class="flex items-center gap-3">
                                         <button
                                             x-on:click="decrementSeats({{ $plan->id }})"
@@ -219,7 +219,7 @@
                                 </div>
                                 <div class="mt-3 pt-3 border-t border-zinc-200 dark:border-zinc-700">
                                     <div class="flex items-center justify-between text-sm">
-                                        <span class="text-zinc-600 dark:text-zinc-400">Total</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">{{ __('marketing.total') }}</span>
                                         <span class="text-lg font-bold text-zinc-900 dark:text-white">
                                             @if($currencyPosition === 'prepend'){{ $currencyDisplay }}@endif<span x-text="(billing == 'Monthly' ? {{ $plan->monthly_price }} : {{ $plan->yearly_price }}) * (seats[{{ $plan->id }}] || 1)"></span>@if($currencyPosition === 'append'){{ $currencyDisplay }}@endif<span class="text-sm text-zinc-500 dark:text-zinc-400" x-text="billing == 'Monthly' ? '/mo' : '/yr'"></span>
                                         </span>
@@ -296,7 +296,7 @@
 
                             @if($isCurrentPlan && !$isSeatedPlan)
                                 <button disabled class="w-full px-6 py-3 bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400 font-medium rounded-lg cursor-not-allowed opacity-75">
-                                    You're on this plan
+                                    {{ __('marketing.youre_on_this_plan') }}
                                 </button>
                             @elseif($isCurrentPlan && $isSeatedPlan)
                                 <!-- Seated plan - show button if seats changed -->
@@ -305,7 +305,7 @@
                                         x-show="(seats[{{ $plan->id }}] || 1) === currentSeats"
                                         disabled
                                         class="w-full px-6 py-3 bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400 font-medium rounded-lg cursor-not-allowed opacity-75">
-                                        You're on this plan
+                                        {{ __('marketing.youre_on_this_plan') }}
                                     </button>
                                     <a
                                         x-show="(seats[{{ $plan->id }}] || 1) !== currentSeats"
@@ -313,7 +313,7 @@
                                         x-on:click="setLoading('{{ $plan->id }}', true)"
                                         :class="loading['{{ $plan->id }}'] ? 'opacity-50 cursor-not-allowed' : ''"
                                         class="flex items-center justify-center w-full px-6 py-3 bg-zinc-900 hover:bg-black dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-900 font-medium rounded-lg transition-colors duration-150">
-                                        <span x-show="!loading['{{ $plan->id }}']">Update Subscription</span>
+                                        <span x-show="!loading['{{ $plan->id }}']">{{ __('marketing.update_subscription') }}</span>
                                         <span x-show="loading['{{ $plan->id }}']" x-cloak>
                                             <svg class="animate-spin h-5 w-5 text-white dark:text-zinc-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -330,9 +330,9 @@
                                     class="flex items-center justify-center w-full px-6 py-3 bg-zinc-900 hover:bg-black dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-900 font-medium rounded-lg transition-colors duration-150">
                                     <span x-show="!loading['{{ $plan->id }}']">
                                         @if($showTrial)
-                                            Try for {{ $planTrialDays }} days
+                                            {{ __('marketing.try_for_days', ['days' => $planTrialDays]) }}
                                         @else
-                                            Get Started
+                                            {{ __('marketing.get_started') }}
                                         @endif
                                     </span>
                                     <span x-show="loading['{{ $plan->id }}']" x-cloak>
@@ -353,8 +353,8 @@
         @if($enterprisePlans->isNotEmpty())
             <div class="mt-16">
                 <div class="text-center mb-8">
-                    <h3 class="text-2xl font-bold text-zinc-900 dark:text-white mb-2">Need More? Let's Talk</h3>
-                    <p class="text-zinc-600 dark:text-zinc-400">Custom solutions for high-volume lead generation</p>
+                    <h3 class="text-2xl font-bold text-zinc-900 dark:text-white mb-2">{{ __('marketing.need_more_lets_talk') }}</h3>
+                    <p class="text-zinc-600 dark:text-zinc-400">{{ __('marketing.custom_solutions') }}</p>
                 </div>
 
                 @foreach($enterprisePlans as $plan)
@@ -378,17 +378,17 @@
                                     {{ $plan->name }}
                                 </span>
                                 <div class="mt-6">
-                                    <span class="text-4xl font-bold text-zinc-900 dark:text-white">Let's Discuss</span>
+                                    <span class="text-4xl font-bold text-zinc-900 dark:text-white">{{ __('marketing.lets_discuss') }}</span>
                                     <p class="mt-4 text-base text-zinc-600 dark:text-zinc-400">{{ $plan->description }}</p>
                                 </div>
                                 <div class="mt-8">
                                     <a href="{{ route('contact') }}" class="inline-flex items-center justify-center px-6 py-3 bg-zinc-900 hover:bg-black dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-900 font-medium rounded-lg transition-colors duration-150">
-                                        Contact Us
+                                        {{ __('marketing.contact_us') }}
                                     </a>
                                 </div>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-zinc-900 dark:text-white mb-4">Everything you need:</h4>
+                                <h4 class="font-semibold text-zinc-900 dark:text-white mb-4">{{ __('marketing.everything_you_need') }}</h4>
                                 <ul class="flex flex-col space-y-2">
                                     @foreach($features as $feature)
                                         <li>
@@ -416,13 +416,13 @@
                 <svg class="w-5 h-5 mr-2 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
-                Cancel anytime
+                {{ __('marketing.cancel_anytime') }}
             </div>
             <div class="flex items-center text-sm text-zinc-600 dark:text-zinc-400">
                 <svg class="w-5 h-5 mr-2 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
-                Priority support
+                {{ __('marketing.priority_support') }}
             </div>
         </div>
     </div>

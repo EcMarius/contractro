@@ -11,8 +11,8 @@
 @if($showUseCases && $useCases->isNotEmpty())
 <section class="w-full">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">Who Benefits from ContractRO?</h2>
-        <p class="mt-4 text-lg text-zinc-600 dark:text-zinc-400">Discover how professionals across industries use ContractRO to find their next opportunity</p>
+        <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">{{ __('marketing.use_cases_title') }}</h2>
+        <p class="mt-4 text-lg text-zinc-600 dark:text-zinc-400">{{ __('marketing.use_cases_subtitle') }}</p>
     </div>
 
     <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">

@@ -47,7 +47,7 @@
 					<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
 					</svg>
-					Înapoi la Companii
+					{{ __('common.back') }} {{ __('companies.companies') }}
 				</a>
 				<div class="flex items-center gap-4">
 					@if($company->logo_path)
@@ -62,7 +62,7 @@
 					<div>
 						<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ $company->name }}</h1>
 						@if($company->cui)
-							<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">CUI: {{ $company->cui }}</p>
+							<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ __('companies.cui') }}: {{ $company->cui }}</p>
 						@endif
 					</div>
 				</div>
@@ -72,16 +72,16 @@
 					<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
 					</svg>
-					Editează
+					{{ __('common.edit') }}
 				</a>
-				<form method="POST" action="{{ route('companies.destroy', $company->id) }}" onsubmit="return confirm('Sigur dorești să ștergi această companie? Toate contractele și facturile asociate vor fi șterse!');">
+				<form method="POST" action="{{ route('companies.destroy', $company->id) }}" onsubmit="return confirm('{{ __('companies.messages.confirm_delete') }}');">
 					@csrf
 					@method('DELETE')
 					<button type="submit" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
 						<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
 						</svg>
-						Șterge
+						{{ __('common.delete') }}
 					</button>
 				</form>
 			</div>
@@ -93,9 +93,9 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Contracte</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('companies.stats.total_contracts') }}</p>
 						<p class="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ $totalContracts }}</p>
-						<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $activeContracts }} active, {{ $pendingContracts }} în așteptare</p>
+						<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $activeContracts }} {{ __('contracts.statuses.active') }}, {{ $pendingContracts }} {{ __('common.pending') }}</p>
 					</div>
 					<div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
 						<svg class="w-6 h-6 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,9 +109,9 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">Venituri Totale</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('companies.stats.total_revenue') }}</p>
 						<p class="text-3xl font-bold text-green-600 dark:text-green-400 mt-1">{{ number_format($totalRevenue, 0, ',', '.') }} RON</p>
-						<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ number_format($pendingRevenue, 0, ',', '.') }} RON în așteptare</p>
+						<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ number_format($pendingRevenue, 0, ',', '.') }} RON {{ __('companies.stats.pending_revenue') }}</p>
 					</div>
 					<div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
 						<svg class="w-6 h-6 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -125,9 +125,9 @@
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Facturi</p>
+						<p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('companies.stats.total_invoices') }}</p>
 						<p class="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ $totalInvoices }}</p>
-						<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $paidInvoices }} plătite, {{ $overdueInvoices }} restante</p>
+						<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $paidInvoices }} {{ __('invoices.statuses.paid') }}, {{ $overdueInvoices }} {{ __('invoices.statuses.overdue') }}</p>
 					</div>
 					<div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
 						<svg class="w-6 h-6 text-yellow-600 dark:text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,13 +139,13 @@
 
 			{{-- Quick Action --}}
 			<div class="bg-gradient-to-br from-blue-500 to-blue-600 shadow-sm rounded-lg p-6 text-white">
-				<p class="text-sm font-medium opacity-90">Acțiuni rapide</p>
+				<p class="text-sm font-medium opacity-90">{{ __('companies.quick_actions') }}</p>
 				<div class="mt-4 space-y-2">
 					<a href="{{ route('contracts.create', ['company' => $company->id]) }}" class="block w-full px-3 py-2 text-sm font-medium text-blue-600 bg-white rounded-lg hover:bg-gray-50 text-center">
-						+ Contract Nou
+						+ {{ __('companies.new_contract') }}
 					</a>
 					<a href="{{ route('invoices.create', ['company' => $company->id]) }}" class="block w-full px-3 py-2 text-sm font-medium text-blue-600 bg-white rounded-lg hover:bg-gray-50 text-center">
-						+ Factură Nouă
+						+ {{ __('companies.new_invoice') }}
 					</a>
 				</div>
 			</div>
@@ -155,29 +155,29 @@
 		<div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
 			{{-- Company Information --}}
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
-				<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Informații Companie</h2>
+				<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">{{ __('companies.company_information') }}</h2>
 				<dl class="space-y-3">
 					@if($company->cui)
 						<div>
-							<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">CUI</dt>
+							<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('companies.cui') }}</dt>
 							<dd class="text-sm text-gray-900 dark:text-gray-100">{{ $company->cui }}</dd>
 						</div>
 					@endif
 					@if($company->reg_com)
 						<div>
-							<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Nr. Reg. Com.</dt>
+							<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('companies.reg_com') }}</dt>
 							<dd class="text-sm text-gray-900 dark:text-gray-100">{{ $company->reg_com }}</dd>
 						</div>
 					@endif
 					@if($company->address)
 						<div>
-							<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Adresă</dt>
+							<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('companies.address') }}</dt>
 							<dd class="text-sm text-gray-900 dark:text-gray-100">{{ $company->address }}</dd>
 						</div>
 					@endif
 					@if($company->city || $company->county)
 						<div>
-							<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Oraș / Județ</dt>
+							<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('companies.city') }} / {{ __('companies.county') }}</dt>
 							<dd class="text-sm text-gray-900 dark:text-gray-100">
 								{{ $company->city }}@if($company->city && $company->county), @endif{{ $company->county }}
 							</dd>
@@ -190,11 +190,11 @@
 			<div class="space-y-6">
 				{{-- Contact Information --}}
 				<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
-					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Contact</h2>
+					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">{{ __('companies.contact_information') }}</h2>
 					<dl class="space-y-3">
 						@if($company->email)
 							<div>
-								<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Email</dt>
+								<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('companies.email') }}</dt>
 								<dd class="text-sm text-gray-900 dark:text-gray-100">
 									<a href="mailto:{{ $company->email }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400">{{ $company->email }}</a>
 								</dd>
@@ -202,7 +202,7 @@
 						@endif
 						@if($company->phone)
 							<div>
-								<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Telefon</dt>
+								<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('companies.phone') }}</dt>
 								<dd class="text-sm text-gray-900 dark:text-gray-100">
 									<a href="tel:{{ $company->phone }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400">{{ $company->phone }}</a>
 								</dd>
@@ -210,7 +210,7 @@
 						@endif
 						@if($company->website)
 							<div>
-								<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Website</dt>
+								<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('companies.website') }}</dt>
 								<dd class="text-sm text-gray-900 dark:text-gray-100">
 									<a href="{{ $company->website }}" target="_blank" class="text-blue-600 hover:text-blue-800 dark:text-blue-400">{{ $company->website }}</a>
 								</dd>
@@ -222,17 +222,17 @@
 				{{-- Banking Information --}}
 				@if($company->bank_name || $company->iban)
 					<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
-						<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Informații Bancare</h2>
+						<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">{{ __('companies.banking_information') }}</h2>
 						<dl class="space-y-3">
 							@if($company->bank_name)
 								<div>
-									<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Bancă</dt>
+									<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('companies.bank_name') }}</dt>
 									<dd class="text-sm text-gray-900 dark:text-gray-100">{{ $company->bank_name }}</dd>
 								</div>
 							@endif
 							@if($company->iban)
 								<div>
-									<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">IBAN</dt>
+									<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('companies.iban') }}</dt>
 									<dd class="text-sm text-gray-900 dark:text-gray-100 font-mono">{{ $company->iban }}</dd>
 								</div>
 							@endif
@@ -246,21 +246,21 @@
 		@if($recentContracts->count() > 0)
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between mb-4">
-					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Contracte Recente</h2>
+					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ __('contracts.recent_contracts') }}</h2>
 					<a href="{{ route('contracts.index', ['company' => $company->id]) }}" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
-						Vezi toate →
+						{{ __('common.view_all') }} →
 					</a>
 				</div>
 				<div class="overflow-x-auto">
 					<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
 						<thead>
 							<tr>
-								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Nr. Contract</th>
-								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Tip</th>
-								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Status</th>
-								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Valoare</th>
-								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Data</th>
-								<th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Acțiuni</th>
+								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('contracts.contract_number') }}</th>
+								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('contracts.type') }}</th>
+								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('contracts.status') }}</th>
+								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('contracts.value') }}</th>
+								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('common.date') }}</th>
+								<th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('common.actions') }}</th>
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -301,7 +301,7 @@
 									<td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">{{ $contract->start_date ? $contract->start_date->format('d.m.Y') : '-' }}</td>
 									<td class="px-4 py-3 text-right text-sm">
 										<a href="{{ route('contracts.show', $contract->id) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400">
-											Vezi
+											{{ __('common.view') }}
 										</a>
 									</td>
 								</tr>
@@ -316,21 +316,21 @@
 		@if($recentInvoices->count() > 0)
 			<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 				<div class="flex items-center justify-between mb-4">
-					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Facturi Recente</h2>
+					<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ __('invoices.recent_invoices') }}</h2>
 					<a href="{{ route('invoices.index', ['company' => $company->id]) }}" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
-						Vezi toate →
+						{{ __('common.view_all') }} →
 					</a>
 				</div>
 				<div class="overflow-x-auto">
 					<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
 						<thead>
 							<tr>
-								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Nr. Factură</th>
-								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Client</th>
-								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Status</th>
-								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Total</th>
-								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Data</th>
-								<th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Acțiuni</th>
+								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('invoices.invoice_number') }}</th>
+								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('invoices.client') }}</th>
+								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('invoices.status') }}</th>
+								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('invoices.total') }}</th>
+								<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('common.date') }}</th>
+								<th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('common.actions') }}</th>
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -363,7 +363,7 @@
 									<td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">{{ $invoice->issue_date ? $invoice->issue_date->format('d.m.Y') : '-' }}</td>
 									<td class="px-4 py-3 text-right text-sm">
 										<a href="{{ route('invoices.show', $invoice->id) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400">
-											Vezi
+											{{ __('common.view') }}
 										</a>
 									</td>
 								</tr>

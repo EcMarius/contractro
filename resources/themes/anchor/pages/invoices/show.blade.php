@@ -15,11 +15,11 @@
 
 	// Status labels and colors
 	$statusLabels = [
-		'draft' => 'Ciornă',
-		'issued' => 'Emisă',
-		'paid' => 'Plătită',
-		'overdue' => 'Restantă',
-		'cancelled' => 'Anulată',
+		'draft' => __('invoices.status.draft'),
+		'issued' => __('invoices.status.issued'),
+		'paid' => __('invoices.status.paid'),
+		'overdue' => __('invoices.status.overdue'),
+		'cancelled' => __('invoices.status.cancelled'),
 	];
 
 	$statusColors = [
@@ -44,11 +44,11 @@
 					<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
 					</svg>
-					Înapoi la Facturi
+					{{ __('Înapoi la Facturi') }}
 				</a>
 				<div class="flex items-center gap-3">
 					<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
-						Factură {{ $invoice->invoice_number }}
+						{{ __('invoices.invoice') }} {{ $invoice->invoice_number }}
 					</h1>
 					<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $statusColors[$invoice->status] ?? '' }}">
 						{{ $statusLabels[$invoice->status] ?? $invoice->status }}
@@ -66,7 +66,7 @@
 							<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 							</svg>
-							Emite Factura
+							{{ __('invoices.issue') }}
 						</button>
 					</form>
 				@endif
@@ -79,28 +79,28 @@
 								<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 								</svg>
-								Marchează ca Plătită
+								{{ __('invoices.mark_as_paid') }}
 							</button>
 						</div>
 						<div x-show="showDate" class="flex gap-2">
 							<input type="date" name="payment_date" required value="{{ date('Y-m-d') }}"
 								class="block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 text-sm">
 							<button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
-								Confirmă
+								{{ __('common.confirm') }}
 							</button>
 							<button type="button" @click="showDate = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">
-								Anulează
+								{{ __('common.cancel') }}
 							</button>
 						</div>
 					</form>
 
-					<form method="POST" action="{{ route('invoices.cancel', $invoice->id) }}" onsubmit="return confirm('Sigur dorești să anulezi această factură?');">
+					<form method="POST" action="{{ route('invoices.cancel', $invoice->id) }}" onsubmit="return confirm('{{ __('invoices.messages.confirm_cancel') }}');">
 						@csrf
 						<button type="submit" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
 							<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
 							</svg>
-							Anulează
+							{{ __('invoices.cancel') }}
 						</button>
 					</form>
 				@endif
@@ -110,7 +110,7 @@
 						<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
 						</svg>
-						Descarcă PDF
+						{{ __('invoices.download_pdf') }}
 					</a>
 				@endif
 
@@ -118,17 +118,17 @@
 					<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
 					</svg>
-					Editează
+					{{ __('common.edit') }}
 				</a>
 
-				<form method="POST" action="{{ route('invoices.destroy', $invoice->id) }}" onsubmit="return confirm('Sigur dorești să ștergi această factură?');">
+				<form method="POST" action="{{ route('invoices.destroy', $invoice->id) }}" onsubmit="return confirm('{{ __('invoices.messages.confirm_delete') }}');">
 					@csrf
 					@method('DELETE')
 					<button type="submit" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
 						<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
 						</svg>
-						Șterge
+						{{ __('common.delete') }}
 					</button>
 				</form>
 			</div>
@@ -145,10 +145,10 @@
 					</div>
 					<div class="ml-3">
 						<h3 class="text-sm font-medium text-red-800 dark:text-red-200">
-							Factură Restantă
+							{{ __('Factură Restantă') }}
 						</h3>
 						<div class="mt-2 text-sm text-red-700 dark:text-red-300">
-							<p>Această factură a depășit data scadentă ({{ $invoice->due_date->format('d.m.Y') }}). Este restantă de {{ $invoice->due_date->diffForHumans() }}.</p>
+							<p>{{ __('Această factură a depășit data scadentă') }} ({{ $invoice->due_date->format('d.m.Y') }}). {{ __('Este restantă de') }} {{ $invoice->due_date->diffForHumans() }}.</p>
 						</div>
 					</div>
 				</div>
@@ -166,10 +166,10 @@
 					</div>
 					<div class="ml-3">
 						<h3 class="text-sm font-medium text-green-800 dark:text-green-200">
-							Factură Plătită
+							{{ __('Factură Plătită') }}
 						</h3>
 						<div class="mt-2 text-sm text-green-700 dark:text-green-300">
-							<p>Această factură a fost marcată ca plătită la data de {{ $invoice->payment_date->format('d.m.Y') }}.</p>
+							<p>{{ __('Această factură a fost marcată ca plătită la data de') }} {{ $invoice->payment_date->format('d.m.Y') }}.</p>
 						</div>
 					</div>
 				</div>
@@ -183,7 +183,7 @@
 				<div class="flex justify-between items-start mb-8">
 					{{-- Provider --}}
 					<div>
-						<h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Furnizor</h2>
+						<h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{{ __('Furnizor') }}</h2>
 						<p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $invoice->company->name }}</p>
 						@if($invoice->company->cui)
 							<p class="text-sm text-gray-600 dark:text-gray-400">CUI: {{ $invoice->company->cui }}</p>
@@ -209,7 +209,7 @@
 
 					{{-- Client --}}
 					<div class="text-right">
-						<h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Client</h2>
+						<h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{{ __('Client') }}</h2>
 						<p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $invoice->client_name }}</p>
 						@if($invoice->client_cui)
 							<p class="text-sm text-gray-600 dark:text-gray-400">CUI: {{ $invoice->client_cui }}</p>
@@ -226,20 +226,20 @@
 				{{-- Invoice Details --}}
 				<div class="grid grid-cols-2 gap-4 mb-8 py-4 border-y border-gray-200 dark:border-gray-700">
 					<div>
-						<p class="text-sm text-gray-600 dark:text-gray-400">Nr. Factură</p>
+						<p class="text-sm text-gray-600 dark:text-gray-400">{{ __('invoices.invoice_number') }}</p>
 						<p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $invoice->invoice_number }}</p>
 					</div>
 					<div>
-						<p class="text-sm text-gray-600 dark:text-gray-400">Data Emitere</p>
+						<p class="text-sm text-gray-600 dark:text-gray-400">{{ __('invoices.issue_date') }}</p>
 						<p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $invoice->issue_date ? $invoice->issue_date->format('d.m.Y') : '-' }}</p>
 					</div>
 					<div>
-						<p class="text-sm text-gray-600 dark:text-gray-400">Data Scadență</p>
+						<p class="text-sm text-gray-600 dark:text-gray-400">{{ __('invoices.due_date') }}</p>
 						<p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $invoice->due_date ? $invoice->due_date->format('d.m.Y') : '-' }}</p>
 					</div>
 					@if($invoice->contract)
 						<div>
-							<p class="text-sm text-gray-600 dark:text-gray-400">Contract</p>
+							<p class="text-sm text-gray-600 dark:text-gray-400">{{ __('invoices.contract') }}</p>
 							<p class="text-sm font-medium text-gray-900 dark:text-gray-100">
 								<a href="{{ route('contracts.show', $invoice->contract->id) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400">
 									{{ $invoice->contract->contract_number }}
@@ -254,10 +254,10 @@
 					<table class="min-w-full">
 						<thead>
 							<tr class="border-b border-gray-200 dark:border-gray-700">
-								<th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Descriere</th>
-								<th class="px-2 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Cantitate</th>
-								<th class="px-2 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Preț Unitar</th>
-								<th class="px-2 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Total</th>
+								<th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('invoices.description') }}</th>
+								<th class="px-2 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('invoices.quantity') }}</th>
+								<th class="px-2 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('invoices.unit_price') }}</th>
+								<th class="px-2 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('invoices.total') }}</th>
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -277,15 +277,15 @@
 				<div class="flex justify-end mb-8">
 					<div class="w-80 space-y-2">
 						<div class="flex justify-between text-sm">
-							<span class="text-gray-600 dark:text-gray-400">Subtotal:</span>
+							<span class="text-gray-600 dark:text-gray-400">{{ __('invoices.subtotal') }}:</span>
 							<span class="font-medium text-gray-900 dark:text-gray-100">{{ number_format($invoice->subtotal_amount, 2, ',', '.') }} RON</span>
 						</div>
 						<div class="flex justify-between text-sm">
-							<span class="text-gray-600 dark:text-gray-400">TVA (19%):</span>
+							<span class="text-gray-600 dark:text-gray-400">{{ __('invoices.vat') }} (19%):</span>
 							<span class="font-medium text-gray-900 dark:text-gray-100">{{ number_format($invoice->vat_amount, 2, ',', '.') }} RON</span>
 						</div>
 						<div class="flex justify-between text-lg font-bold pt-2 border-t-2 border-gray-300 dark:border-gray-600">
-							<span class="text-gray-900 dark:text-gray-100">Total de Plată:</span>
+							<span class="text-gray-900 dark:text-gray-100">{{ __('invoices.total_amount') }}:</span>
 							<span class="text-blue-600 dark:text-blue-400">{{ number_format($invoice->total_amount, 2, ',', '.') }} RON</span>
 						</div>
 					</div>
@@ -294,7 +294,7 @@
 				{{-- Notes --}}
 				@if($invoice->notes)
 					<div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-						<h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Observații</h3>
+						<h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">{{ __('invoices.notes') }}</h3>
 						<p class="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap">{{ $invoice->notes }}</p>
 					</div>
 				@endif
@@ -304,20 +304,20 @@
 		{{-- Metadata --}}
 		<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
 			<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-				Detalii
+				{{ __('Detalii') }}
 			</h2>
 			<dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 				<div>
-					<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Creat la</dt>
+					<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('common.created_at') }}</dt>
 					<dd class="text-sm text-gray-900 dark:text-gray-100 mt-1">{{ $invoice->created_at->format('d.m.Y H:i') }}</dd>
 				</div>
 				<div>
-					<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Ultima modificare</dt>
+					<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('Ultima modificare') }}</dt>
 					<dd class="text-sm text-gray-900 dark:text-gray-100 mt-1">{{ $invoice->updated_at->format('d.m.Y H:i') }}</dd>
 				</div>
 				@if($invoice->payment_date)
 					<div>
-						<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Data Plată</dt>
+						<dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('invoices.payment_date') }}</dt>
 						<dd class="text-sm text-gray-900 dark:text-gray-100 mt-1">{{ $invoice->payment_date->format('d.m.Y') }}</dd>
 					</div>
 				@endif
