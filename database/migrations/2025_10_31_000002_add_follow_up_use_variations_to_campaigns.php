@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable('evenleads_campaigns')) {
-            Schema::table('evenleads_campaigns', function (Blueprint $table) {
-                if (!Schema::hasColumn('evenleads_campaigns', 'follow_up_use_variations')) {
+        if (Schema::hasTable('contractro_campaigns')) {
+            Schema::table('contractro_campaigns', function (Blueprint $table) {
+                if (!Schema::hasColumn('contractro_campaigns', 'follow_up_use_variations')) {
                     $table->boolean('follow_up_use_variations')->default(false)->after('follow_up_template');
                 }
             });
@@ -25,9 +25,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasTable('evenleads_campaigns')) {
-            Schema::table('evenleads_campaigns', function (Blueprint $table) {
-                if (Schema::hasColumn('evenleads_campaigns', 'follow_up_use_variations')) {
+        if (Schema::hasTable('contractro_campaigns')) {
+            Schema::table('contractro_campaigns', function (Blueprint $table) {
+                if (Schema::hasColumn('contractro_campaigns', 'follow_up_use_variations')) {
                     $table->dropColumn('follow_up_use_variations');
                 }
             });

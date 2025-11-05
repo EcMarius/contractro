@@ -3,10 +3,10 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\Widget;
-use Wave\Plugins\EvenLeads\Models\Campaign;
-use Wave\Plugins\EvenLeads\Models\Lead;
-use Wave\Plugins\EvenLeads\Models\AIGeneration;
-use Wave\Plugins\EvenLeads\Models\SyncHistory;
+use Wave\Plugins\ContractRO\Models\Campaign;
+use Wave\Plugins\ContractRO\Models\Lead;
+use Wave\Plugins\ContractRO\Models\AIGeneration;
+use Wave\Plugins\ContractRO\Models\SyncHistory;
 use Carbon\Carbon;
 
 class UserSubscriptionDetailsWidget extends Widget
@@ -100,7 +100,7 @@ class UserSubscriptionDetailsWidget extends Widget
             ];
         }
 
-        // EvenLeads Usage Stats
+        // ContractRO Usage Stats
         $startOfMonth = Carbon::now()->startOfMonth();
 
         $data['usage'] = [

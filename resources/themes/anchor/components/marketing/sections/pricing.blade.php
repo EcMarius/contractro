@@ -1,5 +1,5 @@
 @php
-    use Wave\Plugins\EvenLeads\Models\Setting;
+    use Wave\Plugins\ContractRO\Models\Setting;
     $trialDays = Setting::getValue('trial_days', 7);
     $currency = Setting::getValue('site.currency', 'EUR');
     $currencyPosition = Setting::getValue('site.currency_position', 'append');
@@ -155,10 +155,10 @@
                     $hasMonthly = !empty($plan->monthly_price);
                     $hasYearly = !empty($plan->yearly_price);
 
-                    // Get trial plan setting from EvenLeads settings
+                    // Get trial plan setting from ContractRO settings
                     $defaultTrialPlanId = Setting::getValue('trial_plan_id', null);
 
-                    // Get trial days from EvenLeads settings
+                    // Get trial days from ContractRO settings
                     $planTrialDays = Setting::getValue('trial_days', 7);
 
                     // Determine if this plan should show trial option

@@ -33,7 +33,7 @@
     @livewire('notifications')
 
     {{-- Feedback Form --}}
-    @livewire('evenleads-feedback-form')
+    @livewire('contractro-feedback-form')
 
     <x-marketing.cookie-banner />
 

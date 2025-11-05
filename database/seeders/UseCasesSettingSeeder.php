@@ -18,7 +18,7 @@ class UseCasesSettingSeeder extends Seeder
                 'group' => 'Site',
                 'order' => 19,
                 'details' => json_encode([
-                    'description' => 'Display use cases section on the homepage showing different ways to use EvenLeads. When disabled, the section will be hidden.',
+                    'description' => 'Display use cases section on the homepage showing different ways to use ContractRO. When disabled, the section will be hidden.',
                     'on' => '1',
                     'off' => '0',
                     'checked' => true,

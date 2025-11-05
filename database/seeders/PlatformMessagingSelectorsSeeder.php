@@ -66,7 +66,7 @@ class PlatformMessagingSelectorsSeeder extends Seeder
         ];
 
         foreach ($messagingConfig as $platformName => $config) {
-            $updated = DB::table('evenleads_platforms')
+            $updated = DB::table('contractro_platforms')
                 ->where('name', $platformName)
                 ->update([
                     'message_input_selectors' => json_encode($config['message_input_selectors']),

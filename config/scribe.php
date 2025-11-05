@@ -9,14 +9,14 @@ use function Knuckles\Scribe\Config\{removeStrategies, configureStrategy};
 
 return [
     // The HTML <title> for the generated documentation.
-    'title' => 'EvenLeads API Documentation',
+    'title' => 'ContractRO API Documentation',
 
     // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
-    'description' => 'API for managing campaigns, leads, and sync operations in EvenLeads.',
+    'description' => 'API for managing campaigns, leads, and sync operations in ContractRO.',
 
     // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
     'intro_text' => <<<INTRO
-        Welcome to the EvenLeads API documentation. This API allows you to programmatically manage your campaigns, leads, and sync operations.
+        Welcome to the ContractRO API documentation. This API allows you to programmatically manage your campaigns, leads, and sync operations.
 
         ## Getting Started
 

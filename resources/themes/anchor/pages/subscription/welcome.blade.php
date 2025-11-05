@@ -30,7 +30,7 @@
 	<x-app.container x-data class="space-y-6" x-cloak>
         <div class="w-full">
             <x-app.heading
-                title="Welcome to {{ $plan ? $plan->name : 'EvenLeads' }}! 🎉"
+                title="Welcome to {{ $plan ? $plan->name : 'ContractRO' }}! 🎉"
                 description="Your subscription has been activated successfully."
             />
 

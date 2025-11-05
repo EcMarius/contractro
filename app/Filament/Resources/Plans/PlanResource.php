@@ -31,7 +31,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Spatie\Permission\Models\Role;
 use Wave\Plan;
-use Wave\Plugins\EvenLeads\Models\Setting;
+use Wave\Plugins\ContractRO\Models\Setting;
 
 class PlanResource extends Resource
 {
@@ -104,71 +104,71 @@ class PlanResource extends Resource
                             ->helperText('Enable per-seat pricing. Users purchase seats for team members. Requires organization setup.')
                             ->default(false),
                     ])->columns(4),
-                Section::make('EvenLeads Limits')
-                    ->description('Configure EvenLeads plugin limits for this plan. Use -1 for unlimited.')
+                Section::make('ContractRO Limits')
+                    ->description('Configure ContractRO plugin limits for this plan. Use -1 for unlimited.')
                     ->columns(2)
                     ->schema([
-                        TextInput::make('custom_properties.evenleads.campaigns')
+                        TextInput::make('custom_properties.contractro.campaigns')
                             ->label('Campaigns')
                             ->numeric()
                             ->default(-1)
                             ->hint('Max campaigns user can create (-1 = unlimited)')
                             ->required(),
-                        TextInput::make('custom_properties.evenleads.keywords_per_campaign')
+                        TextInput::make('custom_properties.contractro.keywords_per_campaign')
                             ->label('Keywords Per Campaign')
                             ->numeric()
                             ->default(-1)
                             ->hint('Max keywords per campaign (-1 = unlimited)')
                             ->required(),
-                        TextInput::make('custom_properties.evenleads.manual_syncs_per_month')
+                        TextInput::make('custom_properties.contractro.manual_syncs_per_month')
                             ->label('Manual Syncs Per Month')
                             ->numeric()
                             ->default(-1)
                             ->hint('Manual sync limit per month (-1 = unlimited)')
                             ->required(),
-                        TextInput::make('custom_properties.evenleads.ai_replies_per_month')
+                        TextInput::make('custom_properties.contractro.ai_replies_per_month')
                             ->label('AI Replies Per Month')
                             ->numeric()
                             ->default(-1)
                             ->hint('AI reply generation limit (-1 = unlimited)')
                             ->required(),
-                        TextInput::make('custom_properties.evenleads.leads_per_sync')
+                        TextInput::make('custom_properties.contractro.leads_per_sync')
                             ->label('Leads Per Sync')
                             ->numeric()
                             ->default(60)
                             ->hint('Leads gathered in one sync')
                             ->required(),
-                        Toggle::make('custom_properties.evenleads.soft_limit_leads')
+                        Toggle::make('custom_properties.contractro.soft_limit_leads')
                             ->label('Soft Limit for Leads')
                             ->hint('If enabled, actual leads may vary ±2 (e.g., 58-62 instead of exactly 60)')
                             ->default(true),
-                        TextInput::make('custom_properties.evenleads.leads_storage')
+                        TextInput::make('custom_properties.contractro.leads_storage')
                             ->label('Total Leads Storage')
                             ->numeric()
                             ->default(-1)
                             ->hint('Total leads user can store (-1 = unlimited)')
                             ->required(),
-                        TextInput::make('custom_properties.evenleads.automated_sync_interval_minutes')
+                        TextInput::make('custom_properties.contractro.automated_sync_interval_minutes')
                             ->label('Auto Sync Interval (minutes)')
                             ->numeric()
                             ->default(1440)
                             ->hint('Minutes between automated syncs (1440 = 24 hours)')
                             ->required(),
-                        Toggle::make('custom_properties.evenleads.ai_chat_access')
+                        Toggle::make('custom_properties.contractro.ai_chat_access')
                             ->label('AI Chat Access')
                             ->hint('Enable access to AI Chat feature (Coming Soon)')
                             ->default(false),
-                        Toggle::make('custom_properties.evenleads.smart_lead_retrieval')
+                        Toggle::make('custom_properties.contractro.smart_lead_retrieval')
                             ->label('Smart Lead Retrieval (AI)')
-                            ->hint('Use AI to filter and validate lead relevance before adding to campaign. Uses the default AI model from EvenLeads settings.')
+                            ->hint('Use AI to filter and validate lead relevance before adding to campaign. Uses the default AI model from ContractRO settings.')
                             ->helperText('When enabled, each potential lead is analyzed by AI to ensure it\'s truly relevant to the campaign offering. This reduces noise but increases AI usage.')
                             ->default(false),
-                        Toggle::make('custom_properties.evenleads.ai_post_management')
+                        Toggle::make('custom_properties.contractro.ai_post_management')
                             ->label('AI Post Management')
                             ->hint('Enable AI-powered post analytics, sentiment analysis, tips, and comment management features')
                             ->helperText('Grants access to AI features for managing social media posts, analyzing engagement, and generating insights. Uses AI reply quota.')
                             ->default(false),
-                        Toggle::make('custom_properties.evenleads.follow_up_enabled')
+                        Toggle::make('custom_properties.contractro.follow_up_enabled')
                             ->label('Automated Follow-Ups')
                             ->hint('Enable automated follow-up messages to non-responding leads')
                             ->helperText('Allows users to automatically send follow-up messages to leads who haven\'t responded after a specified time period.')
@@ -192,13 +192,13 @@ class PlanResource extends Resource
                     ->description('Configure AI models (OpenAI & Claude) available to users on this plan')
                     ->collapsed()
                     ->schema([
-                        Select::make('custom_properties.evenleads.ai_models')
+                        Select::make('custom_properties.contractro.ai_models')
                             ->label('Available AI Models')
                             ->multiple()
                             ->searchable()
-                            ->options(fn () => \Wave\Plugins\EvenLeads\Models\Setting::getAvailableAIModels())
+                            ->options(fn () => \Wave\Plugins\ContractRO\Models\Setting::getAvailableAIModels())
                             ->hint('Select one or more models. Users will be able to choose from these models.')
-                            ->helperText('Select which AI models users on this plan can access for lead analysis. Models list is synced from EvenLeads settings.')
+                            ->helperText('Select which AI models users on this plan can access for lead analysis. Models list is synced from ContractRO settings.')
                             ->columnSpanFull(),
                     ]),
             ]);
@@ -243,7 +243,7 @@ class PlanResource extends Resource
                                 Notification::make()
                                     ->warning()
                                     ->title('Stripe Not Configured')
-                                    ->body('Please configure Stripe API credentials in EvenLeads settings first.')
+                                    ->body('Please configure Stripe API credentials in ContractRO settings first.')
                                     ->send();
                                 return;
                             }
@@ -292,7 +292,7 @@ class PlanResource extends Resource
                                 Notification::make()
                                     ->warning()
                                     ->title('Stripe Not Configured')
-                                    ->body('Please configure Stripe API credentials in EvenLeads settings first.')
+                                    ->body('Please configure Stripe API credentials in ContractRO settings first.')
                                     ->send();
                                 return;
                             }

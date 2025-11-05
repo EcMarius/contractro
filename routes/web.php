@@ -94,7 +94,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         $seats = request()->get('seats', 1);
         $seats = max(1, min(50, (int) $seats)); // Ensure seats is between 1 and 50
 
-        // Use StripeService to get correct credentials (respects test/live mode from EvenLeads settings)
+        // Use StripeService to get correct credentials (respects test/live mode from ContractRO settings)
         $stripeService = app(\App\Services\StripeService::class);
 
         \Log::info('Stripe configured check', ['is_configured' => $stripeService->isConfigured()]);
@@ -141,8 +141,8 @@ Route::middleware(['web', 'auth'])->group(function () {
 
         // Add trial period if user doesn't have a subscription and hasn't used trial
         $user = auth()->user();
-        $trialDays = (int) \Wave\Plugins\EvenLeads\Models\Setting::getValue('trial_days', 7);
-        $defaultTrialPlanId = \Wave\Plugins\EvenLeads\Models\Setting::getValue('trial_plan_id', null);
+        $trialDays = (int) \Wave\Plugins\ContractRO\Models\Setting::getValue('trial_days', 7);
+        $defaultTrialPlanId = \Wave\Plugins\ContractRO\Models\Setting::getValue('trial_plan_id', null);
 
         \Log::info('Trial check', [
             'trial_days' => $trialDays,

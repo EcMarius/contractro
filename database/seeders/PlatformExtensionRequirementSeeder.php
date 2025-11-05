@@ -21,7 +21,7 @@ class PlatformExtensionRequirementSeeder extends Seeder
         ];
 
         foreach ($platformsRequiringExtension as $platformName) {
-            DB::table('evenleads_platforms')
+            DB::table('contractro_platforms')
                 ->where('name', $platformName)
                 ->update([
                     'requires_extension_sync' => true,

@@ -13,7 +13,7 @@ class FooterDescriptionSeeder extends Seeder
             ['key' => 'site.footer_description'],
             [
                 'display_name' => 'Footer Description',
-                'value' => 'EvenLeads is an AI-powered lead generation platform that automatically discovers qualified prospects from Reddit, Twitter/X, Facebook, and LinkedIn. Find customers actively seeking your services before your competitors do.',
+                'value' => 'ContractRO is an AI-powered lead generation platform that automatically discovers qualified prospects from Reddit, Twitter/X, Facebook, and LinkedIn. Find customers actively seeking your services before your competitors do.',
                 'details' => 'SEO-optimized description text displayed in the footer under the logo',
                 'type' => 'textarea',
                 'order' => 16,

@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Wave\Plugins\EvenLeads\Models\Campaign;
+use Wave\Plugins\ContractRO\Models\Campaign;
 use Illuminate\Support\Collection;
 
 class NewLeadsFoundMail extends Mailable implements ShouldQueue

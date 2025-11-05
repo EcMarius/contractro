@@ -30,7 +30,7 @@ class PlansTableSeeder extends Seeder
                 'currency' => 'EUR',
                 'leads_per_sync' => 20,
                 'custom_properties' => json_encode([
-                    'evenleads' => [
+                    'contractro' => [
                         'manual_syncs_per_month' => 30,
                         'campaigns' => 1,
                         'keywords_per_campaign' => 10,
@@ -63,7 +63,7 @@ class PlansTableSeeder extends Seeder
                 'currency' => 'EUR',
                 'leads_per_sync' => 40,
                 'custom_properties' => json_encode([
-                    'evenleads' => [
+                    'contractro' => [
                         'manual_syncs_per_month' => 50,
                         'campaigns' => 5,
                         'keywords_per_campaign' => 15,
@@ -97,7 +97,7 @@ class PlansTableSeeder extends Seeder
                 'is_seated_plan' => true,
                 'leads_per_sync' => 80,
                 'custom_properties' => json_encode([
-                    'evenleads' => [
+                    'contractro' => [
                         'manual_syncs_per_month' => 100,
                         'campaigns' => 20,
                         'keywords_per_campaign' => 30,
@@ -132,7 +132,7 @@ class PlansTableSeeder extends Seeder
                 'is_on_request' => 1,
                 'leads_per_sync' => 500,
                 'custom_properties' => json_encode([
-                    'evenleads' => [
+                    'contractro' => [
                         'manual_syncs_per_month' => null,
                         'campaigns' => null,
                         'keywords_per_campaign' => null,
@@ -182,7 +182,7 @@ class PlansTableSeeder extends Seeder
                 }
             }
         } else {
-            $this->command->warn('Stripe not configured - skipping Stripe sync. Configure in EvenLeads settings to auto-sync.');
+            $this->command->warn('Stripe not configured - skipping Stripe sync. Configure in ContractRO settings to auto-sync.');
         }
     }
 }

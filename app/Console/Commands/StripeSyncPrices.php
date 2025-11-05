@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Wave\Plan;
-use Wave\Plugins\EvenLeads\Models\Setting;
+use Wave\Plugins\ContractRO\Models\Setting;
 use Illuminate\Support\Facades\Http;
 
 class StripeSyncPrices extends Command
@@ -59,7 +59,7 @@ class StripeSyncPrices extends Command
             $this->error("❌ Stripe {$mode} secret key not configured!");
             $this->newLine();
             $this->warn("Current mode setting: " . strtoupper($mode));
-            $this->info("Please configure Stripe credentials in Admin → EvenLeads Settings");
+            $this->info("Please configure Stripe credentials in Admin → ContractRO Settings");
             $this->newLine();
             $this->comment("Tip: Change mode in settings or use --test flag to force test mode");
             return 1;

@@ -1,5 +1,5 @@
 @php
-    use Wave\Plugins\EvenLeads\Models\Setting;
+    use Wave\Plugins\ContractRO\Models\Setting;
     use Wave\Plan;
 
     $trialDays = Setting::getValue('trial_days', 7);
@@ -14,7 +14,7 @@
                 Calculate Your Return on Investment
             </h2>
             <p class="text-lg text-zinc-600 max-w-3xl mx-auto">
-                See how EvenLeads transforms your lead generation into measurable revenue.
+                See how ContractRO transforms your lead generation into measurable revenue.
             </p>
         </div>
 

@@ -1,6 +1,6 @@
 @php
-    use Wave\Plugins\EvenLeads\Models\Setting;
-    use Wave\Plugins\EvenLeads\Models\Platform;
+    use Wave\Plugins\ContractRO\Models\Setting;
+    use Wave\Plugins\ContractRO\Models\Platform;
     use Wave\Plan;
 
     $trialDays = Setting::getValue('trial_days', 7);
@@ -25,7 +25,7 @@
 <div class="w-full max-w-7xl mx-auto">
     <div class="text-center mb-12">
         <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-            Why Choose EvenLeads?
+            Why Choose ContractRO?
         </h2>
         <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
             See how we compare to other lead generation tools
@@ -39,7 +39,7 @@
                     <th class="px-6 py-4 text-left text-sm font-semibold text-white">Feature</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-white">
                         <div class="flex flex-col items-center">
-                            <span class="text-lg font-bold">EvenLeads</span>
+                            <span class="text-lg font-bold">ContractRO</span>
                             <span class="text-xs font-normal opacity-90">You're here!</span>
                         </div>
                     </th>
@@ -385,7 +385,7 @@
 
     <div class="mt-12 text-center">
         <a href="{{ route('register') }}" class="inline-flex items-center gap-2 px-6 py-3 text-base font-semibold text-white bg-zinc-900 rounded-lg transition-opacity hover:opacity-90">
-            Try EvenLeads Free for {{ $trialDays }} Days
+            Try ContractRO Free for {{ $trialDays }} Days
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>

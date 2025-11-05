@@ -5,7 +5,7 @@
 
 <x-layouts.marketing
     :seo="[
-        'title' => 'Pricing - EvenLeads',
+        'title' => 'Pricing - ContractRO',
         'description' => 'Choose the perfect plan for your lead generation needs. Start with a free trial, no credit card required.',
     ]"
 >

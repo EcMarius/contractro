@@ -12,9 +12,9 @@ class PlatformCommunicationSettingsSeeder extends Seeder
      */
     public function run(): void
     {
-        // Check if evenleads_platforms table exists
-        if (!DB::getSchemaBuilder()->hasTable('evenleads_platforms')) {
-            $this->command->warn('Table evenleads_platforms does not exist. Skipping PlatformCommunicationSettingsSeeder.');
+        // Check if contractro_platforms table exists
+        if (!DB::getSchemaBuilder()->hasTable('contractro_platforms')) {
+            $this->command->warn('Table contractro_platforms does not exist. Skipping PlatformCommunicationSettingsSeeder.');
             return;
         }
 
@@ -40,7 +40,7 @@ class PlatformCommunicationSettingsSeeder extends Seeder
 
         foreach ($platformSettings as $platformName => $settings) {
             // Get the platform
-            $platform = DB::table('evenleads_platforms')
+            $platform = DB::table('contractro_platforms')
                 ->where('name', $platformName)
                 ->first();
 
@@ -62,7 +62,7 @@ class PlatformCommunicationSettingsSeeder extends Seeder
             $pluginConfig['apify']['allow_comments'] = $settings['allow_comments'];
 
             // Update the platform
-            DB::table('evenleads_platforms')
+            DB::table('contractro_platforms')
                 ->where('name', $platformName)
                 ->update([
                     'plugin_config' => json_encode($pluginConfig),

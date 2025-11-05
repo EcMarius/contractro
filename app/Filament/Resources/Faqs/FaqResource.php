@@ -41,7 +41,7 @@ class FaqResource extends Resource
                 Textarea::make('question')
                     ->required()
                     ->rows(3)
-                    ->placeholder('What is EvenLeads?')
+                    ->placeholder('What is ContractRO?')
                     ->helperText('The frequently asked question')
                     ->columnSpanFull(),
 

@@ -3,7 +3,7 @@
 
 Hi {{ $feedback->user->name }},
 
-Thank you for taking the time to share your feedback with us! Your input is invaluable in helping us improve EvenLeads.
+Thank you for taking the time to share your feedback with us! Your input is invaluable in helping us improve ContractRO.
 
 **Your Feedback:**
 - **Type:** {{ ucfirst(str_replace('_', ' ', $feedback->type)) }}

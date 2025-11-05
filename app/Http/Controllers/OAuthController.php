@@ -56,12 +56,12 @@ class OAuthController extends Controller
         // Define client applications and their permissions
         $clients = [
             'browser-extension' => [
-                'name' => 'EvenLeads Browser Extension',
+                'name' => 'ContractRO Browser Extension',
                 'description' => 'Collect and manage leads from across the web',
                 'icon' => '/images/extension-icon.png',
             ],
             'mobile-app' => [
-                'name' => 'EvenLeads Mobile App',
+                'name' => 'ContractRO Mobile App',
                 'description' => 'Manage your leads on the go',
                 'icon' => '/images/mobile-icon.png',
             ],

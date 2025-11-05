@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable('evenleads_platforms')) {
-            Schema::table('evenleads_platforms', function (Blueprint $table) {
-                if (!Schema::hasColumn('evenleads_platforms', 'require_group_selection')) {
+        if (Schema::hasTable('contractro_platforms')) {
+            Schema::table('contractro_platforms', function (Blueprint $table) {
+                if (!Schema::hasColumn('contractro_platforms', 'require_group_selection')) {
                     $table->boolean('require_group_selection')->default(false)->after('allow_group_selection');
                 }
             });
@@ -25,9 +25,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasTable('evenleads_platforms')) {
-            Schema::table('evenleads_platforms', function (Blueprint $table) {
-                if (Schema::hasColumn('evenleads_platforms', 'require_group_selection')) {
+        if (Schema::hasTable('contractro_platforms')) {
+            Schema::table('contractro_platforms', function (Blueprint $table) {
+                if (Schema::hasColumn('contractro_platforms', 'require_group_selection')) {
                     $table->dropColumn('require_group_selection');
                 }
             });

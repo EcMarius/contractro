@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('evenleads_campaigns', function (Blueprint $table) {
+        Schema::table('contractro_campaigns', function (Blueprint $table) {
             $table->boolean('follow_up_enabled')->default(false)->after('include_call_to_action');
             $table->integer('follow_up_days')->default(3)->after('follow_up_enabled');
             $table->string('follow_up_mode')->default('ai')->after('follow_up_days')->comment('ai or template');
@@ -24,7 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('evenleads_campaigns', function (Blueprint $table) {
+        Schema::table('contractro_campaigns', function (Blueprint $table) {
             $table->dropColumn([
                 'follow_up_enabled',
                 'follow_up_days',

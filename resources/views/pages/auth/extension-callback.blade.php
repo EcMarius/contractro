@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EvenLeads - Authentication</title>
+    <title>ContractRO - Authentication</title>
     @vite(['resources/css/app.css'])
     <style>
         body {
@@ -107,7 +107,7 @@
                 };
 
                 // Use a special key that the extension will look for
-                localStorage.setItem('evenleads_extension_auth', JSON.stringify(authData));
+                localStorage.setItem('contractro_extension_auth', JSON.stringify(authData));
 
                 // Also try to post message to opener (if extension opened this window)
                 if (window.opener) {
@@ -121,7 +121,7 @@
                 loadingState.classList.add('hidden');
                 successState.classList.remove('hidden');
                 successMessage.textContent = isNewUser
-                    ? 'Welcome to EvenLeads! This window will close automatically.'
+                    ? 'Welcome to ContractRO! This window will close automatically.'
                     : 'Welcome back! This window will close automatically.';
 
                 // Auto-close after 1 second

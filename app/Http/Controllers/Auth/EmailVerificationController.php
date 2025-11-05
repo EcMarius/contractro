@@ -122,7 +122,7 @@ class EmailVerificationController
         ]);
 
         return redirect($redirectRoute)
-            ->with('success', 'Email verified successfully! Welcome to EvenLeads.')
+            ->with('success', 'Email verified successfully! Welcome to ContractRO.')
             ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     }
 }

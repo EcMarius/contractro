@@ -15,13 +15,13 @@ class UsersTableSeeder extends Seeder
     {
         // Use updateOrCreate for idempotency
         $user = User::updateOrCreate(
-            ['email' => 'contact@evenleads.com'],
+            ['email' => 'contact@contractro.com'],
             [
                 'id' => 1,
-                'name' => 'EvenLeads Admin',
+                'name' => 'ContractRO Admin',
                 'username' => 'contact',
                 'avatar' => 'demo/default.png',
-                'password' => bcrypt('CoEvenLeads1!@aA'),
+                'password' => bcrypt('CoContractRO1!@aA'),
                 'remember_token' => null,
                 'trial_ends_at' => null,
                 'verification_code' => null,

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Authorize {{ $client['name'] }} - EvenLeads</title>
+    <title>Authorize {{ $client['name'] }} - ContractRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
@@ -36,7 +36,7 @@
                         <!-- Arrow -->
                         <x-phosphor-arrow-right class="w-6 h-6 text-zinc-400" />
 
-                        <!-- EvenLeads Logo -->
+                        <!-- ContractRO Logo -->
                         @php
                             $logoPath = setting('site.logo');
                             $logoUrl = null;
@@ -51,7 +51,7 @@
                             }
                         @endphp
                         @if($logoUrl)
-                            <img src="{{ $logoUrl }}" alt="EvenLeads" class="h-12 w-auto" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="{{ $logoUrl }}" alt="ContractRO" class="h-12 w-auto" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="w-12 h-12 bg-zinc-900 dark:bg-white rounded-lg flex items-center justify-center" style="display:none;">
                                 <span class="text-white dark:text-zinc-900 font-bold text-xl">1L</span>
                             </div>
@@ -184,7 +184,7 @@
 
                         <button
                             type="button"
-                            @click="denying = true; $refs.consentForm.querySelector('input[name=action]').value = 'deny'; localStorage.setItem('evenleads_auth_denied', Date.now().toString()); $refs.consentForm.submit();"
+                            @click="denying = true; $refs.consentForm.querySelector('input[name=action]').value = 'deny'; localStorage.setItem('contractro_auth_denied', Date.now().toString()); $refs.consentForm.submit();"
                             :disabled="approving || denying"
                             class="w-full px-6 py-3 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-2 border-zinc-200 dark:border-zinc-700 rounded-lg font-medium hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
@@ -208,7 +208,7 @@
             <div class="mt-4 text-center">
                 <a href="{{ route('home') }}" class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white inline-flex items-center gap-1">
                     <x-phosphor-arrow-left class="w-4 h-4" />
-                    Back to EvenLeads
+                    Back to ContractRO
                 </a>
             </div>
         </div>
@@ -235,14 +235,14 @@
                     window.Alpine && Alpine.store && (Alpine.store('approving', true));
                 } else if (action === 'deny') {
                     window.Alpine && Alpine.store && (Alpine.store('denying', true));
-                    localStorage.setItem('evenleads_auth_denied', Date.now().toString());
+                    localStorage.setItem('contractro_auth_denied', Date.now().toString());
                 }
             });
         }
 
         // Notify extension when window is closing
         window.addEventListener('beforeunload', function() {
-            localStorage.setItem('evenleads_auth_closed', Date.now().toString());
+            localStorage.setItem('contractro_auth_closed', Date.now().toString());
         });
 
         // Debug: Check if form and buttons exist

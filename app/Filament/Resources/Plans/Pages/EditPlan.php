@@ -29,7 +29,7 @@ class EditPlan extends EditRecord
                             Notification::make()
                                 ->warning()
                                 ->title('Stripe Not Configured')
-                                ->body('Please configure Stripe API credentials in EvenLeads settings first.')
+                                ->body('Please configure Stripe API credentials in ContractRO settings first.')
                                 ->send();
                             return;
                         }
@@ -76,7 +76,7 @@ class EditPlan extends EditRecord
                             Notification::make()
                                 ->warning()
                                 ->title('Stripe Not Configured')
-                                ->body('Please configure Stripe API credentials in EvenLeads settings first.')
+                                ->body('Please configure Stripe API credentials in ContractRO settings first.')
                                 ->send();
                             return;
                         }
@@ -131,7 +131,7 @@ class EditPlan extends EditRecord
             $data['features'] = json_decode($data['features'], true) ?? [];
         }
 
-        // Ensure custom_properties are properly set for EvenLeads limits
+        // Ensure custom_properties are properly set for ContractRO limits
         if (isset($data['custom_properties'])) {
             if (is_string($data['custom_properties'])) {
                 $data['custom_properties'] = json_decode($data['custom_properties'], true) ?? [];
@@ -140,17 +140,17 @@ class EditPlan extends EditRecord
             $data['custom_properties'] = [];
         }
 
-        // IMPORTANT: Ensure evenleads key exists
-        if (!isset($data['custom_properties']['evenleads'])) {
-            $data['custom_properties']['evenleads'] = [];
+        // IMPORTANT: Ensure contractro key exists
+        if (!isset($data['custom_properties']['contractro'])) {
+            $data['custom_properties']['contractro'] = [];
         }
 
         // Map database column to form field for backward compatibility
         if (isset($data['leads_per_sync'])) {
-            $data['custom_properties']['evenleads']['leads_per_sync'] = $data['leads_per_sync'];
+            $data['custom_properties']['contractro']['leads_per_sync'] = $data['leads_per_sync'];
         }
 
-        // Set defaults for all EvenLeads fields to ensure they show in form
+        // Set defaults for all ContractRO fields to ensure they show in form
         $defaults = [
             'campaigns' => -1,
             'keywords_per_campaign' => -1,
@@ -165,7 +165,7 @@ class EditPlan extends EditRecord
         ];
 
         // Merge defaults with existing values (existing values take precedence)
-        $data['custom_properties']['evenleads'] = array_merge($defaults, $data['custom_properties']['evenleads'] ?? []);
+        $data['custom_properties']['contractro'] = array_merge($defaults, $data['custom_properties']['contractro'] ?? []);
 
         return $data;
     }
@@ -173,8 +173,8 @@ class EditPlan extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         // Sync leads_per_sync from custom_properties to the database column for backward compatibility
-        if (isset($data['custom_properties']['evenleads']['leads_per_sync'])) {
-            $data['leads_per_sync'] = $data['custom_properties']['evenleads']['leads_per_sync'];
+        if (isset($data['custom_properties']['contractro']['leads_per_sync'])) {
+            $data['leads_per_sync'] = $data['custom_properties']['contractro']['leads_per_sync'];
         }
 
         return $data;

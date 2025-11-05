@@ -89,7 +89,7 @@
                                     <span>{{ $menuItem['label'] }}</span>
                                     @if(isset($menuItem['badge']))
                                         @if($menuItem['label'] === 'Leads')
-                                            @livewire('evenleads-new-leads-badge')
+                                            @livewire('contractro-new-leads-badge')
                                         @else
                                             <span class="ml-2 text-xs px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
                                                 {{ is_callable($menuItem['badge']) ? ($menuItem['badge'])() : $menuItem['badge'] }}

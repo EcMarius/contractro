@@ -14,16 +14,16 @@ return new class extends Migration
     {
         // Check if the setting already exists
         $exists = DB::table('settings')
-            ->where('key', 'evenleads_enable_portfolio')
+            ->where('key', 'contractro_enable_portfolio')
             ->exists();
 
         if (!$exists) {
             DB::table('settings')->insert([
-                'key' => 'evenleads_enable_portfolio',
+                'key' => 'contractro_enable_portfolio',
                 'display_name' => 'Enable Portfolio Field in Campaigns',
                 'value' => '0', // Disabled by default
                 'type' => 'checkbox',
-                'group' => 'evenleads',
+                'group' => 'contractro',
                 'details' => json_encode([
                     'description' => 'Enable the portfolio file upload field in campaign creation and editing forms. When disabled, users will not see or be able to upload portfolio files.',
                     'on' => '1',
@@ -44,7 +44,7 @@ return new class extends Migration
     {
         // Remove the setting
         DB::table('settings')
-            ->where('key', 'evenleads_enable_portfolio')
+            ->where('key', 'contractro_enable_portfolio')
             ->delete();
     }
 };

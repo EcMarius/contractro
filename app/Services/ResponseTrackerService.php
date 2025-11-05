@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use Wave\Plugins\EvenLeads\Models\Lead;
-use Wave\Plugins\EvenLeads\Services\RedditService;
-use Wave\Plugins\EvenLeads\Services\XService;
+use Wave\Plugins\ContractRO\Models\Lead;
+use Wave\Plugins\ContractRO\Services\RedditService;
+use Wave\Plugins\ContractRO\Services\XService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
@@ -192,7 +192,7 @@ class ResponseTrackerService
             }
 
             // Get the user's X connection
-            $connection = \Wave\Plugins\EvenLeads\Models\PlatformConnection::where('user_id', $user->id)
+            $connection = \Wave\Plugins\ContractRO\Models\PlatformConnection::where('user_id', $user->id)
                 ->where('platform', 'x')
                 ->where('status', 'active')
                 ->first();

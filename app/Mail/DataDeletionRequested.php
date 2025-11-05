@@ -26,7 +26,7 @@ class DataDeletionRequested extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Data Deletion Request Received - EvenLeads',
+            subject: 'Data Deletion Request Received - ContractRO',
         );
     }
 

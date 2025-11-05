@@ -20,11 +20,11 @@
                     $user = auth()->user();
                     $stats = [];
                     try {
-                        $leadCount = \Wave\Plugins\EvenLeads\Models\Lead::whereHas('campaign', function($q) use ($user) {
+                        $leadCount = \Wave\Plugins\ContractRO\Models\Lead::whereHas('campaign', function($q) use ($user) {
                             $q->where('user_id', $user->id);
                         })->count();
-                        $campaignCount = \Wave\Plugins\EvenLeads\Models\Campaign::where('user_id', $user->id)->count();
-                        $contactedLeads = \Wave\Plugins\EvenLeads\Models\Lead::whereHas('campaign', function($q) use ($user) {
+                        $campaignCount = \Wave\Plugins\ContractRO\Models\Campaign::where('user_id', $user->id)->count();
+                        $contactedLeads = \Wave\Plugins\ContractRO\Models\Lead::whereHas('campaign', function($q) use ($user) {
                             $q->where('user_id', $user->id);
                         })->where('status', 'contacted')->count();
                         $stats = [
@@ -39,7 +39,7 @@
 
                 @if($stats['leads'] > 0)
                     <div class="inline-flex flex-col items-center px-8 py-4 bg-white dark:bg-zinc-800 rounded-xl border-2 border-zinc-200 dark:border-zinc-700 shadow-lg">
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Your EvenLeads Stats</div>
+                        <div class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Your ContractRO Stats</div>
                         <div class="flex items-center gap-6">
                             <div class="text-center">
                                 <div class="text-3xl font-bold text-blue-600 dark:text-blue-400">{{ $stats['leads'] }}</div>
@@ -66,7 +66,7 @@
             {{-- Why Renew Section --}}
             <div class="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl p-8 md:p-10 mb-8 border border-zinc-200 dark:border-zinc-700">
                 <h2 class="text-2xl font-bold text-zinc-900 dark:text-white mb-6 text-center">
-                    Why Thousands of Businesses Trust EvenLeads
+                    Why Thousands of Businesses Trust ContractRO
                 </h2>
 
                 <div class="grid md:grid-cols-2 gap-6 mb-8">
@@ -180,7 +180,7 @@
             {{-- Footer --}}
             <div class="text-center">
                 <p class="text-sm text-zinc-600 dark:text-zinc-400">
-                    Need help? <a href="mailto:support@evenleads.com" class="text-blue-600 dark:text-blue-400 hover:underline">Contact our support team</a>
+                    Need help? <a href="mailto:support@contractro.com" class="text-blue-600 dark:text-blue-400 hover:underline">Contact our support team</a>
                 </p>
             </div>
         </div>

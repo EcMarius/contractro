@@ -15,7 +15,7 @@ class PostsTableSeeder extends Seeder
         // Delete all existing posts first
         DB::table('posts')->delete();
 
-        // Insert new EvenLeads-focused blog posts
+        // Insert new ContractRO-focused blog posts
         $posts = [
             // MARKETING CATEGORY - Article 1
             0 => [
@@ -186,7 +186,7 @@ class PostsTableSeeder extends Seeder
 
 <p>Start by identifying 3-5 relevant subreddits, spend time understanding each community\'s culture, and commit to providing value before asking for anything in return. Track your results, refine your approach, and gradually scale what works.</p>
 
-<p>If you\'re looking to streamline your Reddit prospecting process and focus on the most promising opportunities, platforms like <strong>EvenLeads</strong> can help you monitor multiple subreddits simultaneously, identify high-intent leads based on specific keywords, and never miss valuable conversations. <a href="/pricing">Learn more about automating your lead generation workflow</a>.</p>',
+<p>If you\'re looking to streamline your Reddit prospecting process and focus on the most promising opportunities, platforms like <strong>ContractRO</strong> can help you monitor multiple subreddits simultaneously, identify high-intent leads based on specific keywords, and never miss valuable conversations. <a href="/pricing">Learn more about automating your lead generation workflow</a>.</p>',
                 'image' => 'demo/post-market.jpg',
                 'slug' => 'how-to-find-qualified-leads-on-reddit-complete-guide',
                 'meta_description' => 'Master Reddit lead generation in 2025. Learn proven strategies to find qualified B2B leads, engage authentically, and convert Reddit discussions into customers.',
@@ -441,7 +441,7 @@ class PostsTableSeeder extends Seeder
 
 <p>Then, commit to showing up consistently on 2-3 platforms for 90 days. Track your results. Refine your approach. Add additional platforms only once you\'ve established a rhythm on your initial choices.</p>
 
-<p>If managing multiple platforms and monitoring conversations across LinkedIn, Reddit, X, and Facebook feels overwhelming, tools like <strong>EvenLeads</strong> can help you monitor up to 20 accounts across multiple platforms, track relevant keywords in real-time, and never miss opportunities to engage with high-intent prospects. <a href="/pricing">Explore how to streamline your multi-platform lead generation</a>.</p>',
+<p>If managing multiple platforms and monitoring conversations across LinkedIn, Reddit, X, and Facebook feels overwhelming, tools like <strong>ContractRO</strong> can help you monitor up to 20 accounts across multiple platforms, track relevant keywords in real-time, and never miss opportunities to engage with high-intent prospects. <a href="/pricing">Explore how to streamline your multi-platform lead generation</a>.</p>',
                 'image' => 'demo/post-dreams.jpg',
                 'slug' => 'multi-platform-lead-generation-linkedin-reddit-twitter-strategy',
                 'meta_description' => 'Discover why multi-platform lead generation beats single-channel strategies. Learn to leverage LinkedIn, Reddit, X, and Facebook for 3x more qualified B2B leads.',
@@ -682,7 +682,7 @@ class PostsTableSeeder extends Seeder
 
 <p>Start today with the 14-day warmup strategy. Subscribe to relevant communities, begin genuine engagement, and resist any temptation to promote too early. Your future self (and your conversion rates) will thank you.</p>
 
-<p>If you\'re planning to use multiple Reddit accounts for different product lines or to scale your engagement, remember that each account needs its own warmup period. Managing this process manually across multiple accounts can be time-consuming, which is where tools like <strong>EvenLeads</strong> can help by tracking your engagement patterns and ensuring each account builds credibility systematically. <a href="/pricing">Learn more about managing multi-account Reddit strategies</a>.</p>',
+<p>If you\'re planning to use multiple Reddit accounts for different product lines or to scale your engagement, remember that each account needs its own warmup period. Managing this process manually across multiple accounts can be time-consuming, which is where tools like <strong>ContractRO</strong> can help by tracking your engagement patterns and ensuring each account builds credibility systematically. <a href="/pricing">Learn more about managing multi-account Reddit strategies</a>.</p>',
                 'image' => 'demo/post-foundation.jpg',
                 'slug' => 'reddit-account-warmup-guide-build-credibility',
                 'meta_description' => 'Master the 14-day Reddit account warmup strategy. Learn to build karma, establish credibility, and avoid spam flags before business engagement on Reddit.',
@@ -708,7 +708,7 @@ class PostsTableSeeder extends Seeder
 <p><img src="/storage/demo/post-solution.jpg" alt="B2B SEO strategy" /></p>
 <h2>Conversion-Focused Content Strategy</h2>
 <p>Content placeholder - use AI to generate content about creating content that converts visitors to leads.</p>
-<p>Ready to implement SEO strategies that actually generate leads? <a href="/pricing">Start with EvenLeads today</a>.</p>',
+<p>Ready to implement SEO strategies that actually generate leads? <a href="/pricing">Start with ContractRO today</a>.</p>',
                 'image' => 'demo/post-solution.jpg',
                 'slug' => 'b2b-seo-lead-generation-buyer-intent-keywords',
                 'meta_description' => 'Learn B2B SEO strategies that convert. Discover how to rank for buyer intent keywords and turn organic search traffic into qualified sales opportunities.',
@@ -736,7 +736,7 @@ class PostsTableSeeder extends Seeder
 <p>Content placeholder - use AI to generate content about effective keyword monitoring approaches.</p>
 <h2>Automation and Scaling</h2>
 <p>Content placeholder - use AI to generate content about automating social listening workflows.</p>
-<p>Transform conversations into customers with strategic social listening. <a href="/pricing">Explore EvenLeads</a>.</p>',
+<p>Transform conversations into customers with strategic social listening. <a href="/pricing">Explore ContractRO</a>.</p>',
                 'image' => 'demo/post-useful.jpg',
                 'slug' => 'social-listening-lead-generation-strategy-guide',
                 'meta_description' => 'Master social listening for lead generation. Learn to monitor conversations, identify buying signals, and convert social mentions into qualified B2B opportunities.',
@@ -764,7 +764,7 @@ class PostsTableSeeder extends Seeder
 <p>Content placeholder - use AI to generate content about nurturing leads through email sequences.</p>
 <h2>Measurement and Optimization</h2>
 <p>Content placeholder - use AI to generate content about tracking and improving lead gen performance.</p>
-<p>Ready to turn your content into a lead generation engine? <a href="/pricing">Try EvenLeads</a>.</p>',
+<p>Ready to turn your content into a lead generation engine? <a href="/pricing">Try ContractRO</a>.</p>',
                 'image' => 'demo/post-never-stop.jpg',
                 'slug' => 'content-marketing-lead-generation-strategy',
                 'meta_description' => 'Turn blog traffic into sales opportunities. Master content marketing strategies that generate qualified leads through strategic CTAs, lead magnets, and nurture campaigns.',

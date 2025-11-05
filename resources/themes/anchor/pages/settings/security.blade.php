@@ -213,7 +213,7 @@
                                                 <strong>Confirmation Code:</strong> <code class="px-2 py-1 bg-red-200 dark:bg-red-800 rounded font-mono text-xs">{{ $pendingDeletion->confirmation_code }}</code>
                                             </p>
                                             <p class="text-sm text-red-800 dark:text-red-300">
-                                                <strong>To cancel:</strong> Email <a href="mailto:contact@evenleads.com" class="underline font-semibold hover:text-red-900 dark:hover:text-red-100">contact@evenleads.com</a> with your confirmation code.
+                                                <strong>To cancel:</strong> Email <a href="mailto:contact@contractro.com" class="underline font-semibold hover:text-red-900 dark:hover:text-red-100">contact@contractro.com</a> with your confirmation code.
                                             </p>
                                         </div>
                                     </div>

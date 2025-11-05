@@ -14,8 +14,8 @@ class CreatePlan extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // Sync leads_per_sync from custom_properties to the database column for backward compatibility
-        if (isset($data['custom_properties']['evenleads']['leads_per_sync'])) {
-            $data['leads_per_sync'] = $data['custom_properties']['evenleads']['leads_per_sync'];
+        if (isset($data['custom_properties']['contractro']['leads_per_sync'])) {
+            $data['leads_per_sync'] = $data['custom_properties']['contractro']['leads_per_sync'];
         }
 
         return $data;

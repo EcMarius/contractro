@@ -18,7 +18,7 @@ class SettingsTableSeeder extends Seeder
                 'id' => 1,
                 'key' => 'site.title',
                 'display_name' => 'Site Title',
-                'value' => 'EvenLeads',
+                'value' => 'ContractRO',
                 'details' => '',
                 'type' => 'text',
                 'order' => 1,
@@ -273,7 +273,7 @@ class SettingsTableSeeder extends Seeder
 <p><strong>Effective Date:</strong> January 1, 2025<br>
 <strong>Last Updated:</strong> January 1, 2025</p>
 
-<p>{{ company_name }} ("we," "us," or "our") operates the EvenLeads platform (the "Service"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Service.</p>
+<p>{{ company_name }} ("we," "us," or "our") operates the ContractRO platform (the "Service"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Service.</p>
 
 <h2>1. Information We Collect</h2>
 
@@ -477,7 +477,7 @@ Email: {{ company_email }}</p>
 
 <hr>
 
-<p><em>This Privacy Policy is designed to comply with GDPR, CCPA, and other applicable data protection laws. By using EvenLeads, you acknowledge that you have read and understood this Privacy Policy.</em></p>',
+<p><em>This Privacy Policy is designed to comply with GDPR, CCPA, and other applicable data protection laws. By using ContractRO, you acknowledge that you have read and understood this Privacy Policy.</em></p>',
                 'details' => 'Privacy policy content (HTML)',
                 'type' => 'rich_text',
                 'order' => 1,
@@ -488,7 +488,7 @@ Email: {{ company_email }}</p>
                 'id' => 28,
                 'key' => 'site.footer_description',
                 'display_name' => 'Footer Description',
-                'value' => 'EvenLeads helps you find and manage leads from social media platforms with AI-powered intelligence.',
+                'value' => 'ContractRO helps you find and manage leads from social media platforms with AI-powered intelligence.',
                 'details' => 'Description text displayed in the footer under the logo',
                 'type' => 'textarea',
                 'order' => 16,

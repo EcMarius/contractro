@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EvenLeads - Authentication Success</title>
+    <title>ContractRO - Authentication Success</title>
     <style>
         * {
             margin: 0;
@@ -199,7 +199,7 @@
                 </svg>
             </div>
             <h1 class="success">Authentication Successful!</h1>
-            <p>You can now use EvenLeads extension to collect and manage leads.</p>
+            <p>You can now use ContractRO extension to collect and manage leads.</p>
 
             @if(isset($user))
             <div class="user-info">
@@ -263,7 +263,7 @@
                     timestamp: Date.now()
                 };
 
-                localStorage.setItem('evenleads_extension_auth', JSON.stringify(authData));
+                localStorage.setItem('contractro_extension_auth', JSON.stringify(authData));
 
                 // Send message to opener window (the extension opened this popup)
                 if (window.opener && !window.opener.closed) {
@@ -343,7 +343,7 @@
 
         // Handle beforeunload to notify extension
         window.addEventListener('beforeunload', function() {
-            localStorage.setItem('evenleads_auth_closed', Date.now().toString());
+            localStorage.setItem('contractro_auth_closed', Date.now().toString());
         });
     </script>
 </body>

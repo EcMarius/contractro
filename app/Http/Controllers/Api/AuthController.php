@@ -143,8 +143,8 @@ class AuthController extends Controller
             ]);
         }
 
-        // Extract EvenLeads plan limits from custom_properties (direct JSON decode)
-        $evenleadsProps = $subscription->plan ? (json_decode($subscription->plan->custom_properties, true)['evenleads'] ?? []) : [];
+        // Extract ContractRO plan limits from custom_properties (direct JSON decode)
+        $contractroProps = $subscription->plan ? (json_decode($subscription->plan->custom_properties, true)['contractro'] ?? []) : [];
 
         // Get usage stats (same logic as validatePlan)
         $campaignsUsed = $user->campaigns()->count();
@@ -152,7 +152,7 @@ class AuthController extends Controller
             ->where('created_at', '>=', now()->startOfMonth())
             ->where('sync_type', 'manual')
             ->count();
-        $leadsUsed = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)->count();
+        $leadsUsed = \Wave\Plugins\ContractRO\Models\Lead::where('user_id', $user->id)->count();
 
         // AI replies - use App\Models namespace
         $aiRepliesUsed = \App\Models\LeadMessage::where('user_id', $user->id)
@@ -161,8 +161,8 @@ class AuthController extends Controller
             ->count();
 
         // CRM Contacts - check if model exists
-        $crmContactsUsed = class_exists('\Wave\Plugins\EvenLeads\Models\CrmContact')
-            ? \Wave\Plugins\EvenLeads\Models\CrmContact::where('user_id', $user->id)->count()
+        $crmContactsUsed = class_exists('\Wave\Plugins\ContractRO\Models\CrmContact')
+            ? \Wave\Plugins\ContractRO\Models\CrmContact::where('user_id', $user->id)->count()
             : 0;
 
         return response()->json([
@@ -176,12 +176,12 @@ class AuthController extends Controller
                 'id' => $subscription->plan->id,
                 'name' => $subscription->plan->name,
                 'features' => $subscription->plan->features ?? [],
-                'campaigns_limit' => $evenleadsProps['campaigns'] ?? 0,
+                'campaigns_limit' => $contractroProps['campaigns'] ?? 0,
                 'leads_per_sync' => $subscription->plan->leads_per_sync ?? 0,
-                'manual_syncs_limit' => $evenleadsProps['manual_syncs_per_month'] ?? 0,
-                'ai_replies_limit' => $evenleadsProps['ai_replies_per_month'] ?? 0,
-                'crm_contacts_limit' => $evenleadsProps['crm_contacts'] ?? 100,
-                'leads_limit' => $evenleadsProps['leads_storage'] ?? 0,
+                'manual_syncs_limit' => $contractroProps['manual_syncs_per_month'] ?? 0,
+                'ai_replies_limit' => $contractroProps['ai_replies_per_month'] ?? 0,
+                'crm_contacts_limit' => $contractroProps['crm_contacts'] ?? 100,
+                'leads_limit' => $contractroProps['leads_storage'] ?? 0,
                 'active' => $subscription->plan->active ?? false,
             ] : null,
             // Include usage data
@@ -226,8 +226,8 @@ class AuthController extends Controller
         // Check if subscription is active or trialing
         $isValid = in_array($subscription->status, ['active', 'trialing']);
 
-        // Extract EvenLeads plan limits from custom_properties (direct JSON decode)
-        $evenleadsProps = json_decode($subscription->plan->custom_properties, true)['evenleads'] ?? [];
+        // Extract ContractRO plan limits from custom_properties (direct JSON decode)
+        $contractroProps = json_decode($subscription->plan->custom_properties, true)['contractro'] ?? [];
 
         // Get usage stats
         $campaignsUsed = $user->campaigns()->count();
@@ -235,7 +235,7 @@ class AuthController extends Controller
             ->where('created_at', '>=', now()->startOfMonth())
             ->where('sync_type', 'manual')
             ->count();
-        $leadsUsed = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)->count();
+        $leadsUsed = \Wave\Plugins\ContractRO\Models\Lead::where('user_id', $user->id)->count();
 
         // AI replies - use App\Models namespace
         $aiRepliesUsed = \App\Models\LeadMessage::where('user_id', $user->id)
@@ -244,8 +244,8 @@ class AuthController extends Controller
             ->count();
 
         // CRM Contacts - check if model exists
-        $crmContactsUsed = class_exists('\Wave\Plugins\EvenLeads\Models\CrmContact')
-            ? \Wave\Plugins\EvenLeads\Models\CrmContact::where('user_id', $user->id)->count()
+        $crmContactsUsed = class_exists('\Wave\Plugins\ContractRO\Models\CrmContact')
+            ? \Wave\Plugins\ContractRO\Models\CrmContact::where('user_id', $user->id)->count()
             : 0;
 
         return response()->json([
@@ -261,12 +261,12 @@ class AuthController extends Controller
                     'id' => $subscription->plan->id,
                     'name' => $subscription->plan->name,
                     'features' => $subscription->plan->features ?? [],
-                    'campaigns_limit' => $evenleadsProps['campaigns'] ?? 0,
+                    'campaigns_limit' => $contractroProps['campaigns'] ?? 0,
                     'leads_per_sync' => $subscription->plan->leads_per_sync,
-                    'manual_syncs_limit' => $evenleadsProps['manual_syncs_per_month'] ?? 0,
-                    'ai_replies_limit' => $evenleadsProps['ai_replies_per_month'] ?? 0,
-                    'crm_contacts_limit' => $evenleadsProps['crm_contacts'] ?? 100,
-                    'leads_limit' => $evenleadsProps['leads_storage'] ?? 0,
+                    'manual_syncs_limit' => $contractroProps['manual_syncs_per_month'] ?? 0,
+                    'ai_replies_limit' => $contractroProps['ai_replies_per_month'] ?? 0,
+                    'crm_contacts_limit' => $contractroProps['crm_contacts'] ?? 100,
+                    'leads_limit' => $contractroProps['leads_storage'] ?? 0,
                     'active' => $subscription->plan->active ?? false,
                 ],
                 // Include usage data directly in subscription object (matches getSubscription structure)
@@ -279,23 +279,23 @@ class AuthController extends Controller
             'limits' => [
                 'campaigns' => [
                     'used' => $campaignsUsed,
-                    'limit' => $evenleadsProps['campaigns'] ?? 0,
+                    'limit' => $contractroProps['campaigns'] ?? 0,
                 ],
                 'syncs' => [
                     'used' => $syncsUsed,
-                    'limit' => $evenleadsProps['manual_syncs_per_month'] ?? 0,
+                    'limit' => $contractroProps['manual_syncs_per_month'] ?? 0,
                 ],
                 'ai_replies' => [
                     'used' => $aiRepliesUsed,
-                    'limit' => $evenleadsProps['ai_replies_per_month'] ?? 0,
+                    'limit' => $contractroProps['ai_replies_per_month'] ?? 0,
                 ],
                 'leads' => [
                     'used' => $leadsUsed,
-                    'limit' => $evenleadsProps['leads'] ?? 0,
+                    'limit' => $contractroProps['leads'] ?? 0,
                 ],
                 'crm_contacts' => [
                     'used' => $crmContactsUsed,
-                    'limit' => $evenleadsProps['crm_contacts'] ?? 100,
+                    'limit' => $contractroProps['crm_contacts'] ?? 100,
                 ],
             ],
         ]);
@@ -324,23 +324,23 @@ class AuthController extends Controller
         $user = $request->user();
 
         // Get total leads count
-        $totalLeads = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)->count();
+        $totalLeads = \Wave\Plugins\ContractRO\Models\Lead::where('user_id', $user->id)->count();
 
         // Get leads by platform
-        $leadsByPlatform = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)
+        $leadsByPlatform = \Wave\Plugins\ContractRO\Models\Lead::where('user_id', $user->id)
             ->selectRaw('platform, COUNT(*) as count')
             ->groupBy('platform')
             ->pluck('count', 'platform')
             ->toArray();
 
         // Get ALL campaigns count (not just active - user wants to see total campaigns)
-        $activeCampaigns = \Wave\Plugins\EvenLeads\Models\Campaign::where('user_id', $user->id)->count();
+        $activeCampaigns = \Wave\Plugins\ContractRO\Models\Campaign::where('user_id', $user->id)->count();
 
         // Get recent activity with pagination support
         $activityPage = (int) $request->input('activity_page', 1);
         $activityPerPage = min((int) $request->input('activity_per_page', 5), 50); // Default 5, max 50
 
-        $recentActivityQuery = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)
+        $recentActivityQuery = \Wave\Plugins\ContractRO\Models\Lead::where('user_id', $user->id)
             ->with('campaign:id,name')
             ->orderBy('created_at', 'desc');
 

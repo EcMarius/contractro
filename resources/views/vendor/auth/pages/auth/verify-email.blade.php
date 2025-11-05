@@ -73,7 +73,7 @@ new class extends Component
         <!-- Info Message -->
         <div class="mb-6 p-5 bg-zinc-50 border border-zinc-200 rounded-lg">
             <p class="text-sm text-zinc-700 mb-3">
-                Before you can start using EvenLeads and create your first lead generation campaign, we need to verify your email address.
+                Before you can start using ContractRO and create your first lead generation campaign, we need to verify your email address.
             </p>
             <p class="text-sm text-zinc-700">
                 Please check your inbox at <span class="font-semibold">{{ auth()->user()->email }}</span> and click the verification link we sent you.

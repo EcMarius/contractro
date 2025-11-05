@@ -1,8 +1,8 @@
 @php
-    use Wave\Plugins\EvenLeads\Models\Platform;
+    use Wave\Plugins\ContractRO\Models\Platform;
 
     // Get active platforms dynamically
-    $activePlatformsList = Cache::remember('evenleads.active_platforms_list', 3600, function() {
+    $activePlatformsList = Cache::remember('contractro.active_platforms_list', 3600, function() {
         try {
             return Platform::where('is_active', true)->pluck('display_name')->toArray();
         } catch (\Exception $e) {
@@ -19,7 +19,7 @@
     <x-marketing.elements.heading
         level="h2"
         title="Everything You Need to <br> Capture More Leads"
-        description="Stop manually searching for potential customers. EvenLeads automates lead discovery across {{ $platformText }} and helps you engage at the perfect moment."
+        description="Stop manually searching for potential customers. ContractRO automates lead discovery across {{ $platformText }} and helps you engage at the perfect moment."
     />
     <div class="text-center">
         <div class="grid grid-cols-2 gap-x-6 gap-y-12 mt-12 text-center lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">

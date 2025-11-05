@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use Wave\Plugins\EvenLeads\Models\PlatformConnection;
+use Wave\Plugins\ContractRO\Models\PlatformConnection;
 
 class TestRedditPoints extends Command
 {
@@ -36,7 +36,7 @@ class TestRedditPoints extends Command
         try {
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $connection->access_token,
-                'User-Agent' => config('evenleads.reddit.user_agent'),
+                'User-Agent' => config('contractro.reddit.user_agent'),
             ])->get("https://oauth.reddit.com/r/{$subreddit}/new", [
                 'limit' => 1,
             ]);

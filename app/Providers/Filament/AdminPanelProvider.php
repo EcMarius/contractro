@@ -66,7 +66,7 @@ class AdminPanelProvider extends PanelProvider
                 DashboardWidget::class,
             ])
             // Temporarily commented out plugins during transformation to contract platform
-            // ->plugin(\Wave\Plugins\EvenLeads\Filament\EvenLeadsFilamentPlugin::make())
+            // ->plugin(\Wave\Plugins\ContractRO\Filament\ContractROFilamentPlugin::make())
             // ->plugin(\Wave\Plugins\SocialAuth\Filament\SocialAuthFilamentPlugin::make())
             // ->plugin(\Wave\Plugins\KPIs\Filament\KPIsFilamentPlugin::make())
             // ->plugin(\Wave\Plugins\PostHog\Filament\PostHogFilamentPlugin::make())

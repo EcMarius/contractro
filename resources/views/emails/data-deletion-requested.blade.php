@@ -3,7 +3,7 @@
 
 Hello {{ $userName }},
 
-We have received your request to delete your account and all associated data from EvenLeads.
+We have received your request to delete your account and all associated data from ContractRO.
 
 **Confirmation Code:** `{{ $confirmationCode }}`
 **Submitted On:** {{ $createdAt->format('F d, Y \a\t g:i A') }}
@@ -41,7 +41,7 @@ If you submitted this request by mistake or have changed your mind, you can canc
 **To cancel:**
 
 <x-mail::panel>
-Send an email to **contact@evenleads.com** with the following information:
+Send an email to **contact@contractro.com** with the following information:
 
 - **Subject:** Cancel Data Deletion Request
 - **Confirmation Code:** {{ $confirmationCode }}
@@ -52,18 +52,18 @@ We'll cancel your request immediately upon receiving your email.
 
 ## Security Notice
 
-If you did **not** submit this request, please contact us immediately at contact@evenleads.com. Your account security may be compromised.
+If you did **not** submit this request, please contact us immediately at contact@contractro.com. Your account security may be compromised.
 
-<x-mail::button :url="'mailto:contact@evenleads.com?subject=Cancel%20Data%20Deletion%20Request%20' . $confirmationCode">
+<x-mail::button :url="'mailto:contact@contractro.com?subject=Cancel%20Data%20Deletion%20Request%20' . $confirmationCode">
 Contact Support
 </x-mail::button>
 
 ---
 
-**Questions?** Reply to this email or contact us at contact@evenleads.com
+**Questions?** Reply to this email or contact us at contact@contractro.com
 
 Best regards,
-The EvenLeads Team
+The ContractRO Team
 
 ---
 

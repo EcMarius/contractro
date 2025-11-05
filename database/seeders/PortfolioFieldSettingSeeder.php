@@ -13,12 +13,12 @@ class PortfolioFieldSettingSeeder extends Seeder
     public function run(): void
     {
         Setting::updateOrCreate(
-            ['key' => 'evenleads_enable_portfolio'],
+            ['key' => 'contractro_enable_portfolio'],
             [
                 'display_name' => 'Enable Portfolio Field in Campaigns',
                 'value' => '0', // Disabled by default
                 'type' => 'checkbox',
-                'group' => 'evenleads',
+                'group' => 'contractro',
                 'details' => json_encode([
                     'description' => 'Enable the portfolio file upload field in campaign creation and editing forms. When disabled, users will not see or be able to upload portfolio files.',
                     'on' => '1',
@@ -29,6 +29,6 @@ class PortfolioFieldSettingSeeder extends Seeder
             ]
         );
 
-        echo "✓ EvenLeads portfolio field setting created\n";
+        echo "✓ ContractRO portfolio field setting created\n";
     }
 }

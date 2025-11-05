@@ -6,7 +6,7 @@
 
 <x-layouts.marketing
     :seo="[
-        'title' => 'Privacy Policy - EvenLeads',
+        'title' => 'Privacy Policy - ContractRO',
         'description' => 'Our privacy policy explains how we collect, use, and protect your personal information.',
     ]"
 >

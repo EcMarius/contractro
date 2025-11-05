@@ -55,8 +55,8 @@
 
 <x-layouts.marketing
     :seo="[
-        'title' => 'Contact Us - EvenLeads',
-        'description' => 'Get in touch with us for custom solutions, enterprise plans, or any questions about EvenLeads.',
+        'title' => 'Contact Us - ContractRO',
+        'description' => 'Get in touch with us for custom solutions, enterprise plans, or any questions about ContractRO.',
     ]"
 >
 
@@ -83,8 +83,8 @@
                         </div>
                         <div>
                             <h3 class="font-semibold text-zinc-900 dark:text-white mb-1">Email Us</h3>
-                            <a href="mailto:{{ config('mail.from.address', 'hello@evenleads.com') }}" class="text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400">
-                                {{ config('mail.from.address', 'hello@evenleads.com') }}
+                            <a href="mailto:{{ config('mail.from.address', 'hello@contractro.com') }}" class="text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                {{ config('mail.from.address', 'hello@contractro.com') }}
                             </a>
                         </div>
                     </div>

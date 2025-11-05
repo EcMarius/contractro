@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Wave\Plugins\EvenLeads\Models\Setting;
+use Wave\Plugins\ContractRO\Models\Setting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 

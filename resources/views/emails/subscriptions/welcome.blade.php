@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="x-apple-disable-message-reformatting">
-    <title>Welcome to EvenLeads</title>
+    <title>Welcome to ContractRO</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff; line-height: 1.6;">
 
@@ -22,7 +22,7 @@
                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                 <tr>
                                     <td style="padding: 0;">
-                                        <span style="font-size: 24px; font-weight: 700; color: #000000; letter-spacing: -0.5px;">EvenLeads</span>
+                                        <span style="font-size: 24px; font-weight: 700; color: #000000; letter-spacing: -0.5px;">ContractRO</span>
                                     </td>
                                     <td align="right" style="padding: 0;">
                                         <span style="display: inline-block; padding: 6px 14px; background-color: #000000; color: #ffffff; border-radius: 6px; font-size: 12px; font-weight: 600;">
@@ -41,7 +41,7 @@
                                 @if($isTrial)
                                     Welcome to Your Trial!
                                 @else
-                                    Welcome to EvenLeads!
+                                    Welcome to ContractRO!
                                 @endif
                             </h1>
                         </td>
@@ -55,9 +55,9 @@
                             </p>
                             <p style="margin: 16px 0 0 0; font-size: 16px; color: #666666; line-height: 1.6;">
                                 @if($isTrial)
-                                    Thank you for starting your free trial of EvenLeads! You now have full access to the <strong style="color: #000000;">{{ $plan->name }}</strong> plan to discover high-quality leads across multiple platforms.
+                                    Thank you for starting your free trial of ContractRO! You now have full access to the <strong style="color: #000000;">{{ $plan->name }}</strong> plan to discover high-quality leads across multiple platforms.
                                 @else
-                                    Thank you for subscribing to EvenLeads! You now have full access to the <strong style="color: #000000;">{{ $plan->name }}</strong> plan. We're excited to help you grow your business by connecting you with the right opportunities.
+                                    Thank you for subscribing to ContractRO! You now have full access to the <strong style="color: #000000;">{{ $plan->name }}</strong> plan. We're excited to help you grow your business by connecting you with the right opportunities.
                                 @endif
                             </p>
                         </td>
@@ -230,7 +230,7 @@
                                 Our team is here to help you succeed. If you have any questions or need assistance, feel free to reach out:
                             </p>
                             <p style="margin: 12px 0 0 0; font-size: 14px;">
-                                <a href="mailto:support@evenleads.com" style="color: #000000; text-decoration: underline; font-weight: 500;">support@evenleads.com</a>
+                                <a href="mailto:support@contractro.com" style="color: #000000; text-decoration: underline; font-weight: 500;">support@contractro.com</a>
                             </p>
                         </td>
                     </tr>
@@ -246,10 +246,10 @@
                     <tr>
                         <td style="padding: 0;">
                             <p style="margin: 0; font-size: 13px; color: #999999; line-height: 1.5; text-align: center;">
-                                You're receiving this email because you subscribed to EvenLeads.
+                                You're receiving this email because you subscribed to ContractRO.
                             </p>
                             <p style="margin: 8px 0 0 0; font-size: 13px; color: #999999; line-height: 1.5; text-align: center;">
-                                © {{ date('Y') }} EvenLeads. All rights reserved.
+                                © {{ date('Y') }} ContractRO. All rights reserved.
                             </p>
                             <p style="margin: 8px 0 0 0; font-size: 13px; text-align: center;">
                                 <a href="{{ route('dashboard') }}" style="color: #666666; text-decoration: underline;">Manage Subscription</a>

@@ -1,5 +1,5 @@
 @php
-    use Wave\Plugins\EvenLeads\Models\Setting;
+    use Wave\Plugins\ContractRO\Models\Setting;
     $trialDays = Setting::getValue('trial_days', 7);
 @endphp
 
@@ -17,9 +17,9 @@
             </h1>
             @php
                 // Get active platforms with caching (1 hour TTL)
-                $activePlatformNames = Cache::remember('evenleads.active_platforms', 3600, function() {
+                $activePlatformNames = Cache::remember('contractro.active_platforms', 3600, function() {
                     try {
-                        return \Wave\Plugins\EvenLeads\Models\Platform::where('is_active', true)->pluck('name')->toArray();
+                        return \Wave\Plugins\ContractRO\Models\Platform::where('is_active', true)->pluck('name')->toArray();
                     } catch (\Exception $e) {
                         return ['reddit']; // Fallback if table doesn't exist (localhost)
                     }
@@ -42,7 +42,7 @@
                     : $activePlatforms[0];
             @endphp
             <p class="mx-auto mt-5 text-lg font-normal text-left md:text-xl sm:max-w-md lg:ml-0 lg:max-w-lg sm:text-center lg:text-left text-zinc-500">
-                Stop wasting hours searching for potential customers. EvenLeads finds qualified leads from {{ $platformText }} automatically<span class="hidden sm:inline">. Get notified instantly when someone needs your service</span>.
+                Stop wasting hours searching for potential customers. ContractRO finds qualified leads from {{ $platformText }} automatically<span class="hidden sm:inline">. Get notified instantly when someone needs your service</span>.
             </p>
             <div class="flex flex-col gap-3 justify-center items-center mx-auto mt-8 md:gap-2 lg:justify-start md:ml-0 md:flex-row">
                 <x-button tag="a" href="/register" size="lg" class="w-full lg:w-auto">Start Free Trial</x-button>
@@ -50,9 +50,9 @@
             </div>
             @php
                 // Get all platforms with caching (1 hour TTL)
-                $allPlatforms = Cache::remember('evenleads.all_platforms', 3600, function() {
+                $allPlatforms = Cache::remember('contractro.all_platforms', 3600, function() {
                     try {
-                        return \Wave\Plugins\EvenLeads\Models\Platform::orderBy('is_active', 'desc')->orderBy('id')->get()->toArray();
+                        return \Wave\Plugins\ContractRO\Models\Platform::orderBy('is_active', 'desc')->orderBy('id')->get()->toArray();
                     } catch (\Exception $e) {
                         // Fallback hardcoded platforms for localhost
                         return [

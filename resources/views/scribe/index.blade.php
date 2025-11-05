@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>EvenLeads API Documentation</title>
+    <title>ContractRO API Documentation</title>
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
@@ -363,11 +363,11 @@
     <div class="dark-box"></div>
     <div class="content">
         <h1 id="introduction">Introduction</h1>
-<p>Comprehensive API for managing campaigns, leads, and sync operations in EvenLeads.</p>
+<p>Comprehensive API for managing campaigns, leads, and sync operations in ContractRO.</p>
 <aside>
     <strong>Base URL</strong>: <code>http://localhost:8000</code>
 </aside>
-<pre><code>Welcome to the EvenLeads API documentation. This API allows you to programmatically manage your campaigns, leads, and sync operations.
+<pre><code>Welcome to the ContractRO API documentation. This API allows you to programmatically manage your campaigns, leads, and sync operations.
 
 ## Getting Started
 
@@ -420,7 +420,7 @@ Throughout this documentation, you'll find code examples in multiple programming
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-<p>Retrieve current usage statistics and plan limits for EvenLeads features.</p>
+<p>Retrieve current usage statistics and plan limits for ContractRO features.</p>
 
 <span id="example-requests-GETapi-v1-account-usage">
 <blockquote>Example request:</blockquote>

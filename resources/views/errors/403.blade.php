@@ -38,7 +38,7 @@
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-zinc-500 dark:text-zinc-400 mt-0.5">•</span>
-                                <span>Check your inbox for the latest verification email from EvenLeads</span>
+                                <span>Check your inbox for the latest verification email from ContractRO</span>
                             </li>
                             <li class="flex items-start gap-2">
                                 <span class="text-zinc-500 dark:text-zinc-400 mt-0.5">•</span>

@@ -33,7 +33,7 @@ class UseCaseForm
                     ->required()
                     ->rows(3)
                     ->placeholder('Automatically discover Reddit posts from people looking for web development services...')
-                    ->helperText('Brief description of how EvenLeads helps in this scenario')
+                    ->helperText('Brief description of how ContractRO helps in this scenario')
                     ->columnSpanFull(),
 
                 Grid::make(2)

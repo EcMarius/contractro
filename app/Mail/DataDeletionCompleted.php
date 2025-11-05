@@ -26,7 +26,7 @@ class DataDeletionCompleted extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your Data Has Been Deleted - EvenLeads',
+            subject: 'Your Data Has Been Deleted - ContractRO',
         );
     }
 

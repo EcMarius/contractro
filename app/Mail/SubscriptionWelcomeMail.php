@@ -37,8 +37,8 @@ class SubscriptionWelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         $subject = $this->isTrial
-            ? 'Welcome to Your EvenLeads Trial!'
-            : 'Welcome to EvenLeads - ' . $this->plan->name;
+            ? 'Welcome to Your ContractRO Trial!'
+            : 'Welcome to ContractRO - ' . $this->plan->name;
 
         return new Envelope(
             subject: $subject,

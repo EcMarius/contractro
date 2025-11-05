@@ -6,8 +6,8 @@
 
 <x-layouts.marketing
     :seo="[
-        'title' => 'Terms and Conditions - EvenLeads',
-        'description' => 'Our terms and conditions outline the rules and regulations for using EvenLeads.',
+        'title' => 'Terms and Conditions - ContractRO',
+        'description' => 'Our terms and conditions outline the rules and regulations for using ContractRO.',
     ]"
 >
     <x-container class="py-10 sm:py-20">

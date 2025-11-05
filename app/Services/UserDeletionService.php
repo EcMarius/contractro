@@ -113,7 +113,7 @@ class UserDeletionService
 
         // Revoke platform OAuth tokens (Reddit, LinkedIn, etc.)
         try {
-            $platformConnections = DB::table('evenleads_platform_connections')
+            $platformConnections = DB::table('contractro_platform_connections')
                 ->where('user_id', $user->id)
                 ->get();
 
@@ -148,18 +148,18 @@ class UserDeletionService
             'posts' => ['key' => 'author_id'],
             'sessions' => ['key' => 'user_id', 'nullable' => true],
 
-            // EvenLeads tables (most have CASCADE, but delete explicitly for logging)
-            'evenleads_campaigns',
-            'evenleads_leads',
-            'evenleads_platform_connections',
-            'evenleads_ai_generations',
-            'evenleads_sync_history',
-            'evenleads_chat_conversations',
-            'evenleads_chat_messages',
-            'evenleads_feedback',
-            'evenleads_user_posts',
-            'evenleads_post_comments',
-            'evenleads_crm_contacts',
+            // ContractRO tables (most have CASCADE, but delete explicitly for logging)
+            'contractro_campaigns',
+            'contractro_leads',
+            'contractro_platform_connections',
+            'contractro_ai_generations',
+            'contractro_sync_history',
+            'contractro_chat_conversations',
+            'contractro_chat_messages',
+            'contractro_feedback',
+            'contractro_user_posts',
+            'contractro_post_comments',
+            'contractro_crm_contacts',
 
             // Application tables
             'social_accounts',
@@ -424,8 +424,8 @@ class UserDeletionService
         $summary = [];
 
         try {
-            $summary['campaigns'] = DB::table('evenleads_campaigns')->where('user_id', $user->id)->count();
-            $summary['leads'] = DB::table('evenleads_leads')->where('user_id', $user->id)->count();
+            $summary['campaigns'] = DB::table('contractro_campaigns')->where('user_id', $user->id)->count();
+            $summary['leads'] = DB::table('contractro_leads')->where('user_id', $user->id)->count();
             $summary['api_keys'] = DB::table('api_keys')->where('user_id', $user->id)->count();
             $summary['subscriptions'] = DB::table('subscriptions')
                 ->where('billable_id', $user->id)

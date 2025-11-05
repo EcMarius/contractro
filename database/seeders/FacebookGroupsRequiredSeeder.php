@@ -12,14 +12,14 @@ class FacebookGroupsRequiredSeeder extends Seeder
      */
     public function run(): void
     {
-        // Check if evenleads_platforms table exists
-        if (!DB::getSchemaBuilder()->hasTable('evenleads_platforms')) {
-            $this->command->warn('Table evenleads_platforms does not exist. Skipping FacebookGroupsRequiredSeeder.');
+        // Check if contractro_platforms table exists
+        if (!DB::getSchemaBuilder()->hasTable('contractro_platforms')) {
+            $this->command->warn('Table contractro_platforms does not exist. Skipping FacebookGroupsRequiredSeeder.');
             return;
         }
 
         // Get the Facebook platform
-        $facebookPlatform = DB::table('evenleads_platforms')
+        $facebookPlatform = DB::table('contractro_platforms')
             ->where('name', 'facebook')
             ->first();
 
@@ -48,7 +48,7 @@ class FacebookGroupsRequiredSeeder extends Seeder
         }
 
         // Update the platform
-        DB::table('evenleads_platforms')
+        DB::table('contractro_platforms')
             ->where('name', 'facebook')
             ->update([
                 'plugin_config' => json_encode($pluginConfig),

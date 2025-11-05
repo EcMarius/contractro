@@ -95,7 +95,7 @@ new class extends Component {
 }
 ?>
 
-<x-auth::layouts.app title="Welcome to EvenLeads">
+<x-auth::layouts.app title="Welcome to ContractRO">
     @volt('onboarding')
     <x-auth::elements.container x-data="{
         countryDetected: false,
@@ -123,7 +123,7 @@ new class extends Component {
         <!-- Heading -->
         <div class="text-center mb-8">
             <h1 class="text-3xl font-bold" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
-                Welcome to EvenLeads!
+                Welcome to ContractRO!
             </h1>
             <p class="mt-3 text-sm opacity-60" style="color:{{ config('devdojo.auth.appearance.color.text') }}">
                 Help us personalize your experience

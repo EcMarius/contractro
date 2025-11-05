@@ -78,7 +78,7 @@
 
         <div class="flex flex-col items-center justify-between py-10 border-t border-solid lg:flex-row border-gray dark:border-zinc-700">
             <ul class="flex flex-wrap space-x-5 text-xs">
-                <li class="mb-6 text-center flex-full lg:flex-none lg:mb-0 text-black dark:text-zinc-300">&copy; {{ date('Y') }} {{ setting('company_name', setting('site.title', 'EvenLeads')) }}. All rights reserved.</li>
+                <li class="mb-6 text-center flex-full lg:flex-none lg:mb-0 text-black dark:text-zinc-300">&copy; {{ date('Y') }} {{ setting('company_name', setting('site.title', 'ContractRO')) }}. All rights reserved.</li>
                 <li class="lg:ml-6">
                     <a href="/privacy" class="relative inline-block text-black dark:text-zinc-300 group">
                         <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0"></span>

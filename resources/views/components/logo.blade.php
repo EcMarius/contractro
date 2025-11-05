@@ -11,5 +11,5 @@
     }
 @endphp
 
-<img src="{{ $logoLight }}" {{ $attributes->merge(['class' => 'dark:hidden ' . $defaultClasses, 'alt' => setting('site.title', 'EvenLeads')]) }} />
-<img src="{{ $logoDark }}" {{ $attributes->merge(['class' => 'hidden dark:block ' . $defaultClasses, 'alt' => setting('site.title', 'EvenLeads')]) }} />
+<img src="{{ $logoLight }}" {{ $attributes->merge(['class' => 'dark:hidden ' . $defaultClasses, 'alt' => setting('site.title', 'ContractRO')]) }} />
+<img src="{{ $logoDark }}" {{ $attributes->merge(['class' => 'hidden dark:block ' . $defaultClasses, 'alt' => setting('site.title', 'ContractRO')]) }} />

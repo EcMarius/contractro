@@ -16,7 +16,7 @@
         <x-filament::section class="w-full">
             <div class="flex gap-x-3 items-center w-full">
                 <div class="flex-1">
-                    <h2 class="grid flex-1 text-base font-semibold leading-6 text-gray-950 dark:text-white">Welcome to EvenLeads Admin</h2>
+                    <h2 class="grid flex-1 text-base font-semibold leading-6 text-gray-950 dark:text-white">Welcome to ContractRO Admin</h2>
                     <p class="text-sm text-gray-500 dark:text-gray-400"><span class="font-medium text-blue-600">Active Theme: </span>{{ \Wave\Theme::where('active', 1)->first()->name }}</p>
                 </div>
                 <x-filament::button color="gray" icon="heroicon-m-arrow-top-right-on-square" icon-alias="panels::widgets.account.logout-button" labeled-from="sm" tag="a" type="submit" href="/" target="_blank">
@@ -76,9 +76,9 @@
         </section>
     </section>
     @php
-        $totalCampaigns = \Wave\Plugins\EvenLeads\Models\Campaign::count();
-        $totalLeads = \Wave\Plugins\EvenLeads\Models\Lead::count();
-        $aiRepliesThisMonth = \Wave\Plugins\EvenLeads\Models\AIGeneration::whereMonth('created_at', now()->month)->count();
+        $totalCampaigns = \Wave\Plugins\ContractRO\Models\Campaign::count();
+        $totalLeads = \Wave\Plugins\ContractRO\Models\Lead::count();
+        $aiRepliesThisMonth = \Wave\Plugins\ContractRO\Models\AIGeneration::whereMonth('created_at', now()->month)->count();
     @endphp
     <section class="flex gap-5 mb-5">
         <section class="flex flex-col gap-5 items-center w-full xl:flex-row">

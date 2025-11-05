@@ -21,14 +21,14 @@ class TermsConditionsSeeder extends Seeder
 <p><strong>Effective Date:</strong> January 1, 2025<br>
 <strong>Last Updated:</strong> January 1, 2025</p>
 
-<p>These Terms and Conditions ("Terms") govern your use of the EvenLeads platform ("Service", "Platform"). By accessing or using EvenLeads, you agree to be bound by these Terms.</p>
+<p>These Terms and Conditions ("Terms") govern your use of the ContractRO platform ("Service", "Platform"). By accessing or using ContractRO, you agree to be bound by these Terms.</p>
 
 <p><strong>IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE SERVICE.</strong></p>
 
 <h2>1. Definitions and Interpretation</h2>
 
 <ul>
-<li><strong>"Service" or "Platform"</strong> refers to the EvenLeads lead generation platform and all associated features</li>
+<li><strong>"Service" or "Platform"</strong> refers to the ContractRO lead generation platform and all associated features</li>
 <li><strong>"User", "you", or "your"</strong> means the individual or organization using the Service</li>
 <li><strong>"Account"</strong> means your registered user profile on the Platform</li>
 <li><strong>"Subscription"</strong> means your paid access plan for using the Service</li>
@@ -37,13 +37,13 @@ class TermsConditionsSeeder extends Seeder
 
 <h2>2. Account Registration and Access</h2>
 
-<p>To use EvenLeads, users must create a personal account with accurate and current information. You are solely responsible for maintaining the confidentiality of your login credentials and all activities that occur under your account.</p>
+<p>To use ContractRO, users must create a personal account with accurate and current information. You are solely responsible for maintaining the confidentiality of your login credentials and all activities that occur under your account.</p>
 
 <p><strong>Important:</strong> Accounts are non-transferable and intended for individual or organizational use only. You may not share, sell, or transfer your account to any third party.</p>
 
 <h2>3. Service Description</h2>
 
-<p>EvenLeads tracks public discussions on Reddit using AI-powered keyword matching and relevance scoring. The platform surfaces posts likely to contain potential leads relevant to your campaigns.</p>
+<p>ContractRO tracks public discussions on Reddit using AI-powered keyword matching and relevance scoring. The platform surfaces posts likely to contain potential leads relevant to your campaigns.</p>
 
 <h3>Key Features:</h3>
 <ul>
@@ -54,7 +54,7 @@ class TermsConditionsSeeder extends Seeder
 <li>AI-generated reply suggestions for engaging with leads</li>
 </ul>
 
-<p><strong>Supported Platform:</strong> Currently, EvenLeads supports Reddit. Additional platforms may be added in the future.</p>
+<p><strong>Supported Platform:</strong> Currently, ContractRO supports Reddit. Additional platforms may be added in the future.</p>
 
 <h2>4. Free Trial</h2>
 
@@ -113,7 +113,7 @@ class TermsConditionsSeeder extends Seeder
 
 <h2>8. Fair Use and Abuse Prevention</h2>
 
-<p>To maintain platform integrity and prevent misuse, EvenLeads enforces fair use limits across all plans to protect against excessive usage, abuse, or automated activity that could harm system performance.</p>
+<p>To maintain platform integrity and prevent misuse, ContractRO enforces fair use limits across all plans to protect against excessive usage, abuse, or automated activity that could harm system performance.</p>
 
 <p>Specific usage limits vary by subscription plan and are detailed in your account dashboard and plan documentation. These limits may include restrictions on:</p>
 <ul>
@@ -145,19 +145,19 @@ class TermsConditionsSeeder extends Seeder
 
 <h2>9. Lead Data Retention</h2>
 
-<p><strong>Important:</strong> EvenLeads retains discovered leads in your account for <strong>60 days</strong>. After 60 days, lead records may be permanently deleted and may no longer be accessible.</p>
+<p><strong>Important:</strong> ContractRO retains discovered leads in your account for <strong>60 days</strong>. After 60 days, lead records may be permanently deleted and may no longer be accessible.</p>
 
 <p>You are responsible for exporting any data you wish to retain before the retention period ends. CSV export functionality is available in all paid plans.</p>
 
 <h2>10. Data and Privacy</h2>
 
-<p>EvenLeads only collects and displays publicly available discussion data from Reddit. No private user data from third-party platforms is accessed or stored.</p>
+<p>ContractRO only collects and displays publicly available discussion data from Reddit. No private user data from third-party platforms is accessed or stored.</p>
 
 <p>All user-provided data (campaign information, keywords, account details, etc.) is handled in accordance with our Privacy Policy and applicable data protection laws.</p>
 
 <h2>11. AI Limitations and Accuracy Disclaimer</h2>
 
-<p>EvenLeads uses artificial intelligence to evaluate and rank public social media posts based on their potential relevance to a user\'s product or service.</p>
+<p>ContractRO uses artificial intelligence to evaluate and rank public social media posts based on their potential relevance to a user\'s product or service.</p>
 
 <p><strong>While the AI system is designed to surface high-intent or relevant posts, it may occasionally return false positives or miss qualified leads</strong> — especially if the input campaign description or keywords are unclear, vague, or overly broad.</p>
 
@@ -165,7 +165,7 @@ class TermsConditionsSeeder extends Seeder
 
 <h2>12. Third-Party Services Disclaimer</h2>
 
-<p>EvenLeads interacts with third-party services and APIs, including:</p>
+<p>ContractRO interacts with third-party services and APIs, including:</p>
 <ul>
 <li><strong>Reddit</strong> (for lead discovery and social media data)</li>
 <li><strong>Stripe</strong> (for secure payment processing)</li>
@@ -175,7 +175,7 @@ class TermsConditionsSeeder extends Seeder
 
 <p>While we strive to provide continuous integration with these services, we do not control their availability, functionality, or data accuracy.</p>
 
-<p>Changes or outages on these platforms may affect certain features of EvenLeads. We are not liable for service interruptions or limitations resulting from third-party platform issues beyond our control.</p>
+<p>Changes or outages on these platforms may affect certain features of ContractRO. We are not liable for service interruptions or limitations resulting from third-party platform issues beyond our control.</p>
 
 <h2>13. Right of Withdrawal and Cancellation</h2>
 
@@ -190,7 +190,7 @@ class TermsConditionsSeeder extends Seeder
 
 <h2>14. Limitation of Liability</h2>
 
-<p>EvenLeads is not liable for actions taken by users based on leads surfaced by the Service. We do not guarantee the conversion or accuracy of any lead.</p>
+<p>ContractRO is not liable for actions taken by users based on leads surfaced by the Service. We do not guarantee the conversion or accuracy of any lead.</p>
 
 <p><strong>THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND.</strong> To the maximum extent permitted by law, our total liability shall not exceed the amount you paid in the 12 months preceding any claim.</p>
 
@@ -204,17 +204,17 @@ class TermsConditionsSeeder extends Seeder
 
 <p>These Terms shall be governed by and construed in accordance with the laws of the <strong>European Union</strong> and applicable international regulations.</p>
 
-<p>Any disputes arising from these Terms or your use of EvenLeads shall be resolved in accordance with EU consumer protection laws and dispute resolution mechanisms.</p>
+<p>Any disputes arising from these Terms or your use of ContractRO shall be resolved in accordance with EU consumer protection laws and dispute resolution mechanisms.</p>
 
 <h2>17. Contact and Support</h2>
 
 <p>For questions, support requests, or concerns regarding these Terms, please contact us through the support channels provided in your account dashboard.</p>
 
-<p><strong>Email:</strong> contact@evenleads.com</p>
+<p><strong>Email:</strong> contact@contractro.com</p>
 
 <hr>
 
-<p><em>By creating an account and using EvenLeads, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.</em></p>
+<p><em>By creating an account and using ContractRO, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.</em></p>
 
 <p><strong>Effective Date:</strong> January 1, 2025<br>
 <strong>Last Updated:</strong> January 1, 2025</p>',

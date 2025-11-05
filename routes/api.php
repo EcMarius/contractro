@@ -39,7 +39,7 @@ Route::middleware('auth:api')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| EvenLeads API Routes
+| ContractRO API Routes
 |--------------------------------------------------------------------------
 |
 | These routes are protected by the api.key middleware which validates
@@ -79,7 +79,7 @@ Route::get('/settings', function () {
 
     return response()->json([
         'logo' => $logoUrl,
-        'name' => setting('site.name', 'EvenLeads'),
+        'name' => setting('site.name', 'ContractRO'),
     ])->header('Access-Control-Allow-Origin', '*')
       ->header('Access-Control-Allow-Methods', 'GET, OPTIONS')
       ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');

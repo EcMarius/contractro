@@ -20,10 +20,10 @@
                     $user = auth()->user();
                     $stats = [];
                     try {
-                        $leadCount = \Wave\Plugins\EvenLeads\Models\Lead::whereHas('campaign', function($q) use ($user) {
+                        $leadCount = \Wave\Plugins\ContractRO\Models\Lead::whereHas('campaign', function($q) use ($user) {
                             $q->where('user_id', $user->id);
                         })->count();
-                        $campaignCount = \Wave\Plugins\EvenLeads\Models\Campaign::where('user_id', $user->id)->count();
+                        $campaignCount = \Wave\Plugins\ContractRO\Models\Campaign::where('user_id', $user->id)->count();
                         $stats = [
                             'leads' => $leadCount,
                             'campaigns' => $campaignCount,
@@ -112,7 +112,7 @@
             {{-- Footer CTA --}}
             <div class="text-center">
                 <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
-                    Questions? <a href="mailto:support@evenleads.com" class="text-blue-600 dark:text-blue-400 hover:underline">Contact our team</a>
+                    Questions? <a href="mailto:support@contractro.com" class="text-blue-600 dark:text-blue-400 hover:underline">Contact our team</a>
                 </p>
                 <p class="text-xs text-zinc-500 dark:text-zinc-500">
                     30-day money-back guarantee • Cancel anytime • No hidden fees

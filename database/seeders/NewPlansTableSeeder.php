@@ -38,7 +38,7 @@ class NewPlansTableSeeder extends Seeder
                 'Email Support'
             ]),
             'custom_properties' => json_encode([
-                'evenleads' => [
+                'contractro' => [
                     'campaigns' => 1,
                     'keywords_per_campaign' => 10,
                     'manual_syncs_per_month' => 15,
@@ -81,7 +81,7 @@ class NewPlansTableSeeder extends Seeder
                 'Priority Email Support'
             ]),
             'custom_properties' => json_encode([
-                'evenleads' => [
+                'contractro' => [
                     'campaigns' => 5,
                     'keywords_per_campaign' => 15,
                     'manual_syncs_per_month' => 30,
@@ -125,7 +125,7 @@ class NewPlansTableSeeder extends Seeder
                 'Priority Support'
             ]),
             'custom_properties' => json_encode([
-                'evenleads' => [
+                'contractro' => [
                     'campaigns' => 20,
                     'keywords_per_campaign' => 30,
                     'manual_syncs_per_month' => 100,
@@ -173,7 +173,7 @@ class NewPlansTableSeeder extends Seeder
                 '24/7 Priority Support'
             ]),
             'custom_properties' => json_encode([
-                'evenleads' => [
+                'contractro' => [
                     'campaigns' => -1,
                     'keywords_per_campaign' => -1,
                     'manual_syncs_per_month' => -1,

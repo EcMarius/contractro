@@ -1,5 +1,5 @@
 @php
-    use Wave\Plugins\EvenLeads\Models\Lead;
+    use Wave\Plugins\ContractRO\Models\Lead;
 
     $leadId = request()->route('id');
     $lead = Lead::with('campaign')->find($leadId);

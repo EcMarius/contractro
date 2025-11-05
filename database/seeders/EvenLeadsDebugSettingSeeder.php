@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Wave\Setting;
 
-class EvenLeadsDebugSettingSeeder extends Seeder
+class ContractRODebugSettingSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,7 @@ class EvenLeadsDebugSettingSeeder extends Seeder
                 'display_name' => 'Enable Sync Debug Logging',
                 'value' => '0', // Disabled by default
                 'type' => 'checkbox',
-                'group' => 'evenleads',
+                'group' => 'contractro',
                 'details' => json_encode([
                     'description' => 'Enable detailed logging for campaign sync debugging. Creates separate log files in storage/logs/sync-debug/. Log files include API requests/responses, post processing details, AI decisions, and complete sync statistics. Logs: storage/logs/sync-debug/campaign-{id}-{date}.log. Auto-deleted after 30 days. Disable in production to save disk space.',
                     'on' => '1',
@@ -28,6 +28,6 @@ class EvenLeadsDebugSettingSeeder extends Seeder
             ]
         );
 
-        echo "✓ EvenLeads sync debug logging setting created\n";
+        echo "✓ ContractRO sync debug logging setting created\n";
     }
 }

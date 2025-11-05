@@ -19,7 +19,7 @@
                         API Documentation
                     </h1>
                     <p class="mt-4 text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl">
-                        Integrate EvenLeads into your workflow with our comprehensive REST API. Manage campaigns, leads, and sync operations programmatically.
+                        Integrate ContractRO into your workflow with our comprehensive REST API. Manage campaigns, leads, and sync operations programmatically.
                     </p>
 
                     <div class="flex flex-wrap justify-center gap-4 mt-8">
@@ -104,7 +104,7 @@
                     </h2>
                     <p class="text-xl text-blue-100 mb-8">
                         @auth
-                            Create your first API key and start building with EvenLeads today.
+                            Create your first API key and start building with ContractRO today.
                         @else
                             Sign up for free and get access to our powerful API.
                         @endauth

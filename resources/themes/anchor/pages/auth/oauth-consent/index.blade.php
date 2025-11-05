@@ -52,7 +52,7 @@ new class extends Component
 
 <x-layouts.marketing
     :seo="[
-        'title' => 'Accept Terms - EvenLeads',
+        'title' => 'Accept Terms - ContractRO',
         'description' => 'Please accept our Terms and Conditions to continue.',
     ]"
 >
@@ -68,7 +68,7 @@ new class extends Component
                             </svg>
                         </div>
                         <h1 class="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
-                            Welcome to EvenLeads
+                            Welcome to ContractRO
                         </h1>
                         <p class="text-sm text-zinc-600 dark:text-zinc-400">
                             You're signing up with {{ $provider }}
@@ -120,7 +120,7 @@ new class extends Component
                     <!-- Info Note -->
                     <div class="mt-6 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
                         <p class="text-xs text-blue-800 dark:text-blue-200">
-                            <strong>Note:</strong> By continuing, you're creating a new EvenLeads account. Your {{ $provider }} account will be linked to this new account.
+                            <strong>Note:</strong> By continuing, you're creating a new ContractRO account. Your {{ $provider }} account will be linked to this new account.
                         </p>
                     </div>
                 </div>

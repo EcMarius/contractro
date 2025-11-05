@@ -10,8 +10,8 @@ Artisan::command('inspire', function () {
 
 // Schedule::command('inspire')->hourly();
 Schedule::command('subscriptions:cancel-expired')->hourly();
-Schedule::command('evenleads:cleanup-stuck-syncs')->everyFifteenMinutes();
-Schedule::command('evenleads:run-automated-syncs')->everyFifteenMinutes();
+Schedule::command('contractro:cleanup-stuck-syncs')->everyFifteenMinutes();
+Schedule::command('contractro:run-automated-syncs')->everyFifteenMinutes();
 
 // Account Warmup - Run hourly to process scheduled warmup activities
 Schedule::command('warmup:run')->hourly();

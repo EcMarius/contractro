@@ -22,7 +22,7 @@
                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                 <tr>
                                     <td style="padding: 0;">
-                                        <span style="font-size: 24px; font-weight: 700; color: #000000; letter-spacing: -0.5px;">EvenLeads</span>
+                                        <span style="font-size: 24px; font-weight: 700; color: #000000; letter-spacing: -0.5px;">ContractRO</span>
                                     </td>
                                     <td align="right" style="padding: 0;">
                                         <span style="display: inline-block; padding: 6px 14px; background-color: #000000; color: #ffffff; border-radius: 6px; font-size: 12px; font-weight: 600;">
@@ -227,7 +227,7 @@
                                 <tr>
                                     <td style="padding: 0 0 16px 0;">
                                         <p style="margin: 0; font-size: 13px; color: #666666;">
-                                            <strong style="color: #000000;">EvenLeads</strong> · Lead discovery notification
+                                            <strong style="color: #000000;">ContractRO</strong> · Lead discovery notification
                                         </p>
                                     </td>
                                 </tr>
@@ -242,7 +242,7 @@
                                 <tr>
                                     <td style="padding: 0;">
                                         <p style="margin: 0; font-size: 11px; color: #CCCCCC; line-height: 1.6;">
-                                            © {{ date('Y') }} EvenLeads. All rights reserved.<br>
+                                            © {{ date('Y') }} ContractRO. All rights reserved.<br>
                                             You're receiving this because you opted in to lead notifications.
                                         </p>
                                     </td>

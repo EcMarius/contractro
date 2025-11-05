@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('evenleads_ai_generations', function (Blueprint $table) {
+        Schema::table('contractro_ai_generations', function (Blueprint $table) {
             $table->string('model_used')->after('type')->default('gpt-3.5-turbo')->index();
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('evenleads_ai_generations', function (Blueprint $table) {
+        Schema::table('contractro_ai_generations', function (Blueprint $table) {
             $table->dropColumn('model_used');
         });
     }

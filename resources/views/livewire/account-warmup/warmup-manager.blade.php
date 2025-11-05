@@ -160,7 +160,7 @@
                                     <li>Days 4-7: Engagement phase (2-3 comments, occasional posts)</li>
                                     <li>Days 8-14: Reputation phase (3-4 comments, 1 post/day)</li>
                                 </ul>
-                                @if(auth()->user()->subscription('default')?->plan?->getCustomProperty('evenleads.ai_post_management'))
+                                @if(auth()->user()->subscription('default')?->plan?->getCustomProperty('contractro.ai_post_management'))
                                     <p class="mt-2 text-xs">AI will generate natural, authentic content for your posts and comments.</p>
                                 @else
                                     <p class="mt-2 text-xs">Using default templates. Upgrade to use AI-generated content.</p>

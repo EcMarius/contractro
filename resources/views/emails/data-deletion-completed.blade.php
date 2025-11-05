@@ -22,25 +22,25 @@ All your personal data and account information have been permanently removed fro
 - This action is permanent and cannot be undone
 - You will no longer be able to access your previous account
 - Any active subscriptions have been cancelled
-- If you wish to use EvenLeads in the future, you will need to create a new account
+- If you wish to use ContractRO in the future, you will need to create a new account
 
 ## Need Help?
 
 If you have any questions or did not request this deletion, please contact us immediately:
 
-<x-mail::button :url="'mailto:contact@evenleads.com'">
+<x-mail::button :url="'mailto:contact@contractro.com'">
 Contact Support
 </x-mail::button>
 
-Thank you for using EvenLeads.
+Thank you for using ContractRO.
 
 Best regards,
-The EvenLeads Team
+The ContractRO Team
 
 ---
 
 <small style="color: #666;">
 This is an automated confirmation email. Please do not reply to this message.
-If you need assistance, contact us at contact@evenleads.com
+If you need assistance, contact us at contact@contractro.com
 </small>
 </x-mail::message>

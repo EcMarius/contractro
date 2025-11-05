@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Wave\Plugins\EvenLeads\Models\Platform;
+use Wave\Plugins\ContractRO\Models\Platform;
 
 class PlatformPostManagementSeeder extends Seeder
 {

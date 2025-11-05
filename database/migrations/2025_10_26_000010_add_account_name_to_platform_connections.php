@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('evenleads_platform_connections')) {
+        if (!Schema::hasTable('contractro_platform_connections')) {
             return;
         }
 
-        Schema::table('evenleads_platform_connections', function (Blueprint $table) {
+        Schema::table('contractro_platform_connections', function (Blueprint $table) {
             // Add account_name field to support multiple accounts per platform
-            if (!Schema::hasColumn('evenleads_platform_connections', 'account_name')) {
+            if (!Schema::hasColumn('contractro_platform_connections', 'account_name')) {
                 $table->string('account_name')->nullable()->after('platform');
             }
         });
@@ -25,7 +25,7 @@ return new class extends Migration
         // Drop old unique constraint and add new one
         // Use raw SQL to check if index exists
         $connection = Schema::getConnection();
-        $tableName = 'evenleads_platform_connections';
+        $tableName = 'contractro_platform_connections';
 
         // Get all indexes on the table
         $indexes = $connection->select(
@@ -47,7 +47,7 @@ return new class extends Migration
 
         // Add new composite unique index
         try {
-            Schema::table('evenleads_platform_connections', function (Blueprint $table) {
+            Schema::table('contractro_platform_connections', function (Blueprint $table) {
                 $table->unique(['user_id', 'platform', 'account_name'], 'platform_connections_user_platform_account_unique');
             });
         } catch (\Exception $e) {
@@ -61,11 +61,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (!Schema::hasTable('evenleads_platform_connections')) {
+        if (!Schema::hasTable('contractro_platform_connections')) {
             return;
         }
 
-        Schema::table('evenleads_platform_connections', function (Blueprint $table) {
+        Schema::table('contractro_platform_connections', function (Blueprint $table) {
             // Drop the new unique index
             try {
                 $table->dropUnique('platform_connections_user_platform_account_unique');
@@ -74,13 +74,13 @@ return new class extends Migration
             }
 
             // Remove account_name column
-            if (Schema::hasColumn('evenleads_platform_connections', 'account_name')) {
+            if (Schema::hasColumn('contractro_platform_connections', 'account_name')) {
                 $table->dropColumn('account_name');
             }
         });
 
         // Restore old unique constraint
-        Schema::table('evenleads_platform_connections', function (Blueprint $table) {
+        Schema::table('contractro_platform_connections', function (Blueprint $table) {
             try {
                 $table->unique(['user_id', 'platform']);
             } catch (\Exception $e) {

@@ -17,7 +17,7 @@ This document summarizes all implementation work completed in today's session, i
 
 **Files Modified**:
 1. `/app/Http/Controllers/Api/LeadController.php` (lines 400, 482)
-   - Changed hardcoded `>= 8` to use `config('evenleads.scoring.strong_match_threshold', 8)`
+   - Changed hardcoded `>= 8` to use `config('contractro.scoring.strong_match_threshold', 8)`
    - Now consistent with LeadService.php
 
 2. `/database/migrations/2025_11_01_202137_fix_inconsistent_lead_match_types.php` (NEW)
@@ -36,11 +36,11 @@ This document summarizes all implementation work completed in today's session, i
 **Root Cause**: Success notification shown even when AI returned empty response
 
 **Files Modified**:
-1. `/resources/plugins/EvenLeads/src/Livewire/Leads/LeadCard.php` (lines 254-258)
+1. `/resources/plugins/ContractRO/src/Livewire/Leads/LeadCard.php` (lines 254-258)
    - Added `trim()` to validation
    - Empty responses now throw exception
 
-2. `/resources/plugins/EvenLeads/src/Services/AIReplyService.php` (lines 712-728)
+2. `/resources/plugins/ContractRO/src/Services/AIReplyService.php` (lines 712-728)
    - Removed fallback logic for empty responses
    - Now properly throws exception with clear error message
 
@@ -56,11 +56,11 @@ This document summarizes all implementation work completed in today's session, i
 **Root Cause**: Platform name never included in AI prompt
 
 **Files Modified**:
-1. `/resources/plugins/EvenLeads/src/Services/AIReplyService.php` (lines 281-289)
+1. `/resources/plugins/ContractRO/src/Services/AIReplyService.php` (lines 281-289)
    - Added platform name to prompt
    - Added "PLATFORM:" and "MESSAGE TYPE:" headers
 
-2. `/resources/plugins/EvenLeads/src/Livewire/PostCard.php` (lines 643-645)
+2. `/resources/plugins/ContractRO/src/Livewire/PostCard.php` (lines 643-645)
    - Changed hardcoded "Reddit" to dynamic platform name
 
 **Result**: AI now knows exact platform and message type
@@ -77,42 +77,42 @@ Complete automated messaging service with scientific human-like typing simulatio
 ### New Files Created
 
 #### Messaging Service Core (7 files)
-1. `evenleads-extension/utils/services/messaging/types.ts`
+1. `contractro-extension/utils/services/messaging/types.ts`
    - Type definitions for messaging system
    - MessageConfig, MessageResult, MessageSendOptions
 
-2. `evenleads-extension/utils/services/messaging/baseMessaging.ts`
+2. `contractro-extension/utils/services/messaging/baseMessaging.ts`
    - Abstract base class
    - **Burst typing implementation** (~360 chars/min)
    - Smart delay calculation (fast within words, pauses before words)
 
-3. `evenleads-extension/utils/services/messaging/linkedinMessaging.ts`
+3. `contractro-extension/utils/services/messaging/linkedinMessaging.ts`
    - LinkedIn-specific implementation
    - `sendMessage()` and `sendAndRecordMessage()` methods
    - Page detection helpers
 
-4. `evenleads-extension/utils/services/messaging/index.ts`
+4. `contractro-extension/utils/services/messaging/index.ts`
    - Entry point and exports
 
-5. `evenleads-extension/utils/services/messaging/README.md`
+5. `contractro-extension/utils/services/messaging/README.md`
    - Comprehensive documentation
 
-6. `evenleads-extension/utils/services/messaging/EXAMPLES.md`
+6. `contractro-extension/utils/services/messaging/EXAMPLES.md`
    - Real-world usage examples
 
-7. `evenleads-extension/utils/services/messaging/REALISTIC_TYPING.md`
+7. `contractro-extension/utils/services/messaging/REALISTIC_TYPING.md`
    - Scientific analysis of typing simulation
 
 #### Extension Integration
-8. `evenleads-extension/utils/api.ts` (MODIFIED)
+8. `contractro-extension/utils/api.ts` (MODIFIED)
    - Added `recordLeadMessage()` API endpoint
 
-9. `evenleads-extension/components/DevMode/DevModePanel.tsx` (MODIFIED)
+9. `contractro-extension/components/DevMode/DevModePanel.tsx` (MODIFIED)
    - Added "Test Message" button for LinkedIn
    - Only visible on LinkedIn platform
    - Sends test message about web development services
 
-10. `evenleads-extension/MESSAGING_SERVICE_SUMMARY.md`
+10. `contractro-extension/MESSAGING_SERVICE_SUMMARY.md`
     - Complete feature documentation
 
 ### Key Features
@@ -152,7 +152,7 @@ Move messaging selectors from hardcoded extension to server-side configuration.
 #### Migration Created
 `/database/migrations/2025_11_01_210012_add_messaging_selectors_to_platforms.php`
 
-**New columns in `evenleads_platforms` table**:
+**New columns in `contractro_platforms` table**:
 - `message_input_selectors` (JSON) - Array of input element selectors
 - `message_send_button_selectors` (JSON) - Array of send button selectors
 - `supports_enter_to_send` (BOOLEAN) - Whether Enter key sends
@@ -207,20 +207,20 @@ Need to add Filament fields to Platform resource:
 - Toggle for "Supports Enter to Send"
 
 **Files to modify**:
-- Find: `app/Filament/Resources/` or `resources/plugins/EvenLeads/...`
+- Find: `app/Filament/Resources/` or `resources/plugins/ContractRO/...`
 - Add to Platform edit form
 
 ### 2. Extension: Fetch Selectors from API
 **Status**: ⚠️ PENDING
 
 **Files to modify**:
-1. `evenleads-extension/utils/services/messaging/linkedinMessaging.ts`
+1. `contractro-extension/utils/services/messaging/linkedinMessaging.ts`
    - Remove hardcoded selectors
    - Add `fetchPlatformConfig()` method
    - Cache selectors in storage
    - Fall back to defaults if API fails
 
-2. `evenleads-extension/utils/storage.ts`
+2. `contractro-extension/utils/storage.ts`
    - Add messaging config storage methods
 
 **Flow**:
@@ -306,7 +306,7 @@ Need to add Filament fields to Platform resource:
 
 1. **Test API Endpoint**
    ```bash
-   curl https://evenleads.com/api/extension/schemas/linkedin/general
+   curl https://contractro.com/api/extension/schemas/linkedin/general
    # Verify "messaging" object is included
    ```
 
@@ -348,13 +348,13 @@ Need to add Filament fields to Platform resource:
 ## References
 
 ### Documentation
-- `/evenleads-extension/MESSAGING_SERVICE_SUMMARY.md` - Full feature guide
-- `/evenleads-extension/utils/services/messaging/README.md` - API documentation
-- `/evenleads-extension/utils/services/messaging/EXAMPLES.md` - Usage examples
-- `/evenleads-extension/utils/services/messaging/REALISTIC_TYPING.md` - Scientific analysis
+- `/contractro-extension/MESSAGING_SERVICE_SUMMARY.md` - Full feature guide
+- `/contractro-extension/utils/services/messaging/README.md` - API documentation
+- `/contractro-extension/utils/services/messaging/EXAMPLES.md` - Usage examples
+- `/contractro-extension/utils/services/messaging/REALISTIC_TYPING.md` - Scientific analysis
 
 ### Code Locations
-- Messaging service: `/evenleads-extension/utils/services/messaging/`
+- Messaging service: `/contractro-extension/utils/services/messaging/`
 - Bug fixes: Multiple locations (documented above)
 - API changes: `/app/Http/Controllers/Api/SchemaController.php`
 - Database: `/database/migrations/` and `/database/seeders/`

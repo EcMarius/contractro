@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable('evenleads_campaigns')) {
-            Schema::table('evenleads_campaigns', function (Blueprint $table) {
-                if (!Schema::hasColumn('evenleads_campaigns', 'selected_accounts')) {
+        if (Schema::hasTable('contractro_campaigns')) {
+            Schema::table('contractro_campaigns', function (Blueprint $table) {
+                if (!Schema::hasColumn('contractro_campaigns', 'selected_accounts')) {
                     // Store selected social account IDs per platform
                     // Format: {"reddit": 5, "facebook": 3, "twitter": 7}
                     $table->json('selected_accounts')->nullable()->after('platforms');
@@ -27,7 +27,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('evenleads_campaigns', function (Blueprint $table) {
+        Schema::table('contractro_campaigns', function (Blueprint $table) {
             $table->dropColumn('selected_accounts');
         });
     }

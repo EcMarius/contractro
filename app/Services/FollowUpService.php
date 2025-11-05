@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use Wave\Plugins\EvenLeads\Models\Lead;
+use Wave\Plugins\ContractRO\Models\Lead;
 use App\Models\LeadMessage;
-use Wave\Plugins\EvenLeads\Services\AIReplyService;
-use Wave\Plugins\EvenLeads\Services\RedditService;
-use Wave\Plugins\EvenLeads\Services\XService;
+use Wave\Plugins\ContractRO\Services\AIReplyService;
+use Wave\Plugins\ContractRO\Services\RedditService;
+use Wave\Plugins\ContractRO\Services\XService;
 use Illuminate\Support\Facades\Log;
 
 class FollowUpService

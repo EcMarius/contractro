@@ -200,7 +200,7 @@
             <!-- Help Text -->
             <div class="text-center">
                 <p class="text-sm text-zinc-600 dark:text-zinc-400">
-                    Need help? <a href="mailto:support@evenleads.com" class="text-zinc-900 dark:text-white hover:underline font-medium">Contact Support</a>
+                    Need help? <a href="mailto:support@contractro.com" class="text-zinc-900 dark:text-white hover:underline font-medium">Contact Support</a>
                 </p>
             </div>
             @endif

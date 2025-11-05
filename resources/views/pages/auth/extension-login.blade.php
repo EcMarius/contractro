@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Sign in to EvenLeads</title>
+    <title>Sign in to ContractRO</title>
     @vite(['resources/css/app.css'])
     <style>
         body {
@@ -19,7 +19,7 @@
             <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 rounded-2xl mb-4">
                 <span class="text-white dark:text-black font-bold text-2xl">1L</span>
             </div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Sign in to EvenLeads</h1>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Sign in to ContractRO</h1>
             <p class="text-gray-600 dark:text-gray-400">Connect your browser extension</p>
         </div>
 
@@ -101,7 +101,7 @@
                 <svg class="inline-block w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
-                This page is secure and only accessible from the EvenLeads browser extension.
+                This page is secure and only accessible from the ContractRO browser extension.
             </p>
         </div>
     </div>

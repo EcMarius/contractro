@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('evenleads_campaigns', function (Blueprint $table) {
+        Schema::table('contractro_campaigns', function (Blueprint $table) {
             $table->json('linkedin_groups')->nullable()->after('reddit_subreddits');
         });
     }
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('evenleads_campaigns', function (Blueprint $table) {
-            if (Schema::hasColumn('evenleads_campaigns', 'linkedin_groups')) {
+        Schema::table('contractro_campaigns', function (Blueprint $table) {
+            if (Schema::hasColumn('contractro_campaigns', 'linkedin_groups')) {
                 $table->dropColumn('linkedin_groups');
             }
         });

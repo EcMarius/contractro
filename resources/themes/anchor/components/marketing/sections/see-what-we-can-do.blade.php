@@ -42,7 +42,7 @@
                 </h2>
 
                 <p class="text-lg text-zinc-600 dark:text-zinc-400">
-                    Discover how EvenLeads helps you find leads, engage with your audience, and grow your business across multiple platforms.
+                    Discover how ContractRO helps you find leads, engage with your audience, and grow your business across multiple platforms.
                 </p>
             </div>
 

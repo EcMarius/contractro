@@ -14,8 +14,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - I use PHP 8.4
 - We don't use git
 - files are uploaded automatically uploaded into the server when you edit them on local
-- if you have the mcp server installed, keep in mind that our server path is /www/wwwroot/evenleads.com/
+- if you have the mcp server installed, keep in mind that our server path is /www/wwwroot/contractro.com/
 - When editing files, do not edit them directly in SSH server (if mcp ssh is there), just edit them on local because they are automatically uploaded into the server after editing
 - When doing modifications, please use ./cc.sh (using the ssh-mcp server, if available) in the website path to clear all the cached, use "./cc.sh without-queue" only when we did not made modifications on the queue work, because it makes no sense to restart the queue worker if we did not modified it.
 - When updating db on the server, use artisan tinker on ssh-mcp
-- IF you modify the evenleads-extension, after you do all the modifications, ALWAYS build it
+- IF you modify the contractro-extension, after you do all the modifications, ALWAYS build it

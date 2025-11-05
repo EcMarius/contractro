@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Wave\Plugins\EvenLeads\Models\Campaign;
-use Wave\Plugins\EvenLeads\Models\Lead;
-use Wave\Plugins\EvenLeads\Models\AIGeneration;
-use Wave\Plugins\EvenLeads\Models\SyncHistory;
+use Wave\Plugins\ContractRO\Models\Campaign;
+use Wave\Plugins\ContractRO\Models\Lead;
+use Wave\Plugins\ContractRO\Models\AIGeneration;
+use Wave\Plugins\ContractRO\Models\SyncHistory;
 
 /**
  * @group Account
@@ -19,7 +19,7 @@ class AccountController extends Controller
     /**
      * Get account usage and limits
      *
-     * Retrieve current usage statistics and plan limits for EvenLeads features.
+     * Retrieve current usage statistics and plan limits for ContractRO features.
      *
      * @authenticated
      * @response 200 {
@@ -83,7 +83,7 @@ class AccountController extends Controller
         if ($subscription && $subscription->plan) {
             // User has an active paid subscription
             $plan = $subscription->plan;
-            $limits = $plan->custom_properties['evenleads'] ?? [];
+            $limits = $plan->custom_properties['contractro'] ?? [];
             $planName = $plan->name;
             $planInterval = $subscription->cycle === 'month' ? 'monthly' : 'yearly';
         } else {

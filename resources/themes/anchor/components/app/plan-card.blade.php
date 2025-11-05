@@ -1,6 +1,6 @@
 @php
     $user = auth()->user();
-    $planLimitService = app(\Wave\Plugins\EvenLeads\Services\PlanLimitService::class);
+    $planLimitService = app(\Wave\Plugins\ContractRO\Services\PlanLimitService::class);
 
     // Get user's plan - check subscription first, then user's role
     $planName = null;

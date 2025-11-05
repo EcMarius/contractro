@@ -12,7 +12,7 @@ Great news! Your valuable feedback has been recognized and we want to thank you 
 **Your Reward:**
 {{ $rewardDetails }}
 
-This reward has been automatically applied to your account. We truly appreciate you taking the time to help us improve EvenLeads!
+This reward has been automatically applied to your account. We truly appreciate you taking the time to help us improve ContractRO!
 
 Your insights help us build better features and create a better experience for everyone.
 

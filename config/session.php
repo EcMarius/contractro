@@ -154,11 +154,11 @@ return [
     | available to. By default, the cookie will be available to the root
     | domain and all subdomains. Typically, this shouldn't be changed.
     |
-    | PRODUCTION: Set to .evenleads.com for proper cookie handling
+    | PRODUCTION: Set to .contractro.com for proper cookie handling
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', '.evenleads.com'),
+    'domain' => env('SESSION_DOMAIN', '.contractro.com'),
 
     /*
     |--------------------------------------------------------------------------

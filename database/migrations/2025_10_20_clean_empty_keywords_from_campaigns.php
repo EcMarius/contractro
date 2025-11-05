@@ -10,7 +10,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $campaigns = DB::table('evenleads_campaigns')->get();
+        $campaigns = DB::table('contractro_campaigns')->get();
 
         foreach ($campaigns as $campaign) {
             $keywords = json_decode($campaign->keywords, true) ?? [];
@@ -26,7 +26,7 @@ return new class extends Migration
                 return !empty(trim($k ?? ''));
             }));
 
-            DB::table('evenleads_campaigns')
+            DB::table('contractro_campaigns')
                 ->where('id', $campaign->id)
                 ->update([
                     'keywords' => json_encode($cleanedKeywords),

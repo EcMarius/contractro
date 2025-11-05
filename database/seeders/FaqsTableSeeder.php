@@ -14,8 +14,8 @@ class FaqsTableSeeder extends Seeder
 
         $faqs = [
             [
-                'question' => 'What is EvenLeads?',
-                'answer' => 'EvenLeads is an AI-powered lead generation platform that monitors social media discussions on Reddit and X (Twitter) to find potential customers for your business. We use advanced AI algorithms to match posts with your product or service, helping you discover high-quality leads automatically.',
+                'question' => 'What is ContractRO?',
+                'answer' => 'ContractRO is an AI-powered lead generation platform that monitors social media discussions on Reddit and X (Twitter) to find potential customers for your business. We use advanced AI algorithms to match posts with your product or service, helping you discover high-quality leads automatically.',
                 'order' => 1,
                 'is_active' => true,
             ],

@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Models\LeadMessage;
 use App\Models\User;
-use Wave\Plugins\EvenLeads\Models\Lead;
-use Wave\Plugins\EvenLeads\Services\AIReplyService;
-use Wave\Plugins\EvenLeads\Services\PlanLimitService;
+use Wave\Plugins\ContractRO\Models\Lead;
+use Wave\Plugins\ContractRO\Services\AIReplyService;
+use Wave\Plugins\ContractRO\Services\PlanLimitService;
 use Illuminate\Support\Facades\Log;
 
 class LeadMessagingService
@@ -18,7 +18,7 @@ class LeadMessagingService
         }
 
         $plan = $user->subscription('default')->plan;
-        return $plan->getCustomProperty('evenleads.ai_chat_access', false);
+        return $plan->getCustomProperty('contractro.ai_chat_access', false);
     }
 
     public function getMessageHistory(Lead $lead): array

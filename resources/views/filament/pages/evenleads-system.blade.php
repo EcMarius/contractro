@@ -183,7 +183,7 @@
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
                             <h4 class="font-mono text-sm font-semibold text-gray-900 dark:text-white">
-                                php artisan evenleads:stop-all-syncs
+                                php artisan contractro:stop-all-syncs
                             </h4>
                             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                                 Stop all running campaign syncs and remove pending jobs from queue
@@ -205,7 +205,7 @@
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
                             <h4 class="font-mono text-sm font-semibold text-gray-900 dark:text-white">
-                                php artisan evenleads:cleanup-sync-logs
+                                php artisan contractro:cleanup-sync-logs
                             </h4>
                             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                                 Delete sync debug logs older than 30 days
