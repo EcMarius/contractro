@@ -56,6 +56,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->append(\Filament\Http\Middleware\DisableBladeIconComponents::class);
 
+        // Set locale based on user preference
+        $middleware->web(\App\Http\Middleware\SetLocale::class);
+
         $middleware->web(\RalphJSmit\Livewire\Urls\Middleware\LivewireUrlsMiddleware::class);
 
         // Auto-start ngrok on localhost (runs once per hour via cache)

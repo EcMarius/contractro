@@ -91,6 +91,9 @@
 
             <!-- Right Side -->
             <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
+                <!-- Language Switcher -->
+                <x-language-switcher />
+
                 <!-- Notifications -->
                 <button class="p-1 rounded-full text-gray-400 hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-100">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

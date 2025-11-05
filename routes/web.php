@@ -18,6 +18,9 @@ use App\Http\Controllers\BlogAIController;
 // NOTE: Email verification route is registered in AppServiceProvider::boot()
 // to ensure it overrides DevDojo Auth's route (which uses signed URLs)
 
+// Language switching route
+Route::get('/locale/{locale}', [\App\Http\Controllers\LocaleController::class, 'switch'])->name('locale.switch');
+
 // Plugin upload route (AJAX)
 Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/admin/plugins/upload', [PluginUploadController::class, 'upload'])->name('admin.plugins.upload');
