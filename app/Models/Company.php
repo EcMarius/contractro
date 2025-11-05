@@ -77,6 +77,33 @@ class Company extends Model
     }
 
     /**
+     * Get all integrations for this company
+     */
+    public function integrations(): HasMany
+    {
+        return $this->hasMany(Integration::class);
+    }
+
+    /**
+     * Get active integrations
+     */
+    public function activeIntegrations(): HasMany
+    {
+        return $this->integrations()->where('is_active', true);
+    }
+
+    /**
+     * Get integration by type
+     */
+    public function getIntegration(string $type): ?Integration
+    {
+        return $this->integrations()
+            ->where('type', $type)
+            ->where('is_active', true)
+            ->first();
+    }
+
+    /**
      * Get financial stats for the company
      */
     public function getFinancialStatsAttribute(): array

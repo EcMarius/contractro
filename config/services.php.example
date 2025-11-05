@@ -1,0 +1,48 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | SMS Service Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure your SMS provider. Supported: twilio, clicksend, smslink, log
+    |
+    */
+
+    'sms' => [
+        'provider' => env('SMS_PROVIDER', 'log'), // twilio, clicksend, smslink, log
+
+        'twilio' => [
+            'account_sid' => env('TWILIO_ACCOUNT_SID'),
+            'auth_token' => env('TWILIO_AUTH_TOKEN'),
+            'from_number' => env('TWILIO_FROM_NUMBER'), // +40XXXXXXXXX
+        ],
+
+        'clicksend' => [
+            'username' => env('CLICKSEND_USERNAME'),
+            'api_key' => env('CLICKSEND_API_KEY'),
+            'from' => env('CLICKSEND_FROM', 'ContractRO'),
+        ],
+
+        'smslink' => [
+            'connection_id' => env('SMSLINK_CONNECTION_ID'),
+            'password' => env('SMSLINK_PASSWORD'),
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | ANAF Integration Configuration
+    |--------------------------------------------------------------------------
+    */
+
+    'anaf' => [
+        'test_mode' => env('ANAF_TEST_MODE', true),
+        'test_url' => 'https://api.anaf.ro/test/FCTEL/rest',
+        'production_url' => 'https://api.anaf.ro/prod/FCTEL/rest',
+        'base_url' => 'https://webservicesp.anaf.ro',
+    ],
+
+    // ... rest of services config
+];
