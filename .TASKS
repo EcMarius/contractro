@@ -1,0 +1,949 @@
+# CONTRACTRO - Romanian Contract Platform Transformation Tasks
+
+**Goal**: Transform this lead generation platform into a superior Romanian contract management platform (competitor to econtracte.ro)
+
+**Based on research of:**
+- Current codebase: Laravel 12 + Wave SaaS + Filament Admin
+- Competitor: econtracte.ro (features analyzed in detail)
+
+---
+
+## PHASE 1: DATABASE & CORE ARCHITECTURE (Foundation)
+
+### 1.1 Database Schema Design
+- [ ] Create `companies` table (multiple legal entities per user)
+  - Fields: name, cui (CUI fiscal code), reg_com, address, phone, email, bank_account, logo, settings (JSON)
+- [ ] Create `contracts` table
+  - Fields: company_id, user_id, contract_type_id, contract_number, title, parties (JSON), content, status (draft/pending/signed/expired), signing_method, created_at, signed_at, expires_at, metadata (JSON)
+- [ ] Create `contract_types` table
+  - Fields: company_id, name, category, template, fields_schema (JSON), numbering_format, is_system_default
+  - System types: service_contract, rental_contract, collaboration_contract, employment_contract, loan_contract, purchase_sale_contract
+- [ ] Create `contract_templates` table
+  - Fields: company_id, contract_type_id, name, content, variables (JSON), is_active, is_default
+- [ ] Create `contract_parties` table
+  - Fields: contract_id, party_type (client/provider/witness), name, email, phone, id_series, id_number, address, company_cui, is_signed, signed_at, ip_address, signature_data (JSON)
+- [ ] Create `contract_signatures` table
+  - Fields: contract_id, party_id, signature_method (sms/handwritten/digital), verification_code, verification_phone, signed_at, ip_address, user_agent, metadata (JSON)
+- [ ] Create `contract_attachments` table
+  - Fields: contract_id, file_name, file_path, file_type, size, uploaded_by, uploaded_at
+- [ ] Create `contract_amendments` table (acte adiționale)
+  - Fields: contract_id, amendment_number, title, content, status, created_by, created_at, signed_at
+- [ ] Create `contract_tasks` table
+  - Fields: contract_id, assigned_to, title, description, due_date, status, priority, completed_at
+- [ ] Create `contract_notes` table
+  - Fields: contract_id, user_id, note, is_internal, created_at
+- [ ] Create `invoices` table
+  - Fields: company_id, contract_id, invoice_number, series, client_name, client_cui, amount, vat_amount, total_amount, currency, issue_date, due_date, status, payment_date, items (JSON)
+- [ ] Create `contract_numbering` table
+  - Fields: company_id, contract_type_id, year, prefix, last_number, format, reserved_numbers (JSON)
+- [ ] Create `document_templates` table
+  - Fields: company_id, type (contract/invoice/amendment), name, content, variables, settings (JSON)
+- [ ] Create `financial_reports` table (cached reports)
+  - Fields: company_id, report_type, period_start, period_end, data (JSON), generated_at
+- [ ] Create `user_permissions` table
+  - Fields: user_id, company_id, permissions (JSON), role
+- [ ] Create migration files for all tables
+- [ ] Add indexes for performance (contract_number, status, company_id, created_at)
+
+### 1.2 Remove Lead Generation Code
+- [ ] Drop lead-related migrations (campaigns, leads, lead_messages, syncs, etc.)
+- [ ] Remove `GrowthHackingCampaign`, `GrowthHackingProspect`, `GrowthHackingEmail`, `GrowthHackingLead` models
+- [ ] Remove `AccountWarmup` model and related code
+- [ ] Remove `PlatformSchema` model and related code
+- [ ] Remove lead generation controllers (LeadController, CampaignController, SyncController)
+- [ ] Remove lead generation services (all in Services/GrowthHacking/)
+- [ ] Remove warmup strategies (Services/WarmupStrategies/)
+- [ ] Remove lead generation console commands
+- [ ] Remove lead generation Livewire components
+- [ ] Remove lead generation Filament resources
+- [ ] Remove browser extension code (evenleads-extension directory)
+- [ ] Remove lead generation API routes
+- [ ] Remove lead generation middleware
+- [ ] Clean up unused dependencies from composer.json
+
+---
+
+## PHASE 2: CORE CONTRACT MODELS & BUSINESS LOGIC
+
+### 2.1 Core Models
+- [ ] Create `Company` model with relationships and validation
+  - Methods: getContractsAttribute(), getActiveContractsAttribute(), getFinancialStats()
+- [ ] Create `Contract` model
+  - Relationships: belongsTo Company, User, ContractType; hasMany parties, signatures, attachments, amendments, tasks, notes, invoices
+  - Methods: generateContractNumber(), sign(), sendForSigning(), addParty(), addAmendment(), generatePDF(), clone()
+  - Scopes: active(), expired(), pending(), signed(), byCompany(), byType()
+- [ ] Create `ContractType` model
+  - Methods: createFromTemplate(), getFieldsSchema(), generateNumber()
+- [ ] Create `ContractTemplate` model
+  - Methods: render($variables), getVariables(), validate()
+- [ ] Create `ContractParty` model
+  - Methods: sendSigningLink(), verifySignature(), sign()
+- [ ] Create `ContractSignature` model
+  - Methods: generateVerificationCode(), sendSMS(), verify(), markAsSigned()
+- [ ] Create `ContractAttachment` model
+- [ ] Create `ContractAmendment` model
+  - Methods: generatePDF(), sign()
+- [ ] Create `ContractTask` model
+  - Methods: assign(), complete(), overdue()
+- [ ] Create `ContractNote` model
+- [ ] Create `Invoice` model
+  - Relationships: belongsTo Company, Contract
+  - Methods: generateInvoiceNumber(), calculateTotals(), generatePDF(), markAsPaid()
+- [ ] Create `ContractNumbering` model
+  - Methods: getNextNumber(), reserveNumber(), formatNumber()
+- [ ] Create `DocumentTemplate` model
+  - Methods: render($variables), compile()
+- [ ] Create `FinancialReport` model
+  - Methods: generate(), refresh()
+- [ ] Add model observers for automatic actions (history tracking, notifications)
+
+### 2.2 Core Services
+- [ ] Create `ContractService.php`
+  - Methods: create(), update(), delete(), sign(), sendForSigning(), clone(), generatePDF()
+- [ ] Create `ContractTemplateService.php`
+  - Methods: createFromType(), render(), parseVariables()
+- [ ] Create `SignatureService.php`
+  - Methods: initiateSigning(), sendSMSVerification(), verifyCode(), completeSigning()
+  - SMS provider integration (Twilio/SMS Gateway for Romania)
+- [ ] Create `ContractNumberingService.php`
+  - Methods: generateNumber(), reserveNumber(), formatNumber()
+- [ ] Create `InvoiceService.php`
+  - Methods: createFromContract(), generatePDF(), sendToClient(), markAsPaid()
+- [ ] Create `DocumentGeneratorService.php`
+  - Methods: generateContractPDF(), generateInvoicePDF(), generateAmendmentPDF()
+  - PDF library: DomPDF or mPDF
+- [ ] Create `FinancialReportService.php`
+  - Methods: generateReport(), getProfitability(), getContractStats(), getRevenueReport()
+- [ ] Create `CompanyService.php`
+  - Methods: create(), update(), switchCompany(), getStats()
+- [ ] Create `ContractSearchService.php`
+  - Methods: search(), filter(), advancedSearch() - 30+ filtering options like econtracte
+- [ ] Create `NotificationService.php`
+  - Methods: notifySigningRequired(), notifyContractExpiring(), notifyTaskDue()
+
+---
+
+## PHASE 3: CONTROLLERS & API
+
+### 3.1 Web Controllers
+- [ ] Create `CompanyController.php`
+  - Methods: index, create, store, edit, update, destroy, switch
+- [ ] Create `ContractController.php`
+  - Methods: index, create, store, show, edit, update, destroy, duplicate
+- [ ] Create `ContractSigningController.php`
+  - Methods: show (public signing page), sendSMS, verify, sign
+- [ ] Create `ContractTemplateController.php`
+  - Methods: index, create, store, edit, update, destroy, preview
+- [ ] Create `InvoiceController.php`
+  - Methods: index, create, store, show, edit, update, destroy, download
+- [ ] Create `ContractAmendmentController.php`
+  - Methods: create, store, show, sign
+- [ ] Create `ContractAttachmentController.php`
+  - Methods: upload, download, destroy
+- [ ] Create `ContractTaskController.php`
+  - Methods: index, store, update, complete, destroy
+- [ ] Create `FinancialReportController.php`
+  - Methods: index, generate, download
+- [ ] Create `ContractExportController.php`
+  - Methods: exportPDF, exportWord, exportExcel
+- [ ] Create `DashboardController.php`
+  - Methods: index (overview, stats, recent contracts, tasks, expiring contracts)
+
+### 3.2 API Controllers (for mobile app / integrations)
+- [ ] Create `Api/ContractController.php`
+  - RESTful API for contracts (CRUD + signing)
+- [ ] Create `Api/CompanyController.php`
+- [ ] Create `Api/InvoiceController.php`
+- [ ] Create `Api/ContractTemplateController.php`
+- [ ] API authentication via Sanctum tokens
+- [ ] API rate limiting per plan
+- [ ] API documentation with Scribe
+
+---
+
+## PHASE 4: ADMIN PANEL (FILAMENT)
+
+### 4.1 Filament Resources
+- [ ] Remove old lead generation Filament resources
+- [ ] Create `CompanyResource.php`
+  - Table: name, CUI, users count, contracts count, status
+  - Form: company details, fiscal info, contact info, logo upload
+- [ ] Create `ContractResource.php`
+  - Table: contract number, company, type, parties, status, created date, signed date
+  - Form: full contract editing
+  - Actions: view PDF, send for signing, duplicate, delete
+  - Filters: company, type, status, date range
+- [ ] Create `ContractTypeResource.php`
+  - Manage contract types and templates
+- [ ] Create `InvoiceResource.php`
+  - Table: invoice number, company, contract, amount, status, due date
+  - Form: invoice details, items, calculations
+- [ ] Create `ContractAmendmentResource.php`
+- [ ] Create `UserResource.php` (enhanced)
+  - Add company associations
+  - Add permission management per company
+- [ ] Create `SubscriptionResource.php` (keep from Wave)
+- [ ] Create `PlanResource.php` (update limits for contracts)
+
+### 4.2 Filament Pages
+- [ ] Create `Dashboard` page
+  - Widgets: total contracts, signed this month, revenue, expiring soon
+  - Charts: contracts over time, revenue by company, contract types distribution
+- [ ] Create `FinancialReports` page
+  - Generate and view reports
+  - Export to Excel/PDF
+- [ ] Create `SystemSettings` page
+  - SMS gateway configuration
+  - Email templates
+  - System defaults
+
+### 4.3 Filament Widgets
+- [ ] Create `ContractStatsWidget` (total, active, expired)
+- [ ] Create `RevenueWidget` (monthly revenue chart)
+- [ ] Create `RecentContractsWidget`
+- [ ] Create `ExpiringContractsWidget`
+- [ ] Create `TasksWidget` (pending tasks)
+
+---
+
+## PHASE 5: FRONTEND - USER INTERFACE
+
+### 5.1 Dashboard & Main Layout
+- [ ] Update main dashboard layout (remove lead generation UI)
+- [ ] Create company switcher component (top nav)
+- [ ] Create contract stats overview cards
+- [ ] Create recent contracts list
+- [ ] Create tasks widget
+- [ ] Create expiring contracts alerts
+- [ ] Create quick actions menu (new contract, new invoice)
+
+### 5.2 Contract Management Pages
+- [ ] Create `/contracts` index page
+  - Data table with sorting, filtering, search
+  - Filters: company, type, status, date range, party name
+  - Bulk actions: export, delete
+  - Advanced search (30+ filters like econtracte)
+- [ ] Create `/contracts/create` page
+  - Step 1: Select company & contract type
+  - Step 2: Choose template or start blank
+  - Step 3: Fill contract details & parties
+  - Step 4: Add attachments (optional)
+  - Step 5: Preview & create
+- [ ] Create `/contracts/{id}` view page
+  - Contract details display
+  - PDF preview
+  - Parties and signature status
+  - Attachments list
+  - Amendments list
+  - Related invoices
+  - Tasks list
+  - Notes/comments section
+  - Actions: edit, sign, send for signing, add amendment, create invoice, duplicate, delete, download
+- [ ] Create `/contracts/{id}/edit` page
+  - Rich text editor for contract content
+  - Party management
+  - Settings (numbering, dates, etc.)
+- [ ] Create `/contracts/{id}/sign` page (public)
+  - Display contract content
+  - SMS verification form
+  - Digital signature capture (if handwritten)
+  - Confirmation and download signed copy
+
+### 5.3 Template Management
+- [ ] Create `/templates` index page
+  - List all templates by type
+  - Filter by company, category
+- [ ] Create `/templates/create` page
+  - Rich text editor with variable insertion
+  - Variable mapping configuration
+  - Preview functionality
+- [ ] Create `/templates/{id}/edit` page
+
+### 5.4 Invoice Management
+- [ ] Create `/invoices` index page
+  - Table: invoice number, company, client, amount, status, due date
+  - Filters: company, status, date range
+- [ ] Create `/invoices/create` page
+  - Link to contract (optional)
+  - Client details (auto-fill from contract)
+  - Line items with calculations
+  - Tax configuration
+  - Preview
+- [ ] Create `/invoices/{id}` view page
+  - Display invoice details
+  - PDF preview
+  - Payment status
+  - Actions: edit, download, send via email, mark as paid
+
+### 5.5 Company Management
+- [ ] Create `/companies` index page
+- [ ] Create `/companies/create` page
+  - Company details form
+  - Fiscal information (CUI, Reg. Com.)
+  - Contact information
+  - Bank details
+  - Logo upload
+  - Invoice settings (series, VAT rate, default currency)
+- [ ] Create `/companies/{id}/edit` page
+- [ ] Create `/companies/{id}/settings` page
+  - User permissions for this company
+  - Contract numbering settings
+  - Default templates
+
+### 5.6 Financial Reports
+- [ ] Create `/reports` page
+  - Report type selector
+  - Date range picker
+  - Company filter
+  - Generate button
+  - Display results (tables, charts)
+  - Export to PDF/Excel
+  - Report types:
+    - Revenue by contract type
+    - Revenue by company
+    - Profitability analysis
+    - Contract expiration forecast
+    - Client analysis
+    - Monthly/quarterly/yearly summaries
+
+### 5.7 Tasks & Workflow
+- [ ] Create tasks sidebar/widget
+- [ ] Create `/tasks` page
+  - Task list with filtering
+  - Assign to users
+  - Due date management
+  - Status tracking
+- [ ] Task notifications and reminders
+
+### 5.8 Settings Pages
+- [ ] Create `/settings/profile` page
+- [ ] Create `/settings/companies` page
+- [ ] Create `/settings/team` page (invite users to companies)
+- [ ] Create `/settings/notifications` page
+- [ ] Create `/settings/billing` page (subscription)
+- [ ] Create `/settings/api` page (API keys)
+
+---
+
+## PHASE 6: ROMANIAN LANGUAGE & LOCALIZATION
+
+### 6.1 Translation Files
+- [ ] Create `lang/ro/contracts.php`
+  - All contract-related translations
+- [ ] Create `lang/ro/invoices.php`
+- [ ] Create `lang/ro/companies.php`
+- [ ] Create `lang/ro/common.php`
+- [ ] Create `lang/ro/auth.php`
+- [ ] Create `lang/ro/validation.php` (Romanian validation messages)
+- [ ] Update all views to use translation strings
+- [ ] Set default locale to Romanian in config/app.php
+
+### 6.2 Romanian-Specific Features
+- [ ] CUI (Cod Unic de Identificare) validation
+- [ ] Romanian fiscal year handling
+- [ ] Romanian currency (RON) as default
+- [ ] Romanian date format (dd.mm.yyyy)
+- [ ] Romanian legal text templates
+- [ ] Romanian invoice format compliance
+- [ ] ANAF (tax authority) integration preparation
+
+### 6.3 EU eIDAS Compliance
+- [ ] Implement EU Regulation 910/2014 compliance for electronic signatures
+- [ ] Add legal disclaimers
+- [ ] Store signature metadata (IP, timestamp, verification method)
+- [ ] Generate legally compliant signed documents
+
+---
+
+## PHASE 7: DIGITAL SIGNATURE SYSTEM
+
+### 7.1 SMS Verification
+- [ ] Integrate SMS gateway (Twilio, ClickSend, or Romanian provider like SMS Link)
+- [ ] Create SMS template for verification codes
+- [ ] Implement rate limiting (prevent abuse)
+- [ ] Track SMS sent per user/plan
+- [ ] Add SMS configuration in admin panel
+
+### 7.2 Signature Methods
+- [ ] Implement SMS-validated signature
+  - Generate unique signing link
+  - Send SMS with verification code
+  - Verify code before allowing signature
+  - Store verification proof
+- [ ] Implement handwritten signature capture
+  - Canvas-based signature pad
+  - Store signature image
+  - Apply to document
+- [ ] Implement digital signature (optional advanced feature)
+  - Certificate-based signing
+  - Qualified electronic signature support
+
+### 7.3 Signature Workflow
+- [ ] Multi-party signing flow
+  - Send to first party
+  - Notify second party after first signs
+  - Support for multiple signers
+- [ ] Email notifications for signing requests
+- [ ] SMS notifications
+- [ ] Signature deadline tracking
+- [ ] Reminder notifications for unsigned contracts
+- [ ] Automatic status updates after all parties sign
+
+---
+
+## PHASE 8: DOCUMENT GENERATION (PDF)
+
+### 8.1 PDF Generator
+- [ ] Install and configure PDF library (mPDF recommended for Romanian characters)
+- [ ] Create base PDF template
+- [ ] Add header and footer templates
+- [ ] Add company logo support
+- [ ] Add electronic signature stamps
+
+### 8.2 Contract PDF
+- [ ] Create contract PDF template
+  - Professional layout
+  - Company details header
+  - Contract content body
+  - Signature blocks for all parties
+  - Page numbering
+  - Contract number and date
+- [ ] Add watermark for unsigned contracts
+- [ ] Add signature stamps for signed contracts
+- [ ] Add QR code for verification (optional)
+
+### 8.3 Invoice PDF
+- [ ] Create invoice PDF template (Romanian format)
+  - Company details (name, CUI, Reg. Com., address, bank)
+  - Client details
+  - Invoice number and series
+  - Line items table
+  - Subtotal, VAT, total
+  - Payment instructions
+- [ ] Add company logo
+- [ ] Add payment status stamp
+
+### 8.4 Amendment PDF
+- [ ] Create amendment PDF template
+  - Reference to original contract
+  - Amendment content
+  - Signature blocks
+
+---
+
+## PHASE 9: HOMEPAGE & MARKETING PAGES
+
+### 9.1 Homepage
+- [ ] Design new homepage (Romanian language)
+- [ ] Hero section
+  - Headline: "Creează și semnează contracte în 1 minut"
+  - Subheadline: "Platforma românească completă pentru gestiunea contractelor și semnături electronice"
+  - CTA button: "Testează Gratuit" (Free Trial)
+  - Hero image/video
+- [ ] Features section
+  - Highlight key features (6-8 feature cards)
+  - Icons and descriptions
+- [ ] How it works section (3-4 steps)
+  - Step 1: Creează contul gratuit
+  - Step 2: Generează contractul
+  - Step 3: Trimite pentru semnare
+  - Step 4: Primești contractul semnat
+- [ ] Benefits section
+  - 100% legal (EU regulation compliant)
+  - Save time
+  - Paperless
+  - Secure cloud storage
+  - Multi-company support
+  - Financial reports
+- [ ] Pricing preview section (link to pricing page)
+- [ ] Testimonials section
+- [ ] FAQ section (6-8 common questions)
+- [ ] Footer
+  - Links: About, Features, Pricing, Contact, Terms, Privacy
+  - Social media links
+  - Copyright
+
+### 9.2 Features Page
+- [ ] Create `/features` page
+- [ ] Detailed feature descriptions (12-15 features)
+  - Contract creation and templates
+  - Electronic signatures (SMS verified)
+  - Multi-company management
+  - Automatic numbering
+  - Invoice generation
+  - Document attachments
+  - Contract amendments
+  - Task management
+  - Financial reports
+  - Team collaboration
+  - Cloud storage
+  - Mobile access
+  - Advanced search and filters
+  - Export to PDF/Word
+  - EU compliant signatures
+- [ ] Feature screenshots/demos
+- [ ] Feature comparison with competitors (subtle)
+
+### 9.3 Pricing Page
+- [ ] Create `/pricing` page
+- [ ] Design pricing table (3-4 plans)
+  - **Starter Plan** (Small businesses)
+    - 50 contracts/month
+    - 1 company
+    - Basic templates
+    - Email support
+    - Price: 99 RON/month or 990 RON/year (save 2 months)
+  - **Business Plan** (Growing companies) ⭐ MOST POPULAR
+    - 200 contracts/month
+    - 3 companies
+    - All templates
+    - Invoice generation
+    - Financial reports
+    - Priority support
+    - Price: 249 RON/month or 2490 RON/year
+  - **Professional Plan** (Large companies)
+    - Unlimited contracts
+    - Unlimited companies
+    - Custom templates
+    - Advanced reports
+    - API access
+    - Dedicated account manager
+    - Price: 499 RON/month or 4990 RON/year
+  - **Enterprise Plan**
+    - Custom pricing
+    - White-label option
+    - Custom integrations
+    - SLA guarantee
+    - Price: Contact us
+- [ ] Feature comparison matrix
+- [ ] FAQ section specific to pricing
+- [ ] Free trial CTA (14 days)
+
+### 9.4 About Page
+- [ ] Create `/about` page
+- [ ] Company story
+- [ ] Mission and values
+- [ ] Team section (optional)
+- [ ] Contact information
+
+### 9.5 Contact Page
+- [ ] Create `/contact` page
+- [ ] Contact form
+- [ ] Email: contact@contractro.ro
+- [ ] Phone number
+- [ ] Office address (if any)
+- [ ] Business hours
+
+### 9.6 Legal Pages
+- [ ] Create `/terms` page (Terms & Conditions) - Romanian legal text
+- [ ] Create `/privacy` page (Privacy Policy) - GDPR compliant
+- [ ] Create `/cookies` page (Cookie Policy)
+- [ ] Create cookie consent banner
+
+### 9.7 Use Cases Page
+- [ ] Create `/use-cases` page
+- [ ] Industry-specific use cases:
+  - Service providers (contracts de prestări servicii)
+  - Real estate (contracts de închiriere)
+  - IT & Freelance (contracts de colaborare)
+  - Agriculture (contracts de vânzare-cumpărare)
+  - Logistics (contracts de transport)
+  - Employment (contracts de muncă)
+- [ ] Each use case with description, benefits, and template preview
+
+---
+
+## PHASE 10: SUBSCRIPTION & BILLING
+
+### 10.1 Update Plans
+- [ ] Update Wave plan configuration
+- [ ] Create new plan limits:
+  - contracts_per_month
+  - companies_limit
+  - users_per_company
+  - storage_limit_gb
+  - sms_credits_per_month
+  - api_access
+  - custom_templates
+- [ ] Create plan enforcement middleware
+- [ ] Add usage tracking
+- [ ] Add upgrade prompts when limits reached
+
+### 10.2 Stripe Integration
+- [ ] Update Stripe products and prices (Romanian pricing)
+- [ ] Add Romanian payment methods
+- [ ] Add trial period (14 days)
+- [ ] Add subscription management
+- [ ] Add invoicing
+- [ ] Add payment failure handling
+- [ ] Add downgrade/upgrade flows
+
+### 10.3 Usage Tracking
+- [ ] Track contracts created per month
+- [ ] Track SMS sent
+- [ ] Track storage used
+- [ ] Track API calls
+- [ ] Display usage in user dashboard
+- [ ] Send notifications when approaching limits
+
+---
+
+## PHASE 11: NOTIFICATIONS & EMAILS
+
+### 11.1 Email Templates (Romanian)
+- [ ] Welcome email
+- [ ] Email verification
+- [ ] Contract created confirmation
+- [ ] Contract signing request
+- [ ] Contract signed confirmation
+- [ ] Contract expiring reminder (30, 15, 7 days before)
+- [ ] Task assigned notification
+- [ ] Task due reminder
+- [ ] Invoice created notification
+- [ ] Invoice payment reminder
+- [ ] Team member invited
+- [ ] Subscription renewal reminder
+- [ ] Subscription expired
+- [ ] Plan limit reached warning
+
+### 11.2 SMS Templates
+- [ ] Signature verification code
+- [ ] Contract signed confirmation
+- [ ] Task reminder (optional)
+
+### 11.3 In-App Notifications
+- [ ] Notification system (database-driven)
+- [ ] Notification bell icon with counter
+- [ ] Notification dropdown
+- [ ] Mark as read functionality
+- [ ] Notification preferences page
+
+---
+
+## PHASE 12: ADVANCED FEATURES (Better than eContracte)
+
+### 12.1 AI-Powered Contract Analysis
+- [ ] Integrate Claude AI for contract review
+- [ ] AI suggestions for contract clauses
+- [ ] Risk detection in contracts
+- [ ] Automatic contract summarization
+- [ ] Contract clause library with AI recommendations
+
+### 12.2 Advanced Search & Filters
+- [ ] Full-text search across all contracts
+- [ ] Filter by 30+ parameters:
+  - Company, type, status, date range
+  - Party name, CUI, email
+  - Amount range
+  - Tags
+  - Custom fields
+  - Attachments
+  - Tasks
+  - And more...
+- [ ] Saved search filters
+- [ ] Search history
+
+### 12.3 Contract Analytics
+- [ ] Contract lifecycle analytics
+- [ ] Signing time analytics
+- [ ] Contract value trends
+- [ ] Client analysis (most contracts, highest value)
+- [ ] Performance dashboard
+- [ ] Predictive analytics (contract renewal probability)
+
+### 12.4 Automation & Workflows
+- [ ] Automated contract creation from forms
+- [ ] Automated reminders
+- [ ] Automated invoice generation on contract signing
+- [ ] Workflow builder (if X then Y)
+- [ ] Scheduled reports
+
+### 12.5 Mobile App (Optional - Future)
+- [ ] React Native or Flutter mobile app
+- [ ] View contracts
+- [ ] Sign contracts on mobile
+- [ ] Push notifications
+- [ ] Offline mode
+
+### 12.6 Integrations
+- [ ] Email integration (Gmail, Outlook)
+- [ ] Calendar integration (sync contract dates)
+- [ ] Accounting software integration (optional)
+- [ ] Zapier integration
+- [ ] API webhooks
+- [ ] ANAF API integration (Romanian tax authority)
+
+### 12.7 Industry-Specific Modules
+- [ ] Employment contracts module (like eContracte CIM)
+  - Hiring request workflow
+  - Contract templates per Romanian labor law
+  - Termination documents
+  - Amendment templates
+- [ ] Agriculture module
+  - Purchase-sale contracts
+  - Seasonal worker contracts
+  - Land lease contracts
+- [ ] Auto damage/Fleet management module
+  - Vehicle contracts
+  - Damage claim contracts
+  - Rental availability
+- [ ] Logistics module
+  - Transport orders
+  - CMR documents
+  - Delivery confirmations
+- [ ] Real estate module
+  - Rental contracts
+  - Sale-purchase contracts
+  - Property management
+
+### 12.8 Security & Compliance
+- [ ] Two-factor authentication
+- [ ] Activity logs and audit trail
+- [ ] IP whitelisting (enterprise)
+- [ ] Data encryption at rest
+- [ ] Regular backups
+- [ ] GDPR compliance tools
+- [ ] Data export (all user data)
+- [ ] Data deletion on request
+
+### 12.9 Collaboration Features
+- [ ] Internal comments on contracts
+- [ ] @mentions in comments
+- [ ] Contract sharing with team members
+- [ ] Role-based permissions (view, edit, sign, admin)
+- [ ] Activity feed per contract
+- [ ] Real-time collaboration (optional with Livewire)
+
+---
+
+## PHASE 13: TESTING & QUALITY ASSURANCE
+
+### 13.1 Unit Tests
+- [ ] Test all models
+- [ ] Test all services
+- [ ] Test contract number generation
+- [ ] Test signature verification
+- [ ] Test PDF generation
+- [ ] Test invoice calculations
+
+### 13.2 Feature Tests
+- [ ] Test contract CRUD operations
+- [ ] Test signing workflow
+- [ ] Test multi-party signing
+- [ ] Test invoice generation
+- [ ] Test company switching
+- [ ] Test permission system
+- [ ] Test API endpoints
+
+### 13.3 Browser Tests
+- [ ] Test user registration and login
+- [ ] Test contract creation flow
+- [ ] Test signing flow (full workflow)
+- [ ] Test invoice creation
+- [ ] Test reports generation
+- [ ] Test responsive design
+
+### 13.4 Performance Testing
+- [ ] Load testing with many contracts
+- [ ] PDF generation performance
+- [ ] Search performance
+- [ ] Database query optimization
+
+### 13.5 Security Testing
+- [ ] Authentication and authorization
+- [ ] SQL injection prevention
+- [ ] XSS prevention
+- [ ] CSRF protection
+- [ ] API security
+
+---
+
+## PHASE 14: DEPLOYMENT & CONFIGURATION
+
+### 14.1 Environment Configuration
+- [ ] Update .env.example
+- [ ] Configure production database
+- [ ] Configure email service (SMTP/SES)
+- [ ] Configure SMS gateway
+- [ ] Configure file storage (S3 or local)
+- [ ] Configure queue worker
+- [ ] Configure cache (Redis)
+- [ ] Configure session storage
+
+### 14.2 Server Configuration
+- [ ] PHP 8.4 configuration
+- [ ] Web server configuration (Nginx/Apache)
+- [ ] SSL certificate
+- [ ] Cron jobs for scheduled tasks
+  - Run automated sync
+  - Send reminders
+  - Generate scheduled reports
+  - Clean up old logs
+- [ ] Queue worker service (Supervisor)
+- [ ] Backup configuration
+
+### 14.3 Database Optimization
+- [ ] Add indexes
+- [ ] Optimize queries
+- [ ] Database backup schedule
+
+### 14.4 Performance Optimization
+- [ ] Enable OPcache
+- [ ] Configure Redis cache
+- [ ] Enable query caching
+- [ ] Optimize asset loading (Vite build)
+- [ ] Enable GZIP compression
+- [ ] CDN configuration (optional)
+
+### 14.5 Monitoring
+- [ ] Error tracking (Sentry or similar)
+- [ ] Application monitoring
+- [ ] Server monitoring
+- [ ] Uptime monitoring
+- [ ] Log management
+
+---
+
+## PHASE 15: LAUNCH & MARKETING
+
+### 15.1 Pre-Launch
+- [ ] Beta testing with 10-20 users
+- [ ] Collect feedback
+- [ ] Fix critical bugs
+- [ ] Prepare launch announcement
+- [ ] Prepare launch email campaign
+
+### 15.2 Launch
+- [ ] Official launch
+- [ ] Press release
+- [ ] Social media announcement
+- [ ] Email to waitlist (if any)
+- [ ] Product Hunt launch (optional)
+
+### 15.3 SEO & Marketing
+- [ ] SEO optimization
+  - Meta tags
+  - Sitemap
+  - robots.txt
+  - Schema markup
+  - Blog posts
+- [ ] Google Analytics setup
+- [ ] Google Search Console
+- [ ] Social media profiles
+- [ ] Content marketing plan
+- [ ] PPC campaigns (Google Ads, Facebook Ads)
+
+### 15.4 Documentation
+- [ ] User guide
+- [ ] Video tutorials
+- [ ] FAQ section (expanded)
+- [ ] API documentation
+- [ ] Help center
+
+---
+
+## PHASE 16: POST-LAUNCH & ITERATION
+
+### 16.1 User Feedback
+- [ ] Collect user feedback
+- [ ] Prioritize feature requests
+- [ ] Fix reported bugs
+- [ ] Improve UX based on feedback
+
+### 16.2 Analytics & Metrics
+- [ ] Track key metrics
+  - User registrations
+  - Contract creation rate
+  - Signing completion rate
+  - Subscription conversions
+  - Churn rate
+- [ ] Set up conversion funnels
+- [ ] A/B testing (pricing, homepage, etc.)
+
+### 16.3 Continuous Improvement
+- [ ] Regular feature updates
+- [ ] Performance improvements
+- [ ] Security updates
+- [ ] New integrations
+- [ ] New industry modules
+
+---
+
+## COMPETITIVE ADVANTAGES OVER ECONTRACTE.RO
+
+1. **AI-Powered Features**
+   - AI contract analysis and suggestions
+   - AI-generated contract clauses
+   - Smart contract recommendations
+
+2. **Superior UX/UI**
+   - Modern, intuitive interface
+   - Faster contract creation
+   - Better mobile experience
+
+3. **Advanced Analytics**
+   - Predictive analytics
+   - Better reporting
+   - Contract lifecycle insights
+
+4. **More Integrations**
+   - Email, calendar, accounting software
+   - API webhooks
+   - Zapier
+
+5. **Better Pricing**
+   - More transparent pricing
+   - Better value for money
+   - Flexible plans
+
+6. **Superior Search**
+   - Full-text search
+   - 30+ filters
+   - Saved searches
+
+7. **Better Collaboration**
+   - Real-time collaboration
+   - Internal comments
+   - Activity feed
+
+8. **More Templates**
+   - Larger template library
+   - Community templates
+   - Custom template builder
+
+---
+
+## ESTIMATED TIMELINE
+
+- **Phase 1-2**: Database & Core Models - 2 weeks
+- **Phase 3-4**: Controllers & Admin - 2 weeks
+- **Phase 5**: Frontend UI - 3 weeks
+- **Phase 6**: Romanian Localization - 1 week
+- **Phase 7**: Digital Signature System - 2 weeks
+- **Phase 8**: PDF Generation - 1 week
+- **Phase 9**: Homepage & Marketing - 2 weeks
+- **Phase 10**: Subscription & Billing - 1 week
+- **Phase 11**: Notifications & Emails - 1 week
+- **Phase 12**: Advanced Features - 3 weeks
+- **Phase 13**: Testing - 2 weeks
+- **Phase 14**: Deployment - 1 week
+- **Phase 15**: Launch - 1 week
+- **Total**: ~22 weeks (~5.5 months)
+
+---
+
+## NOTES
+
+- This platform will be superior to econtracte.ro by leveraging modern tech stack (Laravel 12, Filament 4, AI)
+- Focus on user experience and modern design
+- Implement features that econtracte.ro doesn't have (AI, better analytics, more integrations)
+- Ensure EU compliance for electronic signatures
+- Romanian language and culture are priority
+- Mobile-first approach
+- Scalable architecture for growth
+
+---
+
+**Last Updated**: 2025-11-05
+**Status**: Planning Phase
+**Priority**: HIGH - Complete transformation project

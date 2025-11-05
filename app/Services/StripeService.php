@@ -5,7 +5,6 @@ namespace App\Services;
 use Wave\Plan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Wave\Plugins\EvenLeads\Models\Setting;
 
 class StripeService
 {
@@ -17,19 +16,11 @@ class StripeService
 
     public function __construct()
     {
-        // Get active mode (test or live) from EvenLeads Settings
-        $this->mode = Setting::getValue('stripe.mode', 'test');
-
-        // Get credentials from EvenLeads Settings table, fallback to Wave config
-        if ($this->mode === 'live') {
-            $this->secretKey = Setting::getValue('stripe.live.secret_key') ?? config('wave.stripe.secret_key');
-            $this->publishableKey = Setting::getValue('stripe.live.publishable_key') ?? config('wave.stripe.publishable_key');
-            $this->webhookSecret = Setting::getValue('stripe.live.webhook_secret') ?? config('wave.stripe.webhook_secret');
-        } else {
-            $this->secretKey = Setting::getValue('stripe.test.secret_key') ?? config('wave.stripe.secret_key');
-            $this->publishableKey = Setting::getValue('stripe.test.publishable_key') ?? config('wave.stripe.publishable_key');
-            $this->webhookSecret = Setting::getValue('stripe.test.webhook_secret') ?? config('wave.stripe.webhook_secret');
-        }
+        // Use config for Stripe credentials (during transformation to contract platform)
+        $this->mode = config('wave.stripe.mode', 'test');
+        $this->secretKey = config('wave.stripe.secret_key');
+        $this->publishableKey = config('wave.stripe.publishable_key');
+        $this->webhookSecret = config('wave.stripe.webhook_secret');
     }
 
     /**
