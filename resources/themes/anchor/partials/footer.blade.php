@@ -15,60 +15,60 @@
             </div>
             <div class="grid w-full grid-cols-1 pt-2 mt-20 gap-y-12 sm:grid-cols-2 md:grid-cols-3 lg:gap-x-12 md:w-5/6 md:mt-0 md:pr-6">
                 <div class="md:justify-self-end">
-                    <h3 class="font-semibold text-black dark:text-white">Product</h3>
+                    <h3 class="font-semibold text-black dark:text-white">{{ __('navigation.product') }}</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
                             <a href="{{ route('home') }}" class="relative inline-block text-black dark:text-zinc-300 group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span>Home</span>
+                                <span>{{ __('navigation.home') }}</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('pricing') }}" class="relative inline-block text-black dark:text-zinc-300 group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span>Pricing</span>
+                                <span>{{ __('navigation.pricing') }}</span>
                             </a>
                         </li>
                         <li>
                             <a href="/docs" target="_blank" class="relative inline-block text-black dark:text-zinc-300 group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span>API Documentation</span>
+                                <span>{{ __('navigation.api_documentation') }}</span>
                             </a>
                         </li>
                         @auth
                         <li>
                             <a href="{{ route('dashboard') }}" class="relative inline-block text-black dark:text-zinc-300 group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span>Dashboard</span>
+                                <span>{{ __('navigation.dashboard') }}</span>
                             </a>
                         </li>
                         @endauth
                     </ul>
                 </div>
                 <div class="md:justify-self-end">
-                    <h3 class="font-semibold text-black dark:text-white">Support</h3>
+                    <h3 class="font-semibold text-black dark:text-white">{{ __('navigation.support') }}</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
                             <a href="{{ route('contact') }}" class="relative inline-block text-black dark:text-zinc-300 group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span>Contact Us</span>
+                                <span>{{ __('navigation.contact_us') }}</span>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div class="md:justify-self-end">
-                    <h3 class="font-semibold text-black dark:text-white">Legal</h3>
+                    <h3 class="font-semibold text-black dark:text-white">{{ __('navigation.legal') }}</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
                             <a href="/privacy" class="relative inline-block text-black dark:text-zinc-300 group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span>Privacy Policy</span>
+                                <span>{{ __('navigation.privacy_policy') }}</span>
                             </a>
                         </li>
                         <li>
                             <a href="/terms" class="relative inline-block text-black dark:text-zinc-300 group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span>Terms & Conditions</span>
+                                <span>{{ __('navigation.terms_conditions') }}</span>
                             </a>
                         </li>
                     </ul>
@@ -78,23 +78,23 @@
 
         <div class="flex flex-col items-center justify-between py-10 border-t border-solid lg:flex-row border-gray dark:border-zinc-700">
             <ul class="flex flex-wrap space-x-5 text-xs">
-                <li class="mb-6 text-center flex-full lg:flex-none lg:mb-0 text-black dark:text-zinc-300">&copy; {{ date('Y') }} {{ setting('company_name', setting('site.title', 'ContractRO')) }}. All rights reserved.</li>
+                <li class="mb-6 text-center flex-full lg:flex-none lg:mb-0 text-black dark:text-zinc-300">&copy; {{ date('Y') }} {{ setting('company_name', setting('site.title', 'ContractRO')) }}. {{ __('common.all_rights_reserved') }}</li>
                 <li class="lg:ml-6">
                     <a href="/privacy" class="relative inline-block text-black dark:text-zinc-300 group">
                         <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0"></span>
-                        <span>Privacy Policy</span>
+                        <span>{{ __('navigation.privacy_policy') }}</span>
                     </a>
                 </li>
                 <li class="lg:ml-6">
                     <a href="/terms" class="relative inline-block text-black dark:text-zinc-300 group">
                         <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0"></span>
-                        <span>Terms and Conditions</span>
+                        <span>{{ __('navigation.terms_conditions') }}</span>
                     </a>
                 </li>
                 <li class="lg:ml-6">
                     <button onclick="window.dispatchEvent(new CustomEvent('open-cookie-preferences'))" class="relative inline-block text-black dark:text-zinc-300 group cursor-pointer">
                         <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black dark:border-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0"></span>
-                        <span>Cookie Preferences</span>
+                        <span>{{ __('navigation.cookie_preferences') }}</span>
                     </button>
                 </li>
             </ul>

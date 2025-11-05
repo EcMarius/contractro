@@ -54,17 +54,29 @@ return [
     'notifications' => 'Notifications',
     'logout' => 'Logout',
 
-    // Footer
+    // Footer & Marketing
+    'home' => 'Home',
     'about' => 'About',
     'features' => 'Features',
     'pricing' => 'Pricing',
-    'use_cases' => 'Use cases',
+    'use_cases' => 'Use Cases',
     'contact' => 'Contact',
+    'contact_us' => 'Contact Us',
     'help' => 'Help',
     'documentation' => 'Documentation',
+    'api_documentation' => 'API Documentation',
     'terms' => 'Terms & Conditions',
     'privacy' => 'Privacy Policy',
     'cookies' => 'Cookie Policy',
+    'privacy_policy' => 'Privacy Policy',
+    'terms_conditions' => 'Terms & Conditions',
+    'cookie_preferences' => 'Cookie Preferences',
+    'view_dashboard' => 'View Dashboard',
+
+    // Footer Sections
+    'product' => 'Product',
+    'support' => 'Support',
+    'legal' => 'Legal',
 
     // Language
     'language' => 'Language',

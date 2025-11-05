@@ -54,17 +54,29 @@ return [
     'notifications' => 'Notificări',
     'logout' => 'Deconectare',
 
-    // Footer
+    // Footer & Marketing
+    'home' => 'Acasă',
     'about' => 'Despre',
     'features' => 'Funcționalități',
     'pricing' => 'Prețuri',
     'use_cases' => 'Cazuri de utilizare',
     'contact' => 'Contact',
+    'contact_us' => 'Contactează-ne',
     'help' => 'Ajutor',
     'documentation' => 'Documentație',
+    'api_documentation' => 'Documentație API',
     'terms' => 'Termeni și condiții',
     'privacy' => 'Politica de confidențialitate',
     'cookies' => 'Politica cookies',
+    'privacy_policy' => 'Politică de Confidențialitate',
+    'terms_conditions' => 'Termeni și Condiții',
+    'cookie_preferences' => 'Preferințe Cookie',
+    'view_dashboard' => 'Vezi Dashboard',
+
+    // Footer Sections
+    'product' => 'Produs',
+    'support' => 'Suport',
+    'legal' => 'Legal',
 
     // Language
     'language' => 'Limbă',
