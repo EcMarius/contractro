@@ -4,8 +4,9 @@ namespace App\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Wave\Plugins\EvenLeads\Models\Campaign;
-use Wave\Plugins\EvenLeads\Models\Lead;
+use App\Models\Company;
+use App\Models\Contract;
+use App\Models\Invoice;
 use Carbon\Carbon;
 
 class UserStatsOverviewWidget extends BaseWidget
@@ -25,8 +26,16 @@ class UserStatsOverviewWidget extends BaseWidget
         }
 
         $subscription = $this->record->subscriptions()->with('plan')->first();
-        $campaigns = Campaign::where('user_id', $this->record->id);
-        $leads = Lead::where('user_id', $this->record->id);
+
+        // Get user's companies
+        $companies = Company::where('user_id', $this->record->id);
+        $companyIds = $companies->pluck('id');
+
+        // Get contracts for user's companies
+        $contracts = Contract::whereIn('company_id', $companyIds);
+
+        // Get invoices for user's companies
+        $invoices = Invoice::whereIn('company_id', $companyIds);
 
         $stats = [];
 
@@ -139,34 +148,42 @@ class UserStatsOverviewWidget extends BaseWidget
             ->icon('heroicon-o-shield-check')
             ->color('info');
 
-        // EvenLeads Usage
-        $totalCampaigns = $campaigns->count();
-        $activeCampaigns = $campaigns->where('status', 'active')->count();
+        // ContractRO Usage
+        $totalCompanies = $companies->count();
 
-        $stats[] = Stat::make('Campaigns', $totalCampaigns)
-            ->description($activeCampaigns . ' active')
-            ->icon('heroicon-o-megaphone')
+        $stats[] = Stat::make('Companies', $totalCompanies)
+            ->description($totalCompanies == 1 ? 'company' : 'companies')
+            ->icon('heroicon-o-building-office')
             ->color('primary');
 
-        $totalLeads = $leads->count();
-        $strongLeads = $leads->where('confidence_score', '>=', 8)->count();
-        $newLeads = $leads->where('status', 'new')->count();
+        $totalContracts = $contracts->count();
+        $activeContracts = $contracts->where('status', 'active')->count();
+        $pendingContracts = $contracts->where('status', 'pending')->count();
 
-        $stats[] = Stat::make('Total Leads', $totalLeads)
-            ->description($strongLeads . ' strong matches')
-            ->icon('heroicon-o-user-group')
+        $stats[] = Stat::make('Total Contracts', $totalContracts)
+            ->description($activeContracts . ' active, ' . $pendingContracts . ' pending')
+            ->icon('heroicon-o-document-text')
             ->color('success');
 
-        $stats[] = Stat::make('New Leads', $newLeads)
-            ->description('Awaiting action')
-            ->icon('heroicon-o-bell-alert')
-            ->color('warning');
+        $totalInvoices = $invoices->count();
+        $paidInvoices = $invoices->where('status', 'paid')->count();
+        $totalRevenue = $invoices->where('status', 'paid')->sum('total_amount');
+
+        $stats[] = Stat::make('Total Invoices', $totalInvoices)
+            ->description($paidInvoices . ' paid')
+            ->icon('heroicon-o-receipt-percent')
+            ->color('info');
+
+        $stats[] = Stat::make('Total Revenue', number_format($totalRevenue, 2) . ' RON')
+            ->description('From paid invoices')
+            ->icon('heroicon-o-currency-dollar')
+            ->color('success');
 
         // Last Activity
-        $lastLead = $leads->orderBy('created_at', 'desc')->first();
-        if ($lastLead) {
-            $stats[] = Stat::make('Last Activity', $lastLead->created_at->diffForHumans())
-                ->description('Last lead received')
+        $lastContract = $contracts->orderBy('created_at', 'desc')->first();
+        if ($lastContract) {
+            $stats[] = Stat::make('Last Activity', $lastContract->created_at->diffForHumans())
+                ->description('Last contract created')
                 ->icon('heroicon-o-clock')
                 ->color('gray');
         }
