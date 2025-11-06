@@ -18,3 +18,9 @@ Schedule::command('warmup:run')->hourly();
 
 // API Usage Cleanup - Run daily at 2 AM to clean up logs older than 90 days
 Schedule::command('api-usage:cleanup')->dailyAt('02:00');
+
+// Contract Management - Send signature reminders daily at 10 AM
+Schedule::job(new \App\Jobs\SendSignatureReminders)->dailyAt('10:00');
+
+// Contract Management - Check for expiring contracts daily at 9 AM
+Schedule::job(new \App\Jobs\CheckExpiringContracts)->dailyAt('09:00');

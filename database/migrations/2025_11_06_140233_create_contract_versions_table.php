@@ -19,6 +19,8 @@ return new class extends Migration
             $table->json('variables')->nullable();
             $table->foreignId('changed_by')->constrained('users')->onDelete('cascade');
             $table->text('change_summary')->nullable();
+            $table->string('pdf_path')->nullable(); // Path to stored PDF version
+            $table->json('metadata')->nullable(); // Storage disk, encryption status, file size, etc.
             $table->timestamp('created_at');
 
             $table->unique(['contract_id', 'version_number']);

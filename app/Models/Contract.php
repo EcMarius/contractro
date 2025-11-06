@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,12 +18,16 @@ class Contract extends Model
         'organization_id',
         'template_id',
         'lead_id',
+        'folder_id',
         'contract_number',
         'title',
         'description',
         'content',
         'variables',
         'status',
+        'approval_status',
+        'current_approval_step',
+        'is_favorite',
         'contract_value',
         'currency',
         'created_by',
@@ -41,6 +46,7 @@ class Contract extends Model
         'effective_date' => 'datetime',
         'expires_at' => 'datetime',
         'is_template' => 'boolean',
+        'is_favorite' => 'boolean',
         'contract_value' => 'decimal:2',
     ];
 
@@ -119,6 +125,30 @@ class Contract extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(ContractComment::class)->whereNull('parent_id');
+    }
+
+    public function folder(): BelongsTo
+    {
+        return $this->belongsTo(ContractFolder::class, 'folder_id');
+    }
+
+    public function folders(): BelongsToMany
+    {
+        return $this->belongsToMany(ContractFolder::class, 'contract_folder')
+            ->withPivot('added_at')
+            ->withTimestamps();
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(ContractTag::class, 'contract_tag')
+            ->withPivot('tagged_at')
+            ->withTimestamps();
+    }
+
+    public function approvals(): HasMany
+    {
+        return $this->hasMany(ContractApproval::class)->orderBy('step_number');
     }
 
     /**
@@ -284,5 +314,88 @@ class Contract extends Model
 
         // Check if user is a signer
         return $this->signatures()->where('user_id', $user->id)->exists();
+    }
+
+    /**
+     * Check and update approval status based on all approvals
+     */
+    public function checkApprovalStatus(): void
+    {
+        $approvals = $this->approvals;
+
+        if ($approvals->isEmpty()) {
+            $this->update(['approval_status' => 'not_required']);
+            return;
+        }
+
+        // Check if any approval was rejected
+        if ($approvals->where('status', 'rejected')->count() > 0) {
+            $this->update([
+                'approval_status' => 'rejected',
+                'current_approval_step' => null,
+            ]);
+            return;
+        }
+
+        // Check if all required approvals are complete
+        $requiredApprovals = $approvals->where('is_required', true);
+        $completedApprovals = $requiredApprovals->whereIn('status', ['approved', 'skipped']);
+
+        if ($completedApprovals->count() === $requiredApprovals->count()) {
+            $this->update([
+                'approval_status' => 'approved',
+                'current_approval_step' => null,
+            ]);
+
+            // Notify owner that all approvals are complete
+            $this->user->notify(new \App\Notifications\ContractFullyApproved($this));
+        } else {
+            // Find current pending step
+            $currentStep = $approvals->where('status', 'pending')->first();
+
+            $this->update([
+                'approval_status' => 'pending',
+                'current_approval_step' => $currentStep?->step_number,
+            ]);
+        }
+    }
+
+    /**
+     * Request approval from users
+     */
+    public function requestApproval(array $approvers, array $options = []): void
+    {
+        foreach ($approvers as $index => $approverId) {
+            $stepNumber = $index + 1;
+            $dueInDays = $options['due_in_days'] ?? 7;
+
+            $this->approvals()->create([
+                'approver_id' => $approverId,
+                'step_number' => $stepNumber,
+                'step_name' => $options['step_names'][$index] ?? "Step {$stepNumber}",
+                'status' => 'pending',
+                'due_at' => now()->addDays($dueInDays),
+                'is_required' => $options['is_required'][$index] ?? true,
+            ]);
+
+            // Send notification to approver
+            $approver = User::find($approverId);
+            $approver->notify(new \App\Notifications\ContractApprovalRequested($this, $stepNumber));
+        }
+
+        $this->update([
+            'approval_status' => 'pending',
+            'current_approval_step' => 1,
+        ]);
+    }
+
+    /**
+     * Check if contract needs approval based on value
+     */
+    public function needsApproval(): bool
+    {
+        $threshold = (float) setting('contracts.high_value_threshold', 10000);
+
+        return $this->contract_value && $this->contract_value >= $threshold;
     }
 }
