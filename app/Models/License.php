@@ -25,6 +25,9 @@ class License extends Model
         'expires_at',
         'last_checked_at',
         'check_count',
+        'transfer_count',
+        'max_transfers',
+        'last_transferred_at',
         'ip_address',
         'metadata',
         'notes',
@@ -34,8 +37,11 @@ class License extends Model
         'issued_at' => 'datetime',
         'expires_at' => 'datetime',
         'last_checked_at' => 'datetime',
+        'last_transferred_at' => 'datetime',
         'metadata' => 'array',
         'check_count' => 'integer',
+        'transfer_count' => 'integer',
+        'max_transfers' => 'integer',
     ];
 
     protected static function boot()
@@ -97,29 +103,98 @@ class License extends Model
         return $this->hasMany(LicenseCheckLog::class)->orderBy('checked_at', 'desc');
     }
 
-    /**
-     * Check if license is valid
-     */
-    public function isValid(): bool
+    public function transfers(): HasMany
     {
-        if ($this->status !== 'active') {
-            return false;
-        }
-
-        if ($this->expires_at && $this->expires_at->isPast()) {
-            $this->update(['status' => 'expired']);
-            return false;
-        }
-
-        return true;
+        return $this->hasMany(LicenseTransfer::class)->orderBy('transferred_at', 'desc');
     }
 
     /**
-     * Check if license is expired
+     * Grace period in days after expiration
+     */
+    const GRACE_PERIOD_DAYS = 7;
+
+    /**
+     * Check if license is valid (includes grace period)
+     */
+    public function isValid(bool $includeGracePeriod = true): bool
+    {
+        // Suspended and cancelled licenses are never valid
+        if (in_array($this->status, ['suspended', 'cancelled'])) {
+            return false;
+        }
+
+        // Active licenses that haven't expired are valid
+        if ($this->status === 'active' && (!$this->expires_at || $this->expires_at->isFuture())) {
+            return true;
+        }
+
+        // Check if expired but within grace period
+        if ($includeGracePeriod && $this->isInGracePeriod()) {
+            return true;
+        }
+
+        // If expired and no grace period, update status
+        if ($this->expires_at && $this->expires_at->isPast() && !$this->isInGracePeriod()) {
+            if ($this->status === 'active') {
+                $this->update(['status' => 'expired']);
+            }
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if license is strictly valid (no grace period)
+     */
+    public function isStrictlyValid(): bool
+    {
+        return $this->isValid(false);
+    }
+
+    /**
+     * Check if license is expired (excluding grace period)
      */
     public function isExpired(): bool
     {
-        return $this->expires_at && $this->expires_at->isPast();
+        if (!$this->expires_at) {
+            return false;
+        }
+
+        return $this->expires_at->isPast() && !$this->isInGracePeriod();
+    }
+
+    /**
+     * Check if license is in grace period
+     */
+    public function isInGracePeriod(): bool
+    {
+        if (!$this->expires_at || $this->expires_at->isFuture()) {
+            return false;
+        }
+
+        // Only active licenses can be in grace period
+        if ($this->status !== 'active' && $this->status !== 'expired') {
+            return false;
+        }
+
+        $daysSinceExpiration = $this->expires_at->diffInDays(now());
+
+        return $daysSinceExpiration <= self::GRACE_PERIOD_DAYS;
+    }
+
+    /**
+     * Get days remaining in grace period (0 if not in grace period)
+     */
+    public function getGracePeriodDaysRemaining(): int
+    {
+        if (!$this->isInGracePeriod()) {
+            return 0;
+        }
+
+        $daysSinceExpiration = $this->expires_at->diffInDays(now());
+
+        return max(0, self::GRACE_PERIOD_DAYS - $daysSinceExpiration);
     }
 
     /**
@@ -148,23 +223,47 @@ class License extends Model
     }
 
     /**
-     * Normalize domain for comparison
+     * Normalize domain for comparison (handles edge cases)
      */
     protected function normalizeDomain(string $domain): string
     {
-        // Remove protocol
-        $domain = preg_replace('#^https?://#', '', $domain);
+        // Trim whitespace
+        $domain = trim($domain);
 
-        // Remove www
-        $domain = preg_replace('#^www\.#', '', $domain);
+        // Convert to lowercase for case-insensitive comparison
+        $domain = strtolower($domain);
 
-        // Remove trailing slash
+        // Remove protocol (http://, https://, ftp://, etc.)
+        $domain = preg_replace('#^[a-z]+://#i', '', $domain);
+
+        // Remove www prefix (www., www2., www3., etc.)
+        $domain = preg_replace('#^www\d*\.#i', '', $domain);
+
+        // Remove trailing slash and path
         $domain = rtrim($domain, '/');
 
-        // Get just the domain part (remove path)
+        // Parse URL to extract host (handles complex URLs)
         $parts = parse_url('http://' . $domain);
+        $host = $parts['host'] ?? $domain;
 
-        return $parts['host'] ?? $domain;
+        // Remove port number (e.g., example.com:8080 → example.com)
+        $host = preg_replace('#:\d+$#', '', $host);
+
+        // Remove trailing dot (valid in DNS but unnecessary)
+        $host = rtrim($host, '.');
+
+        // Handle IPv6 addresses (remove brackets)
+        if (str_starts_with($host, '[') && str_ends_with($host, ']')) {
+            $host = trim($host, '[]');
+        }
+
+        // Validate the domain format (basic check)
+        // Allow: domain.com, subdomain.domain.com, localhost, IP addresses
+        if (empty($host) || strlen($host) > 253) {
+            throw new \InvalidArgumentException('Invalid domain format: ' . $domain);
+        }
+
+        return $host;
     }
 
     /**
@@ -227,6 +326,109 @@ class License extends Model
     public function cancel(): void
     {
         $this->update(['status' => 'cancelled']);
+    }
+
+    /**
+     * Transfer license to a new domain
+     */
+    public function transferToDomain(string $newDomain, int $initiatedByUserId, string $reason = null, string $ipAddress = null, bool $requireAdminApproval = false): array
+    {
+        // Normalize domains
+        $oldDomain = $this->domain;
+        $newDomain = $this->normalizeDomain($newDomain);
+
+        // Check if already at max transfers
+        if ($this->transfer_count >= $this->max_transfers) {
+            return [
+                'success' => false,
+                'message' => "License has reached maximum transfer limit ({$this->max_transfers})",
+                'code' => 'MAX_TRANSFERS_REACHED',
+            ];
+        }
+
+        // Check if trying to transfer to same domain
+        if ($this->normalizeDomain($oldDomain) === $newDomain) {
+            return [
+                'success' => false,
+                'message' => 'New domain is the same as current domain',
+                'code' => 'SAME_DOMAIN',
+            ];
+        }
+
+        // Check if license is active or expired (allow transfers for both)
+        if (!in_array($this->status, ['active', 'expired'])) {
+            return [
+                'success' => false,
+                'message' => 'Cannot transfer license with status: ' . $this->status,
+                'code' => 'INVALID_STATUS',
+            ];
+        }
+
+        try {
+            \DB::beginTransaction();
+
+            // Create transfer record
+            $transfer = LicenseTransfer::create([
+                'license_id' => $this->id,
+                'old_domain' => $oldDomain,
+                'new_domain' => $newDomain,
+                'initiated_by_user_id' => $initiatedByUserId,
+                'reason' => $reason,
+                'ip_address' => $ipAddress,
+                'admin_approved' => !$requireAdminApproval,
+                'transferred_at' => now(),
+            ]);
+
+            // Update license domain and transfer count
+            $this->update([
+                'domain' => $newDomain,
+                'transfer_count' => $this->transfer_count + 1,
+                'last_transferred_at' => now(),
+            ]);
+
+            \DB::commit();
+
+            return [
+                'success' => true,
+                'message' => 'License transferred successfully',
+                'code' => 'TRANSFER_SUCCESS',
+                'transfer' => $transfer,
+                'transfers_remaining' => $this->max_transfers - $this->transfer_count,
+            ];
+
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            \Log::error('License transfer failed', [
+                'license_id' => $this->id,
+                'old_domain' => $oldDomain,
+                'new_domain' => $newDomain,
+                'error' => $e->getMessage(),
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Transfer failed: ' . $e->getMessage(),
+                'code' => 'TRANSFER_FAILED',
+            ];
+        }
+    }
+
+    /**
+     * Check if license can be transferred
+     */
+    public function canBeTransferred(): bool
+    {
+        return $this->transfer_count < $this->max_transfers &&
+               in_array($this->status, ['active', 'expired']);
+    }
+
+    /**
+     * Get remaining transfers
+     */
+    public function getRemainingTransfers(): int
+    {
+        return max(0, $this->max_transfers - $this->transfer_count);
     }
 
     /**

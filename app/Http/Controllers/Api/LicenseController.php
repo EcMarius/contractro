@@ -241,4 +241,75 @@ class LicenseController extends Controller
             'license' => new LicenseResource($license->fresh()),
         ]);
     }
+
+    /**
+     * Transfer license to a new domain (requires authentication)
+     *
+     * POST /api/licenses/{licenseKey}/transfer
+     * Body: { "new_domain": "newdomain.com", "reason": "optional reason" }
+     */
+    public function transfer(Request $request, string $licenseKey): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'new_domain' => 'required|string|max:255',
+            'reason' => 'nullable|string|max:500',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => 'Invalid request parameters',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $license = License::where('license_key', $licenseKey)->first();
+
+        if (!$license) {
+            return response()->json([
+                'error' => 'License not found',
+            ], 404);
+        }
+
+        // Check permission (only license owner can transfer)
+        if (auth()->user()->id !== $license->user_id && !auth()->user()->hasRole('admin')) {
+            return response()->json([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+
+        // Check if license can be transferred
+        if (!$license->canBeTransferred()) {
+            return response()->json([
+                'error' => 'License cannot be transferred',
+                'reason' => $license->transfer_count >= $license->max_transfers
+                    ? 'Maximum transfers reached'
+                    : 'Invalid license status: ' . $license->status,
+                'transfers_used' => $license->transfer_count,
+                'max_transfers' => $license->max_transfers,
+            ], 400);
+        }
+
+        // Perform transfer
+        $result = $license->transferToDomain(
+            newDomain: $request->input('new_domain'),
+            initiatedByUserId: auth()->id(),
+            reason: $request->input('reason'),
+            ipAddress: $request->ip(),
+            requireAdminApproval: false // Can be changed to true for approval workflow
+        );
+
+        if (!$result['success']) {
+            return response()->json([
+                'error' => $result['message'],
+                'code' => $result['code'],
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => $result['message'],
+            'license' => new LicenseResource($license->fresh()),
+            'transfers_remaining' => $result['transfers_remaining'],
+            'transfer_history' => $result['transfer'],
+        ]);
+    }
 }

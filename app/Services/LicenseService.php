@@ -62,10 +62,18 @@ class LicenseService
         // All checks passed
         $license->logCheck($domain, $ipAddress, true, [], $checkType);
 
+        // Check if in grace period
+        $inGracePeriod = $license->isInGracePeriod();
+        $gracePeriodDaysRemaining = $license->getGracePeriodDaysRemaining();
+
         return [
             'valid' => true,
-            'message' => 'License is valid',
-            'code' => 'LICENSE_VALID',
+            'message' => $inGracePeriod
+                ? "License is valid (grace period: {$gracePeriodDaysRemaining} days remaining)"
+                : 'License is valid',
+            'code' => $inGracePeriod ? 'LICENSE_VALID_GRACE_PERIOD' : 'LICENSE_VALID',
+            'in_grace_period' => $inGracePeriod,
+            'grace_period_days_remaining' => $gracePeriodDaysRemaining,
             'license' => [
                 'key' => $license->license_key,
                 'domain' => $license->domain,

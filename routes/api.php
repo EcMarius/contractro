@@ -292,8 +292,8 @@ Route::middleware('auth:sanctum')->prefix('contracts')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-// Public license validation endpoints (no auth required)
-Route::prefix('licenses')->group(function () {
+// Public license validation endpoints (no auth required, with rate limiting)
+Route::prefix('licenses')->middleware(\App\Http\Middleware\LicenseRateLimiter::class)->group(function () {
     // Validate license key + domain combination
     Route::post('/validate', [\App\Http\Controllers\Api\LicenseController::class, 'validate']);
 
@@ -314,6 +314,9 @@ Route::middleware('auth:sanctum')->prefix('licenses')->group(function () {
 
     // Renew license
     Route::post('/{licenseKey}/renew', [\App\Http\Controllers\Api\LicenseController::class, 'renew']);
+
+    // Transfer license to new domain
+    Route::post('/{licenseKey}/transfer', [\App\Http\Controllers\Api\LicenseController::class, 'transfer']);
 
     // Get license statistics (admin only)
     Route::get('/statistics', [\App\Http\Controllers\Api\LicenseController::class, 'statistics']);
