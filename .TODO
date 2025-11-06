@@ -1,0 +1,669 @@
+# EVENLEADS COMPLETE PLATFORM - IMPLEMENTATION PLAN
+# Generated: 2025-11-06
+# Status: Ready for Implementation
+
+## EXECUTIVE SUMMARY
+EvenLeads is currently a lead generation and social media automation platform. This plan adds comprehensive contract management features, AI enhancements, templates, and polish to create a complete business automation suite.
+
+---
+
+## PHASE 1: CONTRACT MANAGEMENT CORE (HIGH PRIORITY)
+Priority: CRITICAL | Estimated Time: 3-4 days
+
+### 1.1 Database Schema for Contracts
+- [ ] Create `contracts` table migration
+  - Fields: id, user_id, organization_id, title, description, content (longtext), template_id, status (draft/pending/signed/completed/cancelled), created_by, signed_at, expires_at, metadata (json), timestamps
+- [ ] Create `contract_templates` table migration
+  - Fields: id, name, description, category, content (longtext), variables (json), is_public, user_id, usage_count, timestamps
+- [ ] Create `contract_signatures` table migration
+  - Fields: id, contract_id, signer_name, signer_email, signature_data, signed_at, ip_address, user_agent, timestamps
+- [ ] Create `contract_versions` table migration
+  - Fields: id, contract_id, version_number, content, changed_by, change_summary, created_at
+- [ ] Create `contract_comments` table migration
+  - Fields: id, contract_id, user_id, comment, mentioned_users (json), timestamps
+- [ ] Add contract limits to subscription plans
+  - Fields: max_contracts, max_templates, max_signatures_per_month, enable_esignature, enable_ai_generation
+
+### 1.2 Contract Models and Relationships
+- [ ] Create `Contract` model with relationships (user, organization, template, signatures, versions, comments)
+- [ ] Create `ContractTemplate` model with scopes and helpers
+- [ ] Create `ContractSignature` model with validation
+- [ ] Create `ContractVersion` model with versioning logic
+- [ ] Create `ContractComment` model with mention support
+- [ ] Add contract methods to User model
+- [ ] Add contract methods to Organization model
+
+### 1.3 Contract Controllers and API
+- [ ] Create `ContractController` for web routes (CRUD operations)
+- [ ] Create `Api/ContractController` for API endpoints
+- [ ] Create `Api/ContractTemplateController` for template API
+- [ ] Create `Api/ContractSignatureController` for signature flow
+- [ ] Add contract routes to web.php
+- [ ] Add contract API routes to api.php
+- [ ] Implement contract policies for authorization
+
+### 1.4 Contract Services
+- [ ] Create `ContractService` for business logic
+  - Methods: createFromTemplate, generatePDF, processVariables, validateContract
+- [ ] Create `ContractVersionService` for version control
+- [ ] Create `ContractSignatureService` for e-signature flow
+- [ ] Create `ContractAIService` for AI-powered contract generation
+- [ ] Create `ContractPDFService` for PDF generation (using DomPDF or similar)
+
+---
+
+## PHASE 2: CONTRACT TEMPLATES SYSTEM (HIGH PRIORITY)
+Priority: CRITICAL | Estimated Time: 2-3 days
+
+### 2.1 Template Library
+- [ ] Create 15+ pre-built contract templates:
+  - [ ] Service Agreement Template
+  - [ ] Non-Disclosure Agreement (NDA)
+  - [ ] Employment Contract
+  - [ ] Freelance Contract
+  - [ ] Consulting Agreement
+  - [ ] Software Development Agreement
+  - [ ] Sales Contract
+  - [ ] Partnership Agreement
+  - [ ] Lease Agreement
+  - [ ] License Agreement
+  - [ ] Marketing Services Agreement
+  - [ ] Website Development Contract
+  - [ ] Maintenance Agreement
+  - [ ] Terms of Service Template
+  - [ ] Privacy Policy Template
+
+### 2.2 Template Variables System
+- [ ] Implement variable replacement system {{variable_name}}
+- [ ] Common variables: client_name, company_name, date, amount, payment_terms, scope_of_work, etc.
+- [ ] Create variable editor UI component
+- [ ] Add variable validation and preview
+- [ ] Support conditional sections {{#if condition}}...{{/if}}
+
+### 2.3 Template Editor
+- [ ] Create rich text editor for template creation (TinyMCE or Quill)
+- [ ] Add template categorization (Service, Legal, Employment, Sales, etc.)
+- [ ] Template preview functionality
+- [ ] Template versioning
+- [ ] Template sharing (public/private/organization)
+- [ ] Template duplication and customization
+- [ ] Template usage analytics
+
+---
+
+## PHASE 3: AI-POWERED CONTRACT FEATURES (HIGH PRIORITY)
+Priority: CRITICAL | Estimated Time: 2-3 days
+
+### 3.1 AI Contract Generation
+- [ ] AI-powered contract creation from prompt
+  - Input: "Create a freelance web development contract for 3-month project, $15k budget"
+  - Output: Complete contract with all sections
+- [ ] AI contract clause suggestions
+- [ ] AI contract review and risk analysis
+- [ ] AI-powered contract summarization
+- [ ] AI contract comparison (compare two versions)
+- [ ] AI contract translation (multi-language support)
+
+### 3.2 AI Contract Assistant
+- [ ] Create `ContractAIChatbot` service
+- [ ] Chat interface for contract questions
+- [ ] Contract clause explanations (legal terms simplified)
+- [ ] Risk assessment and recommendations
+- [ ] Compliance checking (GDPR, labor laws, etc.)
+- [ ] Smart contract suggestions based on industry
+
+### 3.3 AI Integration Enhancements
+- [ ] Add contract generation to existing AI system
+- [ ] Create specialized prompts for contract generation
+- [ ] Add AI model selection for contracts (GPT-4 for legal precision)
+- [ ] Token usage tracking for contract AI features
+- [ ] AI-powered variable detection and extraction
+
+---
+
+## PHASE 4: CONTRACT USER INTERFACE (HIGH PRIORITY)
+Priority: CRITICAL | Estimated Time: 3-4 days
+
+### 4.1 Contract Dashboard
+- [ ] Create contracts dashboard page (Livewire component)
+- [ ] Contract list view with filters (status, date, client, amount)
+- [ ] Contract statistics cards (total, pending, signed, expired)
+- [ ] Quick actions (create, duplicate, send for signature)
+- [ ] Recent contracts widget
+- [ ] Upcoming expirations alert
+
+### 4.2 Contract Editor Interface
+- [ ] Create contract editor page
+- [ ] Rich text editor integration (WYSIWYG)
+- [ ] Real-time preview
+- [ ] Variable insertion UI
+- [ ] Section management (add, remove, reorder)
+- [ ] Save draft functionality
+- [ ] Auto-save every 30 seconds
+- [ ] Collaboration indicators (who's viewing/editing)
+
+### 4.3 Contract Viewer
+- [ ] Create contract view page (read-only)
+- [ ] PDF export button
+- [ ] Print functionality
+- [ ] Download as DOCX
+- [ ] Share link generation
+- [ ] Comments and annotations
+- [ ] Version history viewer
+- [ ] Signature status display
+
+### 4.4 Template Browser
+- [ ] Create template library page
+- [ ] Template categories and filters
+- [ ] Template preview modal
+- [ ] Template search functionality
+- [ ] "Use Template" action
+- [ ] Template rating and reviews
+- [ ] Most popular templates section
+
+---
+
+## PHASE 5: E-SIGNATURE SYSTEM (MEDIUM PRIORITY)
+Priority: HIGH | Estimated Time: 3-4 days
+
+### 5.1 Digital Signature Core
+- [ ] Implement basic e-signature functionality
+  - Canvas-based signature drawing
+  - Text-based signature (typed name)
+  - Upload signature image
+- [ ] Signature storage and encryption
+- [ ] Signature validation and verification
+- [ ] IP and timestamp logging for legal compliance
+- [ ] Audit trail for all signature events
+
+### 5.2 Multi-Party Signing
+- [ ] Add multiple signers support
+- [ ] Define signing order (sequential/parallel)
+- [ ] Email notifications for signing requests
+- [ ] Signature reminder emails
+- [ ] Track signature status per signer
+- [ ] Signature expiration (7, 14, 30 days)
+
+### 5.3 E-Signature Integration (Optional)
+- [ ] DocuSign API integration
+  - Create envelope
+  - Send for signature
+  - Check status
+  - Download signed document
+- [ ] HelloSign/Dropbox Sign integration (alternative)
+- [ ] Bring Your Own E-Signature API support
+- [ ] Integration settings in admin panel
+
+### 5.4 Signature Workflow
+- [ ] Create signature request flow
+- [ ] Public signature page (no login required)
+- [ ] Signature authentication (email verification, SMS code)
+- [ ] Signature confirmation emails
+- [ ] Post-signature document delivery
+- [ ] Certificate of completion generation
+
+---
+
+## PHASE 6: DOCUMENT MANAGEMENT (MEDIUM PRIORITY)
+Priority: MEDIUM | Estimated Time: 2-3 days
+
+### 6.1 Document Storage
+- [ ] PDF generation from contracts (DomPDF or Gotenberg)
+- [ ] Document versioning system
+- [ ] Document archival and retention
+- [ ] Automatic cloud storage upload (S3, Google Drive, Dropbox)
+- [ ] Document encryption at rest
+- [ ] Secure document access URLs (expiring links)
+
+### 6.2 Document Search
+- [ ] Full-text search across contracts
+- [ ] Advanced filters (date range, client, status, amount)
+- [ ] Search by contract content
+- [ ] Search by signer
+- [ ] Saved search queries
+- [ ] Search results export
+
+### 6.3 Document Organization
+- [ ] Folders and tags for contracts
+- [ ] Bulk operations (move, delete, archive)
+- [ ] Favorite contracts
+- [ ] Custom contract fields (metadata)
+- [ ] Document labels/badges
+- [ ] Contract linking (related contracts)
+
+---
+
+## PHASE 7: COLLABORATION FEATURES (MEDIUM PRIORITY)
+Priority: MEDIUM | Estimated Time: 2-3 days
+
+### 7.1 Real-Time Collaboration
+- [ ] Multi-user editing with conflict resolution
+- [ ] Live cursors showing who's editing where
+- [ ] User presence indicators
+- [ ] Change notifications
+- [ ] Lock sections during editing
+- [ ] Collaborate via shared link
+
+### 7.2 Comments and Annotations
+- [ ] Comment on contract sections
+- [ ] Reply to comments (threaded)
+- [ ] Mention team members (@username)
+- [ ] Resolve/unresolve comments
+- [ ] Comment notifications
+- [ ] Annotation tools (highlight, note)
+
+### 7.3 Approval Workflows
+- [ ] Create approval chain (step 1: legal review, step 2: manager approval, etc.)
+- [ ] Approval request notifications
+- [ ] Approve/reject with comments
+- [ ] Track approval history
+- [ ] Automatic routing based on contract type/amount
+- [ ] Escalation rules (if not approved in X days)
+
+---
+
+## PHASE 8: INTEGRATION WITH EXISTING FEATURES (HIGH PRIORITY)
+Priority: HIGH | Estimated Time: 2-3 days
+
+### 8.1 Leads to Contracts Flow
+- [ ] "Create Contract" button on lead detail page
+- [ ] Auto-populate contract variables from lead data (name, email, company)
+- [ ] Link contracts to leads
+- [ ] Track conversion from lead to contract
+- [ ] Contract sent as part of lead nurturing flow
+- [ ] Update lead status when contract is signed
+
+### 8.2 Campaign Integration
+- [ ] Add contract templates to campaign resources
+- [ ] Automatically send contracts after successful lead engagement
+- [ ] Track contract signing rate per campaign
+- [ ] Contract performance metrics in campaign analytics
+- [ ] A/B test different contract templates
+
+### 8.3 Growth Hacking Integration
+- [ ] Send contracts via email campaigns
+- [ ] Contract signing as conversion event
+- [ ] Track contract metrics in growth hacking dashboard
+- [ ] Automated follow-ups for unsigned contracts
+- [ ] Contract templates in email sequences
+
+---
+
+## PHASE 9: ANALYTICS AND REPORTING (MEDIUM PRIORITY)
+Priority: MEDIUM | Estimated Time: 2 days
+
+### 9.1 Contract Analytics
+- [ ] Contract dashboard with key metrics
+  - Total contracts created
+  - Contracts signed (conversion rate)
+  - Average time to signature
+  - Contract value (total and average)
+  - Expiring contracts (next 30/60/90 days)
+- [ ] Charts and visualizations (Chart.js or ApexCharts)
+- [ ] Contract timeline view
+- [ ] Trend analysis (month-over-month growth)
+
+### 9.2 Template Analytics
+- [ ] Most used templates
+- [ ] Template conversion rates (used → signed)
+- [ ] Template performance comparison
+- [ ] Average time to sign per template
+- [ ] Template optimization suggestions
+
+### 9.3 Advanced Reports
+- [ ] Revenue by contract type
+- [ ] Client contract history
+- [ ] Contract renewal tracking
+- [ ] Compliance reports (audit trail)
+- [ ] Export reports (PDF, Excel)
+- [ ] Scheduled report delivery (email)
+
+---
+
+## PHASE 10: ADMIN FEATURES (MEDIUM PRIORITY)
+Priority: MEDIUM | Estimated Time: 2 days
+
+### 10.1 Filament Admin Pages
+- [ ] Create Filament resource for Contracts
+  - List view with filters
+  - Edit/view contract
+  - Bulk operations
+- [ ] Create Filament resource for Contract Templates
+- [ ] Create Filament resource for Contract Signatures
+- [ ] Contract analytics widget on admin dashboard
+- [ ] System-wide contract settings page
+
+### 10.2 Contract System Settings
+- [ ] Default contract expiration days
+- [ ] Signature reminder frequency
+- [ ] Enable/disable e-signature integrations
+- [ ] Default template visibility (public/private)
+- [ ] Contract number format (e.g., CONT-2025-001)
+- [ ] Legal disclaimer text
+- [ ] Email template customization for contract notifications
+
+### 10.3 Compliance and Legal
+- [ ] Terms of Service for contract usage
+- [ ] Data retention policies
+- [ ] GDPR compliance (right to delete signed contracts?)
+- [ ] Audit log for all contract operations
+- [ ] Export audit logs for compliance
+- [ ] Certificate authority configuration (for advanced e-signatures)
+
+---
+
+## PHASE 11: NOTIFICATIONS AND EMAILS (HIGH PRIORITY)
+Priority: HIGH | Estimated Time: 1-2 days
+
+### 11.1 Contract Notifications
+- [ ] Create `ContractCreated` notification
+- [ ] Create `ContractSentForSignature` notification
+- [ ] Create `ContractSigned` notification
+- [ ] Create `ContractExpiringSoon` notification
+- [ ] Create `ContractExpired` notification
+- [ ] Create `ContractCommented` notification
+- [ ] Create `ContractApprovalRequested` notification
+- [ ] Create `ContractApproved` / `ContractRejected` notifications
+
+### 11.2 Email Templates
+- [ ] Design email template for signature request
+- [ ] Design email template for signature completed
+- [ ] Design email template for contract shared
+- [ ] Design email template for approval request
+- [ ] Design email template for expiration warning
+- [ ] Design email template for contract reminder
+- [ ] Customizable email branding (logo, colors)
+
+### 11.3 Notification Preferences
+- [ ] Add contract notification preferences to user settings
+- [ ] Opt-in/opt-out for specific contract events
+- [ ] Email frequency settings (instant, daily digest, weekly)
+- [ ] In-app notification center for contracts
+
+---
+
+## PHASE 12: MOBILE RESPONSIVENESS (MEDIUM PRIORITY)
+Priority: MEDIUM | Estimated Time: 1-2 days
+
+### 12.1 Mobile Contract Views
+- [ ] Responsive contract list (mobile-friendly cards)
+- [ ] Mobile contract editor (simplified)
+- [ ] Mobile signature drawing (touch-enabled canvas)
+- [ ] Mobile-optimized PDF viewer
+- [ ] Mobile navigation for contracts section
+
+### 12.2 Mobile Actions
+- [ ] Quick approve/reject from mobile
+- [ ] Mobile signature request
+- [ ] Mobile contract sharing
+- [ ] Push notifications for mobile (if PWA)
+- [ ] Mobile contract search
+
+---
+
+## PHASE 13: EXISTING PLATFORM POLISH (HIGH PRIORITY)
+Priority: HIGH | Estimated Time: 2-3 days
+
+### 13.1 Bug Fixes
+- [ ] Fix LinkedIn Invalid URL errors (3000+ console errors)
+- [ ] Fix infinite redirect loop in test orchestration
+- [ ] Fix DevMode ElementInspector breaking LinkedIn React
+- [ ] Test and fix cross-page persistence in extension
+- [ ] Audit all API endpoints for error handling
+
+### 13.2 Lead Management Enhancements
+- [ ] Add bulk lead import (CSV/Excel)
+- [ ] Add lead export functionality
+- [ ] Lead duplicate detection
+- [ ] Lead scoring improvements
+- [ ] Lead assignment to team members
+- [ ] Lead custom fields
+
+### 13.3 Campaign Enhancements
+- [ ] Campaign templates (save campaign as template)
+- [ ] Campaign cloning
+- [ ] Campaign scheduling (start/stop dates)
+- [ ] Campaign budget tracking
+- [ ] Campaign ROI calculation
+- [ ] Multi-campaign dashboard
+
+### 13.4 AI Reply Improvements
+- [ ] Add more AI enhancement options (formal/casual tone, add emojis, etc.)
+- [ ] AI reply personalization based on lead profile
+- [ ] A/B testing for AI replies
+- [ ] Reply templates with AI enhancement
+- [ ] AI reply performance tracking
+- [ ] Sentiment analysis on AI replies
+
+### 13.5 Extension Improvements
+- [ ] Complete platform engine rewrite (proper Chrome extension patterns)
+- [ ] Finish LinkedIn automation implementation
+- [ ] Add Facebook automation
+- [ ] Add Twitter automation
+- [ ] Extension settings sync across devices
+- [ ] Extension performance optimization
+- [ ] Extension error reporting
+
+---
+
+## PHASE 14: SECURITY AND PERFORMANCE (HIGH PRIORITY)
+Priority: CRITICAL | Estimated Time: 2 days
+
+### 14.1 Security Hardening
+- [ ] Security audit of all API endpoints
+- [ ] Add rate limiting to contract operations
+- [ ] Implement CSRF protection for all forms
+- [ ] Add input validation and sanitization
+- [ ] SQL injection prevention audit
+- [ ] XSS prevention audit
+- [ ] Add security headers (CSP, HSTS, etc.)
+- [ ] Implement 2FA requirement for sensitive operations
+- [ ] Contract access control audit (ensure proper authorization)
+
+### 14.2 Performance Optimization
+- [ ] Database query optimization (N+1 query checks)
+- [ ] Add database indexes for contract tables
+- [ ] Implement caching for frequently accessed data
+- [ ] Optimize contract PDF generation
+- [ ] Lazy loading for contract lists
+- [ ] Image optimization for contract templates
+- [ ] Minify CSS and JS assets
+- [ ] CDN configuration for static assets
+
+### 14.3 Testing
+- [ ] Write unit tests for Contract models
+- [ ] Write unit tests for Contract services
+- [ ] Write feature tests for contract CRUD
+- [ ] Write API tests for contract endpoints
+- [ ] Write integration tests for e-signature flow
+- [ ] Write tests for contract AI features
+- [ ] Load testing for contract PDF generation
+- [ ] Browser testing (Chrome, Firefox, Safari, Edge)
+
+---
+
+## PHASE 15: DOCUMENTATION AND ONBOARDING (MEDIUM PRIORITY)
+Priority: MEDIUM | Estimated Time: 1-2 days
+
+### 15.1 User Documentation
+- [ ] Create contract feature documentation
+- [ ] Create video tutorials (contract creation, signing, templates)
+- [ ] Create FAQ for contracts
+- [ ] Create contract best practices guide
+- [ ] Create troubleshooting guide
+- [ ] Interactive product tour for new users
+
+### 15.2 Developer Documentation
+- [ ] API documentation for contract endpoints
+- [ ] Contract webhook documentation
+- [ ] Integration guide for third-party apps
+- [ ] Contract data model documentation
+- [ ] Code examples and SDKs
+
+### 15.3 Onboarding Flow
+- [ ] Create contract onboarding wizard
+- [ ] Sample contract templates on first login
+- [ ] Interactive tutorial for creating first contract
+- [ ] Achievement system (gamification)
+- [ ] User progress tracking
+
+---
+
+## PHASE 16: ADVANCED FEATURES (LOW PRIORITY)
+Priority: LOW | Estimated Time: Variable
+
+### 16.1 Advanced Contract Features
+- [ ] Recurring contracts (subscriptions, retainers)
+- [ ] Contract renewal automation
+- [ ] Contract negotiation mode (back-and-forth revisions)
+- [ ] Contract comparison (side-by-side diff)
+- [ ] Multi-language contracts (i18n)
+- [ ] Contract templates marketplace (buy/sell templates)
+- [ ] Custom branding per contract (white-label)
+- [ ] Contract chatbot (answer questions about specific contract)
+
+### 16.2 Integration Expansions
+- [ ] Zapier integration for contracts
+- [ ] Slack integration (notifications)
+- [ ] Google Drive integration
+- [ ] Dropbox integration
+- [ ] QuickBooks integration (invoice from contract)
+- [ ] Salesforce integration
+- [ ] HubSpot integration
+- [ ] Webhooks for contract events
+
+### 16.3 AI Advanced Features
+- [ ] AI contract negotiation assistant
+- [ ] AI-powered contract risk scoring
+- [ ] AI contract auto-renewal recommendations
+- [ ] AI contract optimization (suggest better terms)
+- [ ] AI legal compliance checking (by jurisdiction)
+- [ ] AI contract clause library (smart suggestions)
+
+### 16.4 Reporting Advanced Features
+- [ ] Custom report builder
+- [ ] Contract forecasting (renewal predictions)
+- [ ] Client lifetime value from contracts
+- [ ] Contract profitability analysis
+- [ ] Team performance metrics (contracts per team member)
+- [ ] Advanced data visualization dashboards
+
+---
+
+## IMPLEMENTATION PRIORITY ORDER
+
+### CRITICAL PATH (Do First)
+1. Phase 1: Contract Management Core
+2. Phase 2: Contract Templates System
+3. Phase 3: AI-Powered Contract Features
+4. Phase 4: Contract User Interface
+5. Phase 11: Notifications and Emails
+6. Phase 8: Integration with Existing Features
+7. Phase 13: Existing Platform Polish
+8. Phase 14: Security and Performance
+
+### IMPORTANT (Do Second)
+9. Phase 5: E-Signature System
+10. Phase 6: Document Management
+11. Phase 7: Collaboration Features
+12. Phase 9: Analytics and Reporting
+13. Phase 10: Admin Features
+14. Phase 12: Mobile Responsiveness
+
+### NICE TO HAVE (Do Last)
+15. Phase 15: Documentation and Onboarding
+16. Phase 16: Advanced Features
+
+---
+
+## ESTIMATED TOTAL TIME
+- Critical Path: 18-22 days
+- Important: 13-16 days
+- Nice to Have: 5-7 days
+- **TOTAL: 36-45 days (5-6 weeks full-time)**
+
+---
+
+## DEPENDENCIES AND PREREQUISITES
+
+### Before Starting
+- [x] Laravel 12 installed
+- [x] Wave SaaS framework installed
+- [x] Database configured
+- [x] Stripe billing configured
+- [x] AI (OpenAI) configured
+- [ ] Install PDF generation library (composer require barryvdh/laravel-dompdf)
+- [ ] Install rich text editor package (npm install tinymce)
+- [ ] Install document generation library (composer require phpoffice/phpword)
+
+### External Services Needed
+- [ ] DocuSign or HelloSign account (for e-signature integration)
+- [ ] Cloud storage (S3, Google Cloud, or similar) for document storage
+- [ ] Email service (already using Laravel Mail)
+- [ ] OpenAI API key (already configured)
+
+---
+
+## SUCCESS METRICS
+
+### Contract Management
+- 100% of contracts can be created, edited, and signed
+- 95%+ contract templates have been tested and work correctly
+- 90%+ users successfully create their first contract within 5 minutes
+- Average time to create contract: < 3 minutes
+- Contract signing rate: > 70%
+
+### AI Features
+- 90%+ AI-generated contracts require minimal editing
+- AI contract review accuracy: > 85%
+- AI response time: < 10 seconds for contract generation
+- User satisfaction with AI features: > 4/5 stars
+
+### Performance
+- Contract list page loads in < 2 seconds
+- PDF generation completes in < 5 seconds
+- API response time: < 500ms (95th percentile)
+- Zero critical security vulnerabilities
+- 99%+ uptime
+
+### User Adoption
+- 50%+ of users create at least one contract in first month
+- 30%+ of users send contracts for signature in first month
+- 20%+ of leads convert to signed contracts
+- Contract feature becomes top 3 most used features
+
+---
+
+## RISK FACTORS
+
+### Technical Risks
+- **PDF generation performance**: Large contracts may be slow to generate
+  - Mitigation: Implement background job processing
+- **E-signature legal compliance**: Different jurisdictions have different requirements
+  - Mitigation: Research compliance requirements, add disclaimers
+- **Database growth**: Contracts with full content can grow database quickly
+  - Mitigation: Implement archival strategy, use blob storage for old contracts
+
+### Business Risks
+- **Feature scope creep**: Contract management is a large domain
+  - Mitigation: Stick to MVP first, add advanced features later
+- **User confusion**: Adding contracts to lead gen platform may confuse users
+  - Mitigation: Clear onboarding, separate navigation sections
+- **Competition**: Existing contract platforms (DocuSign, PandaDoc, etc.)
+  - Mitigation: Focus on integration with lead gen, unique AI features
+
+---
+
+## NOTES
+- This platform is currently called "EvenLeads" and focuses on lead generation
+- Adding contract management makes it a complete business automation suite
+- Consider rebranding to "EvenLeads Business Suite" or similar
+- Contract features should complement, not replace, existing lead gen features
+- Maintain backward compatibility with existing API clients
+- Consider creating separate subdomain for contracts (contracts.evenleads.com)
+
+---
+
+## CHANGELOG
+- 2025-11-06: Initial TODO file created from platform audit
+- Next update: After Phase 1 completion

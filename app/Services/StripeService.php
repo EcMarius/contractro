@@ -18,17 +18,17 @@ class StripeService
     public function __construct()
     {
         // Get active mode (test or live) from EvenLeads Settings
-        $this->mode = Setting::getValue('stripe.mode', 'test');
+        $this->mode = class_exists(Setting::class) ? Setting::getValue('stripe.mode', 'test') : 'test';
 
         // Get credentials from EvenLeads Settings table, fallback to Wave config
         if ($this->mode === 'live') {
-            $this->secretKey = Setting::getValue('stripe.live.secret_key') ?? config('wave.stripe.secret_key');
-            $this->publishableKey = Setting::getValue('stripe.live.publishable_key') ?? config('wave.stripe.publishable_key');
-            $this->webhookSecret = Setting::getValue('stripe.live.webhook_secret') ?? config('wave.stripe.webhook_secret');
+            $this->secretKey = class_exists(Setting::class) ? (Setting::getValue('stripe.live.secret_key') ?? config('wave.stripe.secret_key')) : config('wave.stripe.secret_key');
+            $this->publishableKey = class_exists(Setting::class) ? (Setting::getValue('stripe.live.publishable_key') ?? config('wave.stripe.publishable_key')) : config('wave.stripe.publishable_key');
+            $this->webhookSecret = class_exists(Setting::class) ? (Setting::getValue('stripe.live.webhook_secret') ?? config('wave.stripe.webhook_secret')) : config('wave.stripe.webhook_secret');
         } else {
-            $this->secretKey = Setting::getValue('stripe.test.secret_key') ?? config('wave.stripe.secret_key');
-            $this->publishableKey = Setting::getValue('stripe.test.publishable_key') ?? config('wave.stripe.publishable_key');
-            $this->webhookSecret = Setting::getValue('stripe.test.webhook_secret') ?? config('wave.stripe.webhook_secret');
+            $this->secretKey = class_exists(Setting::class) ? (Setting::getValue('stripe.test.secret_key') ?? config('wave.stripe.secret_key')) : config('wave.stripe.secret_key');
+            $this->publishableKey = class_exists(Setting::class) ? (Setting::getValue('stripe.test.publishable_key') ?? config('wave.stripe.publishable_key')) : config('wave.stripe.publishable_key');
+            $this->webhookSecret = class_exists(Setting::class) ? (Setting::getValue('stripe.test.webhook_secret') ?? config('wave.stripe.webhook_secret')) : config('wave.stripe.webhook_secret');
         }
     }
 
