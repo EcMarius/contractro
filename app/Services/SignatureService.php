@@ -48,6 +48,34 @@ class SignatureService
             $contract = $signature->contract;
             if ($contract->isFullySigned()) {
                 $contract->sign();
+
+                // Notify all parties that contract is fully signed
+                foreach ($contract->contractParties as $party) {
+                    if ($party->email) {
+                        try {
+                            \Notification::route('mail', $party->email)
+                                ->notify(new \App\Notifications\ContractSignedNotification($contract));
+                        } catch (\Exception $e) {
+                            Log::error('Failed to send signed notification', [
+                                'party_id' => $party->id,
+                                'error' => $e->getMessage(),
+                            ]);
+                        }
+                    }
+                }
+
+                // Also notify the contract owner
+                if ($contract->company->email) {
+                    try {
+                        \Notification::route('mail', $contract->company->email)
+                            ->notify(new \App\Notifications\ContractSignedNotification($contract));
+                    } catch (\Exception $e) {
+                        Log::error('Failed to send signed notification to company', [
+                            'company_id' => $contract->company_id,
+                            'error' => $e->getMessage(),
+                        ]);
+                    }
+                }
             }
 
             Log::info('Contract signature completed', [

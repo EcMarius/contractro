@@ -76,12 +76,34 @@ class ContractService
             // Generate signing link
             $link = $party->generateSigningLink();
 
-            // TODO: Send email notification (Phase 11)
-            // For now, just collect links
+            // Send email notification
+            if ($party->email) {
+                try {
+                    Notification::route('mail', $party->email)
+                        ->notify(new \App\Notifications\ContractSigningNotification(
+                            $contract,
+                            $party,
+                            $link
+                        ));
+
+                    $emailSent = true;
+                } catch (\Exception $e) {
+                    \Log::error('Failed to send signing notification', [
+                        'party_id' => $party->id,
+                        'email' => $party->email,
+                        'error' => $e->getMessage(),
+                    ]);
+                    $emailSent = false;
+                }
+            } else {
+                $emailSent = false;
+            }
+
             $results[] = [
                 'party_id' => $party->id,
                 'party_name' => $party->name,
                 'signing_link' => $link,
+                'email_sent' => $emailSent,
             ];
         }
 

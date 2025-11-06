@@ -56,11 +56,11 @@ class ContractSignature extends Model
             'code_sent_at' => now(),
         ]);
 
-        // TODO: Integrate with SMS provider (Twilio, ClickSend, SMS Link Romania)
-        // For now, just return true (will implement in Phase 7)
-        // SMS message: "Codul dvs. de verificare pentru semnarea contractului: {$code}"
+        // Send via SMS service
+        $smsService = app(\App\Services\SmsService::class);
+        $message = "Codul dvs. de verificare ContractRO: {$code}. Valabil 15 minute.";
 
-        return true;
+        return $smsService->send($phone, $message);
     }
 
     // Verify SMS code
