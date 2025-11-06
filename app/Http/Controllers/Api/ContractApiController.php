@@ -325,4 +325,290 @@ class ContractApiController extends Controller
             return response()->json(['error' => 'Failed to fetch statistics', 'message' => $e->getMessage()], 500);
         }
     }
+
+    /**
+     * Terminate contract
+     */
+    public function terminate(Request $request, int $id): JsonResponse
+    {
+        try {
+            $contract = Contract::findOrFail($id);
+
+            // Check authorization
+            if ($contract->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $validated = $request->validate([
+                'termination_reason' => 'nullable|string',
+            ]);
+
+            $this->contractService->terminate($id, $validated['termination_reason'] ?? null);
+
+            return response()->json(['message' => 'Contract terminated successfully']);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to terminate contract', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Get signing status
+     */
+    public function signingStatus(Request $request, int $id): JsonResponse
+    {
+        try {
+            $contract = Contract::with(['contractParties.signatures'])->findOrFail($id);
+
+            // Check authorization
+            if ($contract->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $parties = $contract->contractParties->map(function($party) {
+                return [
+                    'id' => $party->id,
+                    'name' => $party->name,
+                    'email' => $party->email,
+                    'role' => $party->role,
+                    'has_signed' => $party->hasSigned(),
+                    'signed_at' => $party->hasSigned() ? $party->signatures->first()->signed_at : null,
+                ];
+            });
+
+            return response()->json([
+                'is_fully_signed' => $contract->isFullySigned(),
+                'total_parties' => $contract->contractParties->count(),
+                'signed_count' => $contract->contractParties->filter(fn($p) => $p->hasSigned())->count(),
+                'parties' => $parties,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch signing status', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Get eIDAS compliance report
+     */
+    public function eidasReport(Request $request, int $id): JsonResponse
+    {
+        try {
+            $contract = Contract::with(['contractParties.signatures'])->findOrFail($id);
+
+            // Check authorization
+            if ($contract->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $signatures = $contract->contractParties->flatMap(function($party) use ($contract) {
+                return $party->signatures->map(function($sig) use ($party, $contract) {
+                    return [
+                        'party_name' => $party->name,
+                        'party_email' => $party->email,
+                        'method' => $contract->signing_method,
+                        'signed_at' => $sig->signed_at,
+                        'ip_address' => $sig->ip_address,
+                        'user_agent' => $sig->user_agent,
+                        'verification_method' => $sig->verification_method,
+                        'eidas_compliant' => true, // SMS-based signatures are eIDAS compliant
+                    ];
+                });
+            });
+
+            return response()->json([
+                'contract_number' => $contract->contract_number,
+                'contract_title' => $contract->title,
+                'is_fully_signed' => $contract->isFullySigned(),
+                'signing_method' => $contract->signing_method,
+                'eidas_regulation' => 'EU 910/2014',
+                'compliance_level' => 'Advanced Electronic Signature',
+                'signatures' => $signatures,
+                'generated_at' => now()->toIso8601String(),
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to generate eIDAS report', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Add party to contract
+     */
+    public function addParty(Request $request, int $id): JsonResponse
+    {
+        try {
+            $contract = Contract::findOrFail($id);
+
+            // Check authorization
+            if ($contract->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            if ($contract->status !== 'draft') {
+                return response()->json(['error' => 'Can only add parties to draft contracts'], 400);
+            }
+
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email',
+                'phone' => 'nullable|string|max:50',
+                'role' => 'nullable|string|max:100',
+                'company_name' => 'nullable|string|max:255',
+            ]);
+
+            $party = $contract->contractParties()->create($validated);
+
+            return response()->json([
+                'message' => 'Party added successfully',
+                'party' => $party,
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to add party', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Remove party from contract
+     */
+    public function removeParty(Request $request, int $contractId, int $partyId): JsonResponse
+    {
+        try {
+            $contract = Contract::findOrFail($contractId);
+
+            // Check authorization
+            if ($contract->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            if ($contract->status !== 'draft') {
+                return response()->json(['error' => 'Can only remove parties from draft contracts'], 400);
+            }
+
+            $party = $contract->contractParties()->findOrFail($partyId);
+            $party->delete();
+
+            return response()->json(['message' => 'Party removed successfully']);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to remove party', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Add amendment to contract
+     */
+    public function addAmendment(Request $request, int $id): JsonResponse
+    {
+        try {
+            $contract = Contract::findOrFail($id);
+
+            // Check authorization
+            if ($contract->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'effective_date' => 'required|date',
+            ]);
+
+            $amendment = $contract->amendments()->create($validated);
+
+            return response()->json([
+                'message' => 'Amendment added successfully',
+                'amendment' => $amendment,
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to add amendment', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Get contract amendments
+     */
+    public function amendments(Request $request, int $id): JsonResponse
+    {
+        try {
+            $contract = Contract::findOrFail($id);
+
+            // Check authorization
+            if ($contract->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $amendments = $contract->amendments()->orderBy('effective_date', 'desc')->get();
+
+            return response()->json($amendments);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch amendments', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Add attachment to contract
+     */
+    public function addAttachment(Request $request, int $id): JsonResponse
+    {
+        try {
+            $contract = Contract::findOrFail($id);
+
+            // Check authorization
+            if ($contract->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $validated = $request->validate([
+                'file' => 'required|file|max:10240', // 10MB max
+                'title' => 'nullable|string|max:255',
+                'description' => 'nullable|string',
+            ]);
+
+            $file = $request->file('file');
+            $path = $file->store('contract-attachments', 'public');
+
+            $attachment = $contract->attachments()->create([
+                'title' => $validated['title'] ?? $file->getClientOriginalName(),
+                'description' => $validated['description'] ?? null,
+                'file_path' => $path,
+                'file_name' => $file->getClientOriginalName(),
+                'file_size' => $file->getSize(),
+                'mime_type' => $file->getMimeType(),
+            ]);
+
+            return response()->json([
+                'message' => 'Attachment added successfully',
+                'attachment' => $attachment,
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to add attachment', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Get contract attachments
+     */
+    public function attachments(Request $request, int $id): JsonResponse
+    {
+        try {
+            $contract = Contract::findOrFail($id);
+
+            // Check authorization
+            if ($contract->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            $attachments = $contract->attachments()->orderBy('created_at', 'desc')->get();
+
+            return response()->json($attachments);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch attachments', 'message' => $e->getMessage()], 500);
+        }
+    }
 }

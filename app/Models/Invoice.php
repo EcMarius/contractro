@@ -26,6 +26,13 @@ class Invoice extends Model
         'payment_date',
         'items',
         'notes',
+        // ANAF e-Factura fields
+        'anaf_upload_index',
+        'anaf_status',
+        'anaf_uploaded_at',
+        'anaf_validated_at',
+        'anaf_response',
+        'anaf_error',
     ];
 
     protected $casts = [
@@ -37,6 +44,9 @@ class Invoice extends Model
         'issue_date' => 'date',
         'due_date' => 'date',
         'payment_date' => 'date',
+        'anaf_uploaded_at' => 'datetime',
+        'anaf_validated_at' => 'datetime',
+        'anaf_response' => 'array',
     ];
 
     // Relationships

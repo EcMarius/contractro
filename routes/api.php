@@ -233,3 +233,108 @@ Route::middleware('api.key')->prefix('v1')->group(function () {
     // Account endpoints
     Route::get('/account/usage', [\App\Http\Controllers\Api\AccountController::class, 'usage']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| ContractRO API Routes (Contracts, Invoices, Companies, Integrations)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth:sanctum')->prefix('v1/contractro')->group(function () {
+
+    // Companies API
+    Route::apiResource('companies', \App\Http\Controllers\Api\CompanyApiController::class);
+    Route::post('/companies/{id}/validate-cui', function($id) {
+        $company = \App\Models\Company::findOrFail($id);
+        $anafService = app(\App\Services\AnafService::class);
+        $result = $anafService->validateCUI($company->cui);
+        return response()->json($result);
+    });
+
+    // Contracts API
+    Route::apiResource('contracts', \App\Http\Controllers\Api\ContractApiController::class);
+    Route::post('/contracts/{id}/send-for-signing', [\App\Http\Controllers\Api\ContractApiController::class, 'sendForSigning']);
+    Route::post('/contracts/{id}/duplicate', [\App\Http\Controllers\Api\ContractApiController::class, 'duplicate']);
+    Route::post('/contracts/{id}/terminate', [\App\Http\Controllers\Api\ContractApiController::class, 'terminate']);
+    Route::get('/contracts/{id}/signing-status', [\App\Http\Controllers\Api\ContractApiController::class, 'signingStatus']);
+    Route::get('/contracts/{id}/eidas-report', [\App\Http\Controllers\Api\ContractApiController::class, 'eidasReport']);
+    
+    // Contract Parties
+    Route::post('/contracts/{id}/parties', [\App\Http\Controllers\Api\ContractApiController::class, 'addParty']);
+    Route::delete('/contracts/{contractId}/parties/{partyId}', [\App\Http\Controllers\Api\ContractApiController::class, 'removeParty']);
+    
+    // Contract Amendments
+    Route::post('/contracts/{id}/amendments', [\App\Http\Controllers\Api\ContractApiController::class, 'addAmendment']);
+    Route::get('/contracts/{id}/amendments', [\App\Http\Controllers\Api\ContractApiController::class, 'amendments']);
+    
+    // Contract Attachments
+    Route::post('/contracts/{id}/attachments', [\App\Http\Controllers\Api\ContractApiController::class, 'addAttachment']);
+    Route::get('/contracts/{id}/attachments', [\App\Http\Controllers\Api\ContractApiController::class, 'attachments']);
+
+    // Invoices API
+    Route::apiResource('invoices', \App\Http\Controllers\Api\InvoiceApiController::class);
+    Route::post('/invoices/{id}/mark-paid', [\App\Http\Controllers\Api\InvoiceApiController::class, 'markAsPaid']);
+    Route::post('/invoices/{id}/cancel', [\App\Http\Controllers\Api\InvoiceApiController::class, 'cancel']);
+    Route::post('/invoices/{id}/send-to-anaf', [\App\Http\Controllers\Api\InvoiceApiController::class, 'sendToAnaf']);
+    Route::get('/invoices/{id}/anaf-status', [\App\Http\Controllers\Api\InvoiceApiController::class, 'anafStatus']);
+    Route::post('/invoices/from-contract/{contractId}', [\App\Http\Controllers\Api\InvoiceApiController::class, 'createFromContract']);
+
+    // Integrations API
+    Route::apiResource('integrations', \App\Http\Controllers\Api\IntegrationApiController::class);
+    Route::post('/integrations/{id}/test', [\App\Http\Controllers\Api\IntegrationApiController::class, 'test']);
+    Route::get('/integrations/{id}/logs', [\App\Http\Controllers\Api\IntegrationApiController::class, 'logs']);
+    Route::post('/integrations/{id}/toggle', [\App\Http\Controllers\Api\IntegrationApiController::class, 'toggle']);
+
+    // ANAF Utilities
+    Route::post('/anaf/validate-cui', function(\Illuminate\Http\Request $request) {
+        $request->validate(['cui' => 'required|string']);
+        $anafService = app(\App\Services\AnafService::class);
+        $result = $anafService->validateCUI($request->cui);
+        return response()->json($result);
+    });
+
+    // SMS Utilities
+    Route::post('/sms/send', function(\Illuminate\Http\Request $request) {
+        $request->validate([
+            'phone' => 'required|string',
+            'message' => 'required|string|max:160'
+        ]);
+        $smsService = app(\App\Services\SmsService::class);
+        $sent = $smsService->send($request->phone, $request->message);
+        return response()->json(['success' => $sent]);
+    });
+
+    // Contract Types
+    Route::get('/contract-types', function() {
+        return response()->json(\App\Models\ContractType::where('is_active', true)->get());
+    });
+
+    // Statistics
+    Route::get('/stats/dashboard', function(\Illuminate\Http\Request $request) {
+        $user = $request->user();
+        $companyIds = \App\Models\Company::where('user_id', $user->id)->pluck('id');
+        
+        return response()->json([
+            'companies' => \App\Models\Company::where('user_id', $user->id)->count(),
+            'contracts' => [
+                'total' => \App\Models\Contract::whereIn('company_id', $companyIds)->count(),
+                'active' => \App\Models\Contract::whereIn('company_id', $companyIds)->where('status', 'active')->count(),
+                'pending' => \App\Models\Contract::whereIn('company_id', $companyIds)->where('status', 'pending')->count(),
+                'signed_this_month' => \App\Models\Contract::whereIn('company_id', $companyIds)
+                    ->where('status', 'signed')
+                    ->whereMonth('signed_at', now()->month)
+                    ->count(),
+            ],
+            'invoices' => [
+                'total' => \App\Models\Invoice::whereIn('company_id', $companyIds)->count(),
+                'paid' => \App\Models\Invoice::whereIn('company_id', $companyIds)->where('status', 'paid')->count(),
+                'pending_amount' => \App\Models\Invoice::whereIn('company_id', $companyIds)
+                    ->whereIn('status', ['issued', 'overdue'])
+                    ->sum('total_amount'),
+                'overdue' => \App\Models\Invoice::whereIn('company_id', $companyIds)
+                    ->where('status', 'overdue')
+                    ->count(),
+            ],
+        ]);
+    });
+});

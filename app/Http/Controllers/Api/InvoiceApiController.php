@@ -386,4 +386,121 @@ class InvoiceApiController extends Controller
             return response()->json(['error' => 'Failed to check overdue invoices', 'message' => $e->getMessage()], 500);
         }
     }
+
+    /**
+     * Send invoice to ANAF e-Factura
+     */
+    public function sendToAnaf(Request $request, int $id): JsonResponse
+    {
+        try {
+            $invoice = Invoice::with('company')->findOrFail($id);
+
+            // Check authorization
+            if ($invoice->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            if ($invoice->status === 'draft') {
+                return response()->json(['error' => 'Cannot send draft invoices to ANAF'], 400);
+            }
+
+            $anafService = app(\App\Services\AnafService::class);
+            $result = $anafService->sendToEFactura($invoice, $invoice->company);
+
+            return response()->json($result);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to send to ANAF', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Get ANAF status for invoice
+     */
+    public function anafStatus(Request $request, int $id): JsonResponse
+    {
+        try {
+            $invoice = Invoice::with('company')->findOrFail($id);
+
+            // Check authorization
+            if ($invoice->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            if (!$invoice->anaf_upload_index) {
+                return response()->json([
+                    'status' => 'not_uploaded',
+                    'message' => 'Invoice has not been uploaded to ANAF yet',
+                ]);
+            }
+
+            $anafService = app(\App\Services\AnafService::class);
+            $result = $anafService->checkInvoiceStatus($invoice, $invoice->company);
+
+            return response()->json([
+                'anaf_status' => $invoice->anaf_status,
+                'anaf_upload_index' => $invoice->anaf_upload_index,
+                'anaf_uploaded_at' => $invoice->anaf_uploaded_at,
+                'anaf_validated_at' => $invoice->anaf_validated_at,
+                'latest_check' => $result,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to check ANAF status', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Create invoice from contract
+     */
+    public function createFromContract(Request $request, int $contractId): JsonResponse
+    {
+        try {
+            $contract = \App\Models\Contract::with(['company', 'contractParties'])->findOrFail($contractId);
+
+            // Check authorization
+            if ($contract->company->user_id !== $request->user()->id) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            if ($contract->status !== 'signed' && $contract->status !== 'active') {
+                return response()->json(['error' => 'Can only create invoices from signed or active contracts'], 400);
+            }
+
+            $validated = $request->validate([
+                'series' => 'required|string|max:10',
+                'issue_date' => 'required|date',
+                'due_date' => 'required|date|after_or_equal:issue_date',
+                'items' => 'required|array|min:1',
+                'items.*.description' => 'required|string',
+                'items.*.quantity' => 'required|numeric|min:0.01',
+                'items.*.unit' => 'required|string|max:20',
+                'items.*.unit_price' => 'required|numeric|min:0',
+            ]);
+
+            // Get client info from contract parties
+            $client = $contract->contractParties->first();
+
+            $invoiceData = array_merge($validated, [
+                'company_id' => $contract->company_id,
+                'contract_id' => $contract->id,
+                'client_name' => $client->name ?? 'N/A',
+                'client_cui' => $client->company_cui ?? null,
+                'client_address' => $client->address ?? null,
+                'vat_rate' => $contract->company->vat_rate ?? 19,
+                'currency' => $contract->currency ?? 'RON',
+                'status' => 'draft',
+            ]);
+
+            $invoice = $this->invoiceService->create($invoiceData);
+
+            return response()->json([
+                'message' => 'Invoice created from contract successfully',
+                'invoice' => $invoice->load(['contract', 'company']),
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create invoice from contract', 'message' => $e->getMessage()], 500);
+        }
+    }
 }
