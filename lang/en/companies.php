@@ -42,12 +42,17 @@ return [
     'remove_logo' => 'Remove Logo',
     'upload_logo' => 'Upload Logo',
     'validate_cui' => 'Validate CUI',
+    'auto_fill' => 'Auto-Fill',
 
     // Messages
     'messages' => [
         'created_successfully' => 'Company has been created successfully.',
         'updated_successfully' => 'Company has been updated successfully.',
         'deleted_successfully' => 'Company has been deleted successfully.',
+        'enter_cui_first' => 'Please enter CUI or registration number first',
+        'company_data_loaded' => 'Company data loaded automatically!',
+        'company_not_found' => 'Company not found in official database',
+        'lookup_error' => 'Error looking up company',
         'switched_successfully' => 'You have switched the active company.',
         'no_companies' => 'You have no companies created.',
         'confirm_delete' => 'Are you sure you want to delete this company? All associated contracts and invoices will be deleted!',
@@ -91,6 +96,7 @@ return [
         'reg_com_format' => 'Ex: J40/1234/2023',
         'iban_format' => 'Romanian IBAN format: RO49AAAA1B31007593840000',
         'logo_requirements' => 'PNG, JPG, JPEG or SVG. Maximum :max MB.',
+        'auto_fill_hint' => 'Enter CUI/registration code and select country, then click the button to auto-fill',
     ],
 
     // Quick Actions

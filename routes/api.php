@@ -30,6 +30,22 @@ Route::middleware('web', 'auth')->post('/user/update-country', function (Request
     return response()->json(['success' => true, 'message' => 'Country updated successfully']);
 });
 
+// Company lookup API - Auto-fill company data from registration code
+Route::middleware('web', 'auth')->post('/company/lookup', function (Request $request) {
+    $request->validate([
+        'registration_code' => 'required|string',
+        'country' => 'required|string|max:2',
+    ]);
+
+    $lookupService = app(\App\Services\CompanyLookupService::class);
+    $result = $lookupService->lookup(
+        $request->registration_code,
+        $request->country
+    );
+
+    return response()->json($result);
+});
+
 Wave::api();
 
 // Posts Example API Route

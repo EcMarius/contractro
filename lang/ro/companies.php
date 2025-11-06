@@ -42,12 +42,17 @@ return [
     'remove_logo' => 'Șterge Logo',
     'upload_logo' => 'Încarcă Logo',
     'validate_cui' => 'Validează CUI',
+    'auto_fill' => 'Completare Automată',
 
     // Messages
     'messages' => [
         'created_successfully' => 'Compania a fost creată cu succes.',
         'updated_successfully' => 'Compania a fost actualizată cu succes.',
         'deleted_successfully' => 'Compania a fost ștearsă cu succes.',
+        'enter_cui_first' => 'Introduceți mai întâi CUI-ul sau numărul de înregistrare',
+        'company_data_loaded' => 'Datele companiei au fost încărcate automat!',
+        'company_not_found' => 'Compania nu a fost găsită în baza de date oficială',
+        'lookup_error' => 'Eroare la căutarea companiei',
         'switched_successfully' => 'Ai schimbat compania activă.',
         'no_companies' => 'Nu ai nicio companie creată.',
         'confirm_delete' => 'Sigur dorești să ștergi această companie? Toate contractele și facturile asociate vor fi șterse!',
@@ -91,6 +96,7 @@ return [
         'reg_com_format' => 'Ex: J40/1234/2023',
         'iban_format' => 'Format IBAN românesc: RO49AAAA1B31007593840000',
         'logo_requirements' => 'PNG, JPG, JPEG sau SVG. Maximum :max MB.',
+        'auto_fill_hint' => 'Introduceți CUI/registration code și selectați țara, apoi apăsați butonul pentru completare automată',
     ],
 
     // Quick Actions

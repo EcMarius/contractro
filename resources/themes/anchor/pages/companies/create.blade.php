@@ -25,7 +25,56 @@
 		</div>
 
 		{{-- Form --}}
-		<form method="POST" action="{{ route('companies.store') }}" enctype="multipart/form-data" class="space-y-6">
+		<form method="POST" action="{{ route('companies.store') }}" enctype="multipart/form-data" class="space-y-6"
+			x-data="{
+				loading: false,
+				lookupResult: null,
+				country: 'RO',
+				async lookupCompany() {
+					const cui = document.getElementById('cui').value;
+					if (!cui) {
+						alert('{{ __('companies.messages.enter_cui_first') }}');
+						return;
+					}
+
+					this.loading = true;
+					this.lookupResult = null;
+
+					try {
+						const response = await fetch('/api/company/lookup', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+								'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+							},
+							body: JSON.stringify({
+								registration_code: cui,
+								country: this.country
+							})
+						});
+
+						const result = await response.json();
+						this.lookupResult = result;
+
+						if (result.found && result.data) {
+							// Auto-fill form fields
+							if (result.data.name) document.getElementById('name').value = result.data.name;
+							if (result.data.address) document.getElementById('address').value = result.data.address;
+							if (result.data.phone) document.getElementById('phone').value = result.data.phone;
+							if (result.data.registration_number) document.getElementById('reg_com').value = result.data.registration_number;
+							if (result.data.vat_number) document.getElementById('cui').value = result.data.vat_number;
+
+							alert('✅ {{ __('companies.messages.company_data_loaded') }}');
+						} else {
+							alert('❌ {{ __('companies.messages.company_not_found') }}');
+						}
+					} catch (error) {
+						alert('{{ __('companies.messages.lookup_error') }}: ' + error.message);
+					} finally {
+						this.loading = false;
+					}
+				}
+			}">
 			@csrf
 
 			{{-- Company Information --}}
@@ -35,6 +84,57 @@
 				</h2>
 
 				<div class="space-y-4">
+					{{-- CUI / Registration Code with Auto-Fill --}}
+					<div>
+						<label for="cui" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+							{{ __('companies.cui') }} / Registration Code
+						</label>
+
+						<div class="flex gap-2">
+							{{-- Country Selector --}}
+							<select x-model="country" class="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" style="max-width: 100px;">
+								<option value="RO">🇷🇴 RO</option>
+								<option value="US">🇺🇸 US</option>
+								<option value="GB">🇬🇧 GB</option>
+								<option value="DE">🇩🇪 DE</option>
+								<option value="FR">🇫🇷 FR</option>
+								<option value="ES">🇪🇸 ES</option>
+								<option value="IT">🇮🇹 IT</option>
+								<option value="NL">🇳🇱 NL</option>
+								<option value="BE">🇧🇪 BE</option>
+								<option value="AT">🇦🇹 AT</option>
+								<option value="PL">🇵🇱 PL</option>
+								<option value="SE">🇸🇪 SE</option>
+							</select>
+
+							{{-- CUI Input --}}
+							<input type="text" name="cui" id="cui"
+								value="{{ old('cui') }}"
+								placeholder="RO12345678"
+								class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+
+							{{-- Lookup Button --}}
+							<button type="button" @click="lookupCompany()"
+								:disabled="loading"
+								class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring focus:ring-blue-300 disabled:opacity-50 transition">
+								<span x-show="!loading">🔍 {{ __('companies.auto_fill') }}</span>
+								<span x-show="loading" x-cloak>
+									<svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+										<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+										<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+									</svg>
+								</span>
+							</button>
+						</div>
+
+						<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+							💡 {{ __('companies.helpers.auto_fill_hint') }}
+						</p>
+						@error('cui')
+							<p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+						@enderror
+					</div>
+
 					{{-- Name --}}
 					<div>
 						<label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -44,23 +144,6 @@
 							value="{{ old('name') }}"
 							class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
 						@error('name')
-							<p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-						@enderror
-					</div>
-
-					{{-- CUI --}}
-					<div>
-						<label for="cui" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-							{{ __('companies.cui') }}
-						</label>
-						<input type="text" name="cui" id="cui"
-							value="{{ old('cui') }}"
-							placeholder="RO12345678"
-							class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-						<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-							{{ __('companies.helpers.cui_format') }}
-						</p>
-						@error('cui')
 							<p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
 						@enderror
 					</div>
