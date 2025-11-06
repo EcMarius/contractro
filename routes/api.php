@@ -285,3 +285,36 @@ Route::middleware('auth:sanctum')->prefix('contracts')->group(function () {
     Route::put('/templates/{id}', [\App\Http\Controllers\Api\ContractTemplateController::class, 'update']);
     Route::delete('/templates/{id}', [\App\Http\Controllers\Api\ContractTemplateController::class, 'destroy']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| License Management API Routes
+|--------------------------------------------------------------------------
+*/
+
+// Public license validation endpoints (no auth required)
+Route::prefix('licenses')->group(function () {
+    // Validate license key + domain combination
+    Route::post('/validate', [\App\Http\Controllers\Api\LicenseController::class, 'validate']);
+
+    // Check if a domain has a valid license (public checker)
+    Route::get('/check', [\App\Http\Controllers\Api\LicenseController::class, 'check']);
+});
+
+// Protected license routes (requires authentication)
+Route::middleware('auth:sanctum')->prefix('licenses')->group(function () {
+    // List licenses
+    Route::get('/', [\App\Http\Controllers\Api\LicenseController::class, 'index']);
+
+    // Get license by key
+    Route::get('/{licenseKey}', [\App\Http\Controllers\Api\LicenseController::class, 'show']);
+
+    // Get license check logs
+    Route::get('/{licenseKey}/logs', [\App\Http\Controllers\Api\LicenseController::class, 'logs']);
+
+    // Renew license
+    Route::post('/{licenseKey}/renew', [\App\Http\Controllers\Api\LicenseController::class, 'renew']);
+
+    // Get license statistics (admin only)
+    Route::get('/statistics', [\App\Http\Controllers\Api\LicenseController::class, 'statistics']);
+});

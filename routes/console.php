@@ -24,3 +24,6 @@ Schedule::job(new \App\Jobs\SendSignatureReminders)->dailyAt('10:00');
 
 // Contract Management - Check for expiring contracts daily at 9 AM
 Schedule::job(new \App\Jobs\CheckExpiringContracts)->dailyAt('09:00');
+
+// License Management - Check for expiring licenses daily at 9:30 AM
+Schedule::command('licenses:check-expiring')->dailyAt('09:30');

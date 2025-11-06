@@ -247,5 +247,10 @@ Route::post('/unsubscribe/process', [\App\Http\Controllers\GrowthHackingControll
 Route::get('/track/open/{token}', [\App\Http\Controllers\GrowthHackingController::class, 'trackOpen'])->name('growth-hack.track-open');
 Route::get('/track/click', [\App\Http\Controllers\GrowthHackingController::class, 'trackClick'])->name('growth-hack.track-click');
 
+// License checker (public)
+Route::get('/license-checker', function () {
+    return view('livewire.license-checker');
+})->name('license-checker');
+
 // Wave routes
 Wave::routes();
