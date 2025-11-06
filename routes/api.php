@@ -233,3 +233,55 @@ Route::middleware('api.key')->prefix('v1')->group(function () {
     // Account endpoints
     Route::get('/account/usage', [\App\Http\Controllers\Api\AccountController::class, 'usage']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| Contract Management API Routes
+|--------------------------------------------------------------------------
+*/
+
+// Public signature endpoints (no auth required - uses verification token)
+Route::prefix('signatures')->group(function () {
+    Route::get('/{token}', [\App\Http\Controllers\Api\ContractSignatureController::class, 'getByToken']);
+    Route::post('/{token}/sign', [\App\Http\Controllers\Api\ContractSignatureController::class, 'sign']);
+    Route::post('/{token}/decline', [\App\Http\Controllers\Api\ContractSignatureController::class, 'decline']);
+});
+
+// Protected contract routes (Sanctum for browser/extension)
+Route::middleware('auth:sanctum')->prefix('contracts')->group(function () {
+    // Contract CRUD
+    Route::get('/', [\App\Http\Controllers\Api\ContractController::class, 'index']);
+    Route::post('/', [\App\Http\Controllers\Api\ContractController::class, 'store']);
+    Route::get('/statistics', [\App\Http\Controllers\Api\ContractController::class, 'statistics']);
+    Route::get('/{id}', [\App\Http\Controllers\Api\ContractController::class, 'show']);
+    Route::put('/{id}', [\App\Http\Controllers\Api\ContractController::class, 'update']);
+    Route::delete('/{id}', [\App\Http\Controllers\Api\ContractController::class, 'destroy']);
+
+    // Contract actions
+    Route::post('/{id}/duplicate', [\App\Http\Controllers\Api\ContractController::class, 'duplicate']);
+    Route::post('/{id}/send-for-signature', [\App\Http\Controllers\Api\ContractController::class, 'sendForSignature']);
+    Route::get('/{id}/pdf', [\App\Http\Controllers\Api\ContractController::class, 'downloadPDF']);
+
+    // AI features
+    Route::post('/ai/generate', [\App\Http\Controllers\Api\ContractController::class, 'generateFromAI']);
+    Route::post('/{id}/ai/review', [\App\Http\Controllers\Api\ContractController::class, 'reviewWithAI']);
+    Route::post('/{id}/ai/improvements', [\App\Http\Controllers\Api\ContractController::class, 'suggestImprovements']);
+    Route::post('/{id}/ai/key-points', [\App\Http\Controllers\Api\ContractController::class, 'extractKeyPoints']);
+
+    // Version control
+    Route::get('/{id}/versions', [\App\Http\Controllers\Api\ContractController::class, 'versions']);
+    Route::post('/{id}/versions/{versionId}/restore', [\App\Http\Controllers\Api\ContractController::class, 'restoreVersion']);
+
+    // Signature management
+    Route::post('/signatures/{id}/resend', [\App\Http\Controllers\Api\ContractSignatureController::class, 'resend']);
+    Route::post('/signatures/{id}/cancel', [\App\Http\Controllers\Api\ContractSignatureController::class, 'cancel']);
+
+    // Templates
+    Route::get('/templates', [\App\Http\Controllers\Api\ContractTemplateController::class, 'index']);
+    Route::get('/templates/categories', [\App\Http\Controllers\Api\ContractTemplateController::class, 'categories']);
+    Route::get('/templates/popular', [\App\Http\Controllers\Api\ContractTemplateController::class, 'popular']);
+    Route::get('/templates/{id}', [\App\Http\Controllers\Api\ContractTemplateController::class, 'show']);
+    Route::post('/templates', [\App\Http\Controllers\Api\ContractTemplateController::class, 'store']);
+    Route::put('/templates/{id}', [\App\Http\Controllers\Api\ContractTemplateController::class, 'update']);
+    Route::delete('/templates/{id}', [\App\Http\Controllers\Api\ContractTemplateController::class, 'destroy']);
+});
