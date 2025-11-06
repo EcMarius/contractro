@@ -196,23 +196,6 @@ class SignatureService
     }
 
     /**
-     * Send SMS via configured provider
-     * This will be fully implemented in Phase 7
-     */
-    protected function sendSMS(string $phone, string $message): bool
-    {
-        // TODO: Integrate with SMS provider (Twilio, ClickSend, SMS Link Romania)
-        // For now, log the SMS (development mode)
-
-        Log::info('SMS would be sent', [
-            'phone' => $phone,
-            'message' => $message,
-        ]);
-
-        return true;
-    }
-
-    /**
      * Get signature statistics for a company
      */
     public function getSignatureStatistics(int $companyId): array
