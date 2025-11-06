@@ -29,6 +29,12 @@ class DatabaseSeeder extends Seeder
         $this->call(SettingsTableSeeder::class);
         $this->call(ProfileKeyValuesTableSeeder::class);
         $this->call(ThemesTableSeeder::class);
+
+        // Contract Templates (only if table exists)
+        if (Schema::hasTable('contract_templates')) {
+            $this->call(ContractTemplateSeeder::class);
+        }
+
         fixPostgresSequence();
     }
 }
