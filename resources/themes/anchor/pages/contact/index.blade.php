@@ -41,11 +41,25 @@
             // Increment rate limiter after validation
             RateLimiter::hit($key, 600); // 10 minutes decay
 
-            // Here you can add logic to send email or store in database
-            // For now, we'll just show success message
-
-            // Example: Send email to admin
-            // Mail::to(config('mail.from.address'))->send(new ContactFormMail($this->all()));
+            // Send email notification to admin
+            try {
+                $adminEmail = setting('company_email', config('mail.from.address', 'hello@contractro.com'));
+                \Mail::to($adminEmail)->send(
+                    new \App\Mail\ContactFormMail(
+                        senderName: $this->name,
+                        senderEmail: $this->email,
+                        senderCompany: $this->company,
+                        subject: $this->subject,
+                        messageContent: $this->message
+                    )
+                );
+            } catch (\Exception $e) {
+                \Log::error('Failed to send contact form email', [
+                    'error' => $e->getMessage(),
+                    'email' => $this->email,
+                ]);
+                // Don't show error to user, just log it
+            }
 
             $this->submitted = true;
             $this->reset(['name', 'email', 'company', 'subject', 'message']);
