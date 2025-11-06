@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,12 +18,14 @@ class Contract extends Model
         'organization_id',
         'template_id',
         'lead_id',
+        'folder_id',
         'contract_number',
         'title',
         'description',
         'content',
         'variables',
         'status',
+        'is_favorite',
         'contract_value',
         'currency',
         'created_by',
@@ -41,6 +44,7 @@ class Contract extends Model
         'effective_date' => 'datetime',
         'expires_at' => 'datetime',
         'is_template' => 'boolean',
+        'is_favorite' => 'boolean',
         'contract_value' => 'decimal:2',
     ];
 
@@ -119,6 +123,25 @@ class Contract extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(ContractComment::class)->whereNull('parent_id');
+    }
+
+    public function folder(): BelongsTo
+    {
+        return $this->belongsTo(ContractFolder::class, 'folder_id');
+    }
+
+    public function folders(): BelongsToMany
+    {
+        return $this->belongsToMany(ContractFolder::class, 'contract_folder')
+            ->withPivot('added_at')
+            ->withTimestamps();
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(ContractTag::class, 'contract_tag')
+            ->withPivot('tagged_at')
+            ->withTimestamps();
     }
 
     /**
