@@ -67,6 +67,19 @@ class Contract extends Model
                 $contract->created_by = auth()->id();
             }
         });
+
+        // Clear cache on contract changes
+        static::saved(function ($contract) {
+            app(\App\Services\ContractCacheService::class)->clearContractCache($contract->id);
+            app(\App\Services\ContractCacheService::class)->clearUserContractsCache($contract->user_id);
+            app(\App\Services\ContractCacheService::class)->clearStatsCache($contract->user_id);
+        });
+
+        static::deleted(function ($contract) {
+            app(\App\Services\ContractCacheService::class)->clearContractCache($contract->id);
+            app(\App\Services\ContractCacheService::class)->clearUserContractsCache($contract->user_id);
+            app(\App\Services\ContractCacheService::class)->clearStatsCache($contract->user_id);
+        });
     }
 
     /**
