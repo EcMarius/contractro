@@ -47,7 +47,7 @@ class ScheduledJobFailedNotification extends Notification implements ShouldQueue
             ->line("The scheduled job **{$this->jobRun->job_name}** has failed.");
 
         if ($this->consecutiveFailures > 1) {
-            $message->line("⚠️ **This job has failed {$this->consecutiveFailures} times in the last 24 hours.**");
+            $message->line("**WARNING: This job has failed {$this->consecutiveFailures} times in the last 24 hours.**");
         }
 
         $message->line('**Job Details:**')
