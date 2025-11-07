@@ -94,26 +94,40 @@ class CheckExpiringLicenses extends Command
         foreach ($notificationDays as $days) {
             $days = (int) $days;
 
-            // Find licenses expiring in exactly X days
-            $expiringLicenses = License::active()
+            // Determine notification field based on days
+            $notificationField = match($days) {
+                30 => 'notified_30_days_at',
+                7 => 'notified_7_days_at',
+                1 => 'notified_1_day_at',
+                default => null,
+            };
+
+            // Find licenses expiring in exactly X days that haven't been notified yet
+            $query = License::active()
                 ->whereNotNull('expires_at')
                 ->whereBetween('expires_at', [
                     now()->addDays($days)->startOfDay(),
                     now()->addDays($days)->endOfDay(),
                 ])
-                ->with('user')
-                ->get();
+                ->with('user');
+
+            // Only get licenses that haven't been notified for this specific threshold
+            if ($notificationField) {
+                $query->whereNull($notificationField);
+            }
+
+            $expiringLicenses = $query->get();
 
             $licensesByDay[$days] = $expiringLicenses->count();
 
             if ($expiringLicenses->isEmpty()) {
-                $message = "  No licenses expiring in {$days} days";
+                $message = "  No licenses expiring in {$days} days (or already notified)";
                 $this->line($message);
                 $this->output[] = $message;
                 continue;
             }
 
-            $message = "  Found {$expiringLicenses->count()} license(s) expiring in {$days} days";
+            $message = "  Found {$expiringLicenses->count()} license(s) expiring in {$days} days (not yet notified)";
             $this->info($message);
             $this->output[] = $message;
 
@@ -121,6 +135,11 @@ class CheckExpiringLicenses extends Command
                 try {
                     // Send notification to license owner
                     $license->user->notify(new LicenseExpiringNotification($license, $days));
+
+                    // Mark as notified to prevent duplicates
+                    if ($notificationField) {
+                        $license->update([$notificationField => now()]);
+                    }
 
                     $message = "    ✓ Notified {$license->user->name} about license {$license->license_key}";
                     $this->line($message);
@@ -136,23 +155,28 @@ class CheckExpiringLicenses extends Command
         }
 
         // Check for already expired licenses that are still marked as active
+        // Only process licenses that haven't been notified about expiration yet
         $expiredLicenses = License::where('status', 'active')
             ->whereNotNull('expires_at')
             ->where('expires_at', '<', now())
+            ->whereNull('notified_expired_at')
             ->with('user')
             ->get();
 
         $expiredCount = $expiredLicenses->count();
 
         if ($expiredCount > 0) {
-            $message = "  Found {$expiredCount} expired license(s) still marked as active";
+            $message = "  Found {$expiredCount} expired license(s) still marked as active (not yet notified)";
             $this->warn($message);
             $this->output[] = $message;
 
             foreach ($expiredLicenses as $license) {
                 try {
-                    // Update status to expired
-                    $license->update(['status' => 'expired']);
+                    // Update status to expired and mark as notified
+                    $license->update([
+                        'status' => 'expired',
+                        'notified_expired_at' => now(),
+                    ]);
 
                     // Notify user
                     $license->user->notify(new LicenseExpiringNotification($license, 0));

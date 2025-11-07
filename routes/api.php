@@ -318,6 +318,9 @@ Route::middleware('auth:sanctum')->prefix('licenses')->group(function () {
     // Transfer license to new domain
     Route::post('/{licenseKey}/transfer', [\App\Http\Controllers\Api\LicenseController::class, 'transfer']);
 
+    // Reactivate cancelled/expired license
+    Route::post('/{licenseKey}/reactivate', [\App\Http\Controllers\Api\LicenseController::class, 'reactivate']);
+
     // Get license statistics (admin only)
     Route::get('/statistics', [\App\Http\Controllers\Api\LicenseController::class, 'statistics']);
 });

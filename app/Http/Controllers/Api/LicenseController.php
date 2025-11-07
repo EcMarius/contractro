@@ -312,4 +312,69 @@ class LicenseController extends Controller
             'transfer_history' => $result['transfer'],
         ]);
     }
+
+    /**
+     * Reactivate a cancelled or expired license (requires authentication)
+     *
+     * POST /api/licenses/{licenseKey}/reactivate
+     * Body: { "reactivation_type": "full|extend|resume", "reason": "optional reason" }
+     */
+    public function reactivate(Request $request, string $licenseKey): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'reactivation_type' => 'nullable|string|in:full,extend,resume',
+            'reason' => 'nullable|string|max:500',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => 'Invalid request parameters',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $license = License::where('license_key', $licenseKey)->first();
+
+        if (!$license) {
+            return response()->json([
+                'error' => 'License not found',
+            ], 404);
+        }
+
+        // Check permission (only license owner or admin)
+        if (auth()->user()->id !== $license->user_id && !auth()->user()->hasRole('admin')) {
+            return response()->json([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+
+        // Check if license can be reactivated
+        if (!$license->canBeReactivated()) {
+            return response()->json([
+                'error' => 'License cannot be reactivated',
+                'reason' => 'Only cancelled or expired licenses can be reactivated',
+                'current_status' => $license->status,
+            ], 400);
+        }
+
+        // Perform reactivation
+        $result = $license->reactivate(
+            reactivationType: $request->input('reactivation_type', 'full'),
+            reason: $request->input('reason')
+        );
+
+        if (!$result['success']) {
+            return response()->json([
+                'error' => $result['message'],
+                'code' => $result['code'],
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => $result['message'],
+            'license' => new LicenseResource($license->fresh()),
+            'reactivation_type' => $result['reactivation_type'],
+            'new_expiration' => $result['new_expiration'],
+        ]);
+    }
 }

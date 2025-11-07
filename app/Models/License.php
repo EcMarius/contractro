@@ -28,6 +28,10 @@ class License extends Model
         'transfer_count',
         'max_transfers',
         'last_transferred_at',
+        'notified_30_days_at',
+        'notified_7_days_at',
+        'notified_1_day_at',
+        'notified_expired_at',
         'ip_address',
         'metadata',
         'notes',
@@ -38,6 +42,10 @@ class License extends Model
         'expires_at' => 'datetime',
         'last_checked_at' => 'datetime',
         'last_transferred_at' => 'datetime',
+        'notified_30_days_at' => 'datetime',
+        'notified_7_days_at' => 'datetime',
+        'notified_1_day_at' => 'datetime',
+        'notified_expired_at' => 'datetime',
         'metadata' => 'array',
         'check_count' => 'integer',
         'transfer_count' => 'integer',
@@ -291,14 +299,117 @@ class License extends Model
     }
 
     /**
-     * Renew the license
+     * Renew the license (extends expiration based on type)
      */
     public function renew(): void
     {
-        $this->update([
-            'status' => 'active',
-            'expires_at' => static::calculateExpiration($this->type),
-        ]);
+        // Use database transaction for atomic operation
+        \DB::transaction(function () {
+            // Lock the row to prevent concurrent renewals
+            $this->lockForUpdate();
+
+            $this->update([
+                'status' => 'active',
+                'expires_at' => static::calculateExpiration($this->type),
+            ]);
+        });
+    }
+
+    /**
+     * Reactivate a cancelled or expired license
+     */
+    public function reactivate(string $reactivationType = 'full', string $reason = null): array
+    {
+        // Only cancelled or expired licenses can be reactivated
+        if (!in_array($this->status, ['cancelled', 'expired'])) {
+            return [
+                'success' => false,
+                'message' => 'Only cancelled or expired licenses can be reactivated',
+                'code' => 'INVALID_STATUS',
+                'current_status' => $this->status,
+            ];
+        }
+
+        try {
+            \DB::transaction(function () use ($reactivationType, $reason) {
+                // Lock the row
+                $this->lockForUpdate();
+
+                $updates = [
+                    'status' => 'active',
+                ];
+
+                // Determine expiration based on reactivation type
+                switch ($reactivationType) {
+                    case 'full':
+                        // Full reactivation - fresh expiration period
+                        $updates['expires_at'] = static::calculateExpiration($this->type);
+                        break;
+
+                    case 'extend':
+                        // Extend from old expiration (if they had time remaining)
+                        if ($this->expires_at && $this->expires_at->isFuture()) {
+                            // Still had time, extend from that date
+                            $updates['expires_at'] = $this->expires_at->copy()->add(
+                                static::calculateExpiration($this->type)->diffAsCarbonInterval(now())
+                            );
+                        } else {
+                            // Already expired, give fresh period
+                            $updates['expires_at'] = static::calculateExpiration($this->type);
+                        }
+                        break;
+
+                    case 'resume':
+                        // Resume with remaining time (if any)
+                        if ($this->expires_at && $this->expires_at->isFuture()) {
+                            // Keep existing expiration
+                            // No change to expires_at
+                        } else {
+                            // Already expired, need fresh period
+                            $updates['expires_at'] = static::calculateExpiration($this->type);
+                        }
+                        break;
+
+                    default:
+                        throw new \InvalidArgumentException('Invalid reactivation type: ' . $reactivationType);
+                }
+
+                // Add note about reactivation
+                if ($reason) {
+                    $updates['notes'] = ($this->notes ?? '') . "\n\nReactivated (" . now()->toDateTimeString() . "): {$reason}";
+                }
+
+                $this->update($updates);
+            });
+
+            return [
+                'success' => true,
+                'message' => 'License reactivated successfully',
+                'code' => 'REACTIVATION_SUCCESS',
+                'reactivation_type' => $reactivationType,
+                'new_expiration' => $this->fresh()->expires_at?->toDateTimeString(),
+            ];
+
+        } catch (\Exception $e) {
+            \Log::error('License reactivation failed', [
+                'license_id' => $this->id,
+                'error' => $e->getMessage(),
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Reactivation failed: ' . $e->getMessage(),
+                'code' => 'REACTIVATION_FAILED',
+            ];
+        }
+    }
+
+    /**
+     * Check if license can be reactivated
+     */
+    public function canBeReactivated(): bool
+    {
+        return in_array($this->status, ['cancelled', 'expired']);
     }
 
     /**
