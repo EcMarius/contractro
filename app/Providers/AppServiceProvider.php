@@ -104,6 +104,9 @@ class AppServiceProvider extends ServiceProvider
         // Register Setting observer to clear cache on updates (ensures instant favicon/logo changes)
         \Wave\Setting::observe(\App\Observers\SettingObserver::class);
 
+        // Register User observer to prevent deletion with active licenses
+        \App\Models\User::observe(\App\Observers\UserObserver::class);
+
         // Override Livewire's file upload route to bypass broken signature validation
         Route::post('/livewire/upload-file', [\App\Http\Controllers\Admin\FileUploadController::class, 'handle'])
             ->middleware(['web'])

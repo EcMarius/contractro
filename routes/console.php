@@ -27,3 +27,6 @@ Schedule::job(new \App\Jobs\CheckExpiringContracts)->dailyAt('09:00');
 
 // License Management - Check for expiring licenses daily at 9:30 AM
 Schedule::command('licenses:check-expiring')->dailyAt('09:30');
+
+// License Management - Cleanup old license check logs weekly (Sundays at 3 AM)
+Schedule::command('licenses:cleanup-logs --days=90')->weekly()->sundays()->at('03:00');
