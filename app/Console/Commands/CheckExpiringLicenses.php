@@ -28,7 +28,7 @@ class CheckExpiringLicenses extends Command
     protected $description = 'Check for expiring licenses and send notifications';
 
     protected ScheduledJobRun $jobRun;
-    protected array $output = [];
+    protected array $outputLines = [];
 
     /**
      * Execute the console command.
@@ -47,7 +47,7 @@ class CheckExpiringLicenses extends Command
 
             // Mark as successful
             $this->jobRun->markSuccess(
-                implode("\n", $this->output),
+                implode("\n", $this->outputLines),
                 $result
             );
 
@@ -57,7 +57,7 @@ class CheckExpiringLicenses extends Command
             // Mark as failed
             $this->jobRun->markFailed(
                 $e->getMessage(),
-                implode("\n", $this->output)
+                implode("\n", $this->outputLines)
             );
 
             // Log the error
@@ -71,7 +71,7 @@ class CheckExpiringLicenses extends Command
             $this->alertAdminsIfNeeded();
 
             // Re-throw to ensure command fails
-            $this->error("✗ Job failed: {$e->getMessage()}");
+            $this->error("ERROR: Job failed: {$e->getMessage()}");
             return Command::FAILURE;
         }
     }
@@ -84,7 +84,7 @@ class CheckExpiringLicenses extends Command
 
         $message = 'Checking for expiring licenses...';
         $this->info($message);
-        $this->output[] = $message;
+        $this->outputLines[] = $message;
 
         $totalNotifications = 0;
         $licensesByDay = [];
@@ -123,13 +123,13 @@ class CheckExpiringLicenses extends Command
             if ($expiringLicenses->isEmpty()) {
                 $message = "  No licenses expiring in {$days} days (or already notified)";
                 $this->line($message);
-                $this->output[] = $message;
+                $this->outputLines[] = $message;
                 continue;
             }
 
             $message = "  Found {$expiringLicenses->count()} license(s) expiring in {$days} days (not yet notified)";
             $this->info($message);
-            $this->output[] = $message;
+            $this->outputLines[] = $message;
 
             foreach ($expiringLicenses as $license) {
                 try {
@@ -141,14 +141,14 @@ class CheckExpiringLicenses extends Command
                         $license->update([$notificationField => now()]);
                     }
 
-                    $message = "    ✓ Notified {$license->user->name} about license {$license->license_key}";
+                    $message = "    [OK] Notified {$license->user->name} about license {$license->license_key}";
                     $this->line($message);
-                    $this->output[] = $message;
+                    $this->outputLines[] = $message;
                     $totalNotifications++;
                 } catch (\Exception $e) {
-                    $message = "    ✗ Failed to notify {$license->user->name}: {$e->getMessage()}";
+                    $message = "    [FAIL] Failed to notify {$license->user->name}: {$e->getMessage()}";
                     $this->error($message);
-                    $this->output[] = $message;
+                    $this->outputLines[] = $message;
                     $failedCount++;
                 }
             }
@@ -168,7 +168,7 @@ class CheckExpiringLicenses extends Command
         if ($expiredCount > 0) {
             $message = "  Found {$expiredCount} expired license(s) still marked as active (not yet notified)";
             $this->warn($message);
-            $this->output[] = $message;
+            $this->outputLines[] = $message;
 
             foreach ($expiredLicenses as $license) {
                 try {
@@ -181,23 +181,23 @@ class CheckExpiringLicenses extends Command
                     // Notify user
                     $license->user->notify(new LicenseExpiringNotification($license, 0));
 
-                    $message = "    ✓ Updated and notified {$license->user->name} about expired license {$license->license_key}";
+                    $message = "    [OK] Updated and notified {$license->user->name} about expired license {$license->license_key}";
                     $this->line($message);
-                    $this->output[] = $message;
+                    $this->outputLines[] = $message;
                     $totalNotifications++;
                 } catch (\Exception $e) {
-                    $message = "    ✗ Failed to process expired license {$license->license_key}: {$e->getMessage()}";
+                    $message = "    [FAIL] Failed to process expired license {$license->license_key}: {$e->getMessage()}";
                     $this->error($message);
-                    $this->output[] = $message;
+                    $this->outputLines[] = $message;
                     $failedCount++;
                 }
             }
         }
 
         $this->newLine();
-        $message = "✓ License expiration check complete. Sent {$totalNotifications} notification(s).";
+        $message = "[SUCCESS] License expiration check complete. Sent {$totalNotifications} notification(s).";
         $this->info($message);
-        $this->output[] = $message;
+        $this->outputLines[] = $message;
 
         return [
             'total_notifications_sent' => $totalNotifications,

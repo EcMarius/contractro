@@ -28,7 +28,7 @@ class CleanupLicenseCheckLogs extends Command
     protected $description = 'Clean up old license check logs to prevent database bloat';
 
     protected ScheduledJobRun $jobRun;
-    protected array $output = [];
+    protected array $outputLines = [];
 
     /**
      * Execute the console command.
@@ -47,7 +47,7 @@ class CleanupLicenseCheckLogs extends Command
 
             // Mark as successful
             $this->jobRun->markSuccess(
-                implode("\n", $this->output),
+                implode("\n", $this->outputLines),
                 $result
             );
 
@@ -57,7 +57,7 @@ class CleanupLicenseCheckLogs extends Command
             // Mark as failed
             $this->jobRun->markFailed(
                 $e->getMessage(),
-                implode("\n", $this->output)
+                implode("\n", $this->outputLines)
             );
 
             Log::error('License log cleanup failed', [
@@ -65,7 +65,7 @@ class CleanupLicenseCheckLogs extends Command
                 'error' => $e->getMessage(),
             ]);
 
-            $this->error("✗ Job failed: {$e->getMessage()}");
+            $this->error("ERROR: Job failed: {$e->getMessage()}");
             return Command::FAILURE;
         }
     }
@@ -80,16 +80,16 @@ class CleanupLicenseCheckLogs extends Command
 
         $message = "License Check Log Cleanup";
         $this->info($message);
-        $this->output[] = $message;
+        $this->outputLines[] = $message;
 
         $message = "Cutoff date: {$cutoffDate->format('Y-m-d H:i:s')} (keeping {$daysToKeep} days)";
         $this->line($message);
-        $this->output[] = $message;
+        $this->outputLines[] = $message;
 
         if ($dryRun) {
             $message = "DRY RUN MODE - No changes will be made";
             $this->warn($message);
-            $this->output[] = $message;
+            $this->outputLines[] = $message;
         }
 
         // Count logs to be deleted/archived
@@ -97,12 +97,12 @@ class CleanupLicenseCheckLogs extends Command
 
         $message = "Found {$oldLogsCount} log(s) older than {$daysToKeep} days";
         $this->info($message);
-        $this->output[] = $message;
+        $this->outputLines[] = $message;
 
         if ($oldLogsCount === 0) {
             $message = "No logs to clean up";
             $this->line($message);
-            $this->output[] = $message;
+            $this->outputLines[] = $message;
 
             return [
                 'logs_processed' => 0,
@@ -119,7 +119,7 @@ class CleanupLicenseCheckLogs extends Command
                 ? "Would archive {$archivedCount} log(s)"
                 : "Archived {$archivedCount} log(s)";
             $this->info($message);
-            $this->output[] = $message;
+            $this->outputLines[] = $message;
 
             return [
                 'logs_processed' => $archivedCount,
@@ -134,7 +134,7 @@ class CleanupLicenseCheckLogs extends Command
             $deletedCount = LicenseCheckLog::where('checked_at', '<', $cutoffDate)->delete();
             $message = "Deleted {$deletedCount} log(s)";
             $this->info($message);
-            $this->output[] = $message;
+            $this->outputLines[] = $message;
 
             // Optimize table after deletion
             if ($deletedCount > 1000) {
@@ -142,12 +142,12 @@ class CleanupLicenseCheckLogs extends Command
                 DB::statement('OPTIMIZE TABLE license_check_logs');
                 $message = "Table optimized";
                 $this->info($message);
-                $this->output[] = $message;
+                $this->outputLines[] = $message;
             }
         } else {
             $message = "Would delete {$oldLogsCount} log(s)";
             $this->warn($message);
-            $this->output[] = $message;
+            $this->outputLines[] = $message;
         }
 
         return [

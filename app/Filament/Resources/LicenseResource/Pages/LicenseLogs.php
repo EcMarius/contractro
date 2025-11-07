@@ -17,7 +17,7 @@ class LicenseLogs extends Page implements HasTable
 
     protected static string $resource = LicenseResource::class;
 
-    protected static string $view = 'filament.resources.license-resource.pages.license-logs';
+    protected string $view = 'filament.resources.license-resource.pages.license-logs';
 
     public $record;
 
