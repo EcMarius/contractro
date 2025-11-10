@@ -8,7 +8,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Wave\Plugins\EvenLeads\Models\Campaign;
+use App\Models\Campaign;
 
 class EvenLeadsSystem extends Page
 {
@@ -87,8 +87,8 @@ class EvenLeadsSystem extends Page
     {
         try {
             $lead = $leadId
-                ? \Wave\Plugins\EvenLeads\Models\Lead::find($leadId)
-                : \Wave\Plugins\EvenLeads\Models\Lead::where('status', 'contacted')
+                ? \App\Models\Lead::find($leadId)
+                : \App\Models\Lead::where('status', 'contacted')
                     ->whereHas('followUpMessages', function($q) {
                         $q->where('status', 'draft')->whereNotNull('scheduled_send_at');
                     })
@@ -152,7 +152,7 @@ class EvenLeadsSystem extends Page
 
     public function getPendingFollowUps(): array
     {
-        return \Wave\Plugins\EvenLeads\Models\LeadMessage::where('is_follow_up', true)
+        return \App\Models\LeadMessage::where('is_follow_up', true)
             ->where('status', 'draft')
             ->whereNotNull('scheduled_send_at')
             ->with('lead')

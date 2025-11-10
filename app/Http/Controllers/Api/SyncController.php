@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Wave\Plugins\EvenLeads\Models\Campaign;
-use Wave\Plugins\EvenLeads\Models\Platform;
-use Wave\Plugins\EvenLeads\Models\SyncHistory;
-use Wave\Plugins\EvenLeads\Jobs\SyncCampaignJob;
+use App\Models\Campaign;
+use App\Models\Platform;
+use App\Models\SyncHistory;
+use App\Jobs\SyncCampaignJob;
 
 /**
  * @group Sync
@@ -124,7 +124,7 @@ class SyncController extends Controller
             $nextAvailableSync = $campaign->last_sync_at->addMinutes(15);
 
             // Check if platform is chronological and sync was within 30 minutes
-            $platforms = \Wave\Plugins\EvenLeads\Models\Platform::whereIn('name', $campaign->platforms)->get();
+            $platforms = \App\Models\Platform::whereIn('name', $campaign->platforms)->get();
             $isChronological = $platforms->contains('is_chronological', true);
 
             if ($isChronological && $campaign->last_sync_at->gt(now()->subMinutes(30))) {

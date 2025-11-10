@@ -5,10 +5,10 @@ namespace App\Filament\Pages;
 use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Notifications\Notification;
-use Wave\Plugins\EvenLeads\Services\RedditService;
-use Wave\Plugins\EvenLeads\Services\LeadRelevanceService;
-use Wave\Plugins\EvenLeads\Models\PlatformConnection;
-use Wave\Plugins\EvenLeads\Models\Campaign;
+use App\Services\RedditService;
+use App\Services\LeadRelevanceService;
+use App\Models\PlatformConnection;
+use App\Models\Campaign;
 use Illuminate\Support\Facades\Auth;
 use Wave\Setting;
 

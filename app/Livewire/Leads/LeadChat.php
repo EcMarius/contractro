@@ -5,8 +5,8 @@ namespace App\Livewire\Leads;
 use Livewire\Component;
 use App\Models\LeadMessage;
 use App\Services\LeadMessagingService;
-use Wave\Plugins\EvenLeads\Models\Lead;
-use Wave\Plugins\EvenLeads\Services\PlanLimitService;
+use App\Models\Lead;
+use App\Services\PlanLimitService;
 use Illuminate\Support\Facades\Auth;
 
 class LeadChat extends Component

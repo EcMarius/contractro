@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\PlatformSchema;
 use App\Services\SchemaService;
-use Wave\Plugins\EvenLeads\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 
 /**

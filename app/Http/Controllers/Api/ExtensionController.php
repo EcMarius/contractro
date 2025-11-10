@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use OpenAI\Laravel\Facades\OpenAI;
-use Wave\Plugins\EvenLeads\Models\Campaign;
-use Wave\Plugins\EvenLeads\Services\PlanLimitService;
+use App\Models\Campaign;
+use App\Services\PlanLimitService;
 
 /**
  * @group Extension Helpers
@@ -75,7 +75,7 @@ class ExtensionController extends Controller
 
         try {
             // Use AIReplyService (same as RedditService)
-            $aiService = app(\Wave\Plugins\EvenLeads\Services\AIReplyService::class);
+            $aiService = app(\App\Services\AIReplyService::class);
 
             // Build prompt - generate 5-10 search queries (not single keywords)
             $prompt = "Generate 8-10 search queries to find posts from people who NEED help with:\n\n";
@@ -162,7 +162,7 @@ class ExtensionController extends Controller
 
         try {
             // Record manual sync (this counts against quota)
-            $limitService = app(\Wave\Plugins\EvenLeads\Services\PlanLimitService::class);
+            $limitService = app(\App\Services\PlanLimitService::class);
             $limitService->recordManualSync($user, $campaign);
 
             Log::info('Extension sync started and recorded', [
@@ -314,7 +314,7 @@ class ExtensionController extends Controller
             $platform = $platforms[0] ?? 'linkedin';
 
             try {
-                $aiService = app(\Wave\Plugins\EvenLeads\Services\AIReplyService::class);
+                $aiService = app(\App\Services\AIReplyService::class);
 
                 $prompt = "Generate 8-10 search queries to find posts from people who NEED help with:\n\n";
                 $prompt .= "TARGET: {$campaign->offering}\n\n";

@@ -152,7 +152,7 @@ class AuthController extends Controller
             ->where('created_at', '>=', now()->startOfMonth())
             ->where('sync_type', 'manual')
             ->count();
-        $leadsUsed = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)->count();
+        $leadsUsed = \App\Models\Lead::where('user_id', $user->id)->count();
 
         // AI replies - use App\Models namespace
         $aiRepliesUsed = \App\Models\LeadMessage::where('user_id', $user->id)
@@ -161,8 +161,8 @@ class AuthController extends Controller
             ->count();
 
         // CRM Contacts - check if model exists
-        $crmContactsUsed = class_exists('\Wave\Plugins\EvenLeads\Models\CrmContact')
-            ? \Wave\Plugins\EvenLeads\Models\CrmContact::where('user_id', $user->id)->count()
+        $crmContactsUsed = class_exists('\App\Models\CrmContact')
+            ? \App\Models\CrmContact::where('user_id', $user->id)->count()
             : 0;
 
         return response()->json([
@@ -235,7 +235,7 @@ class AuthController extends Controller
             ->where('created_at', '>=', now()->startOfMonth())
             ->where('sync_type', 'manual')
             ->count();
-        $leadsUsed = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)->count();
+        $leadsUsed = \App\Models\Lead::where('user_id', $user->id)->count();
 
         // AI replies - use App\Models namespace
         $aiRepliesUsed = \App\Models\LeadMessage::where('user_id', $user->id)
@@ -244,8 +244,8 @@ class AuthController extends Controller
             ->count();
 
         // CRM Contacts - check if model exists
-        $crmContactsUsed = class_exists('\Wave\Plugins\EvenLeads\Models\CrmContact')
-            ? \Wave\Plugins\EvenLeads\Models\CrmContact::where('user_id', $user->id)->count()
+        $crmContactsUsed = class_exists('\App\Models\CrmContact')
+            ? \App\Models\CrmContact::where('user_id', $user->id)->count()
             : 0;
 
         return response()->json([
@@ -324,23 +324,23 @@ class AuthController extends Controller
         $user = $request->user();
 
         // Get total leads count
-        $totalLeads = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)->count();
+        $totalLeads = \App\Models\Lead::where('user_id', $user->id)->count();
 
         // Get leads by platform
-        $leadsByPlatform = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)
+        $leadsByPlatform = \App\Models\Lead::where('user_id', $user->id)
             ->selectRaw('platform, COUNT(*) as count')
             ->groupBy('platform')
             ->pluck('count', 'platform')
             ->toArray();
 
         // Get ALL campaigns count (not just active - user wants to see total campaigns)
-        $activeCampaigns = \Wave\Plugins\EvenLeads\Models\Campaign::where('user_id', $user->id)->count();
+        $activeCampaigns = \App\Models\Campaign::where('user_id', $user->id)->count();
 
         // Get recent activity with pagination support
         $activityPage = (int) $request->input('activity_page', 1);
         $activityPerPage = min((int) $request->input('activity_per_page', 5), 50); // Default 5, max 50
 
-        $recentActivityQuery = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)
+        $recentActivityQuery = \App\Models\Lead::where('user_id', $user->id)
             ->with('campaign:id,name')
             ->orderBy('created_at', 'desc');
 

@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use Wave\Plugins\EvenLeads\Models\PlatformConnection;
+use App\Models\PlatformConnection;
 
 class TestRedditPoints extends Command
 {

@@ -64,7 +64,7 @@ class BYOAPIManagement extends Page
         // Users with connected platforms but missing API keys (if enforcement is ON)
         $usersWithoutRequiredKeys = 0;
         if ($this->byoapiRequired) {
-            $usersWithConnections = \Wave\Plugins\EvenLeads\Models\PlatformConnection::distinct('user_id')
+            $usersWithConnections = \App\Models\PlatformConnection::distinct('user_id')
                 ->whereIn('platform', ['reddit', 'x'])
                 ->pluck('user_id');
 
@@ -72,7 +72,7 @@ class BYOAPIManagement extends Page
                 $user = User::find($userId);
                 if (!$user) continue;
 
-                $userConnections = \Wave\Plugins\EvenLeads\Models\PlatformConnection::where('user_id', $userId)
+                $userConnections = \App\Models\PlatformConnection::where('user_id', $userId)
                     ->whereIn('platform', ['reddit', 'x'])
                     ->pluck('platform')
                     ->unique()
@@ -135,7 +135,7 @@ class BYOAPIManagement extends Page
 
     public function getAllUsersWithConnections()
     {
-        $usersWithConnections = \Wave\Plugins\EvenLeads\Models\PlatformConnection::distinct('user_id')
+        $usersWithConnections = \App\Models\PlatformConnection::distinct('user_id')
             ->whereIn('platform', ['reddit', 'x'])
             ->pluck('user_id');
 

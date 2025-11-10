@@ -1,5 +1,5 @@
 @php
-    use Wave\Plugins\EvenLeads\Models\Platform;
+    use App\Models\Platform;
 
     // Get active platforms dynamically
     $activePlatformsList = Cache::remember('evenleads.active_platforms_list', 3600, function() {

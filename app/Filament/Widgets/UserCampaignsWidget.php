@@ -6,7 +6,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Actions\Action;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Wave\Plugins\EvenLeads\Models\Campaign;
+use App\Models\Campaign;
 use Filament\Notifications\Notification;
 
 class UserCampaignsWidget extends BaseWidget

@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Wave\Plugins\EvenLeads\Models\Campaign;
-use Wave\Plugins\EvenLeads\Jobs\SyncCampaignJob;
-use Wave\Plugins\EvenLeads\Services\PlanLimitService;
+use App\Models\Campaign;
+use App\Jobs\SyncCampaignJob;
+use App\Services\PlanLimitService;
 
 class RunAutomatedSyncs extends Command
 {
@@ -46,7 +46,7 @@ class RunAutomatedSyncs extends Command
             $hasConnections = false;
             foreach ($campaign->platforms ?? [] as $platform) {
                 if ($platform === 'reddit') {
-                    $redditService = app(\Wave\Plugins\EvenLeads\Services\RedditService::class);
+                    $redditService = app(\App\Services\RedditService::class);
                     if ($redditService->isConnected($campaign->user_id)) {
                         $hasConnections = true;
                         break;

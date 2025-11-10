@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Wave\Plugins\EvenLeads\Models\Lead;
+use App\Models\Lead;
 use App\Services\ResponseTrackerService;
 use Illuminate\Support\Facades\Log;
 

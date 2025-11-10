@@ -223,7 +223,7 @@ class StripeWebhook extends Controller
 
                                 // 1. CAMPAIGNS: Disable excess campaigns (keep newest ones active)
                                 $maxCampaigns = $newLimits['campaigns'] ?? 0;
-                                $campaigns = \Wave\Plugins\EvenLeads\Models\Campaign::where('user_id', $user->id)
+                                $campaigns = \App\Models\Campaign::where('user_id', $user->id)
                                     ->whereNotIn('status', ['disabled_by_downgrade', 'archived'])
                                     ->orderBy('created_at', 'desc')
                                     ->get();
@@ -245,7 +245,7 @@ class StripeWebhook extends Controller
 
                                 // 2. LEADS: Archive excess leads (keep newest ones)
                                 $maxLeads = $newLimits['leads_storage'] ?? 0;
-                                $leadsCount = \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)
+                                $leadsCount = \App\Models\Lead::where('user_id', $user->id)
                                     ->where('archived', false)
                                     ->count();
 
@@ -253,7 +253,7 @@ class StripeWebhook extends Controller
                                     $excessLeadsCount = $leadsCount - $maxLeads;
 
                                     // Archive oldest leads
-                                    \Wave\Plugins\EvenLeads\Models\Lead::where('user_id', $user->id)
+                                    \App\Models\Lead::where('user_id', $user->id)
                                         ->where('archived', false)
                                         ->orderBy('created_at', 'asc')
                                         ->limit($excessLeadsCount)

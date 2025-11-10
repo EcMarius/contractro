@@ -4,7 +4,7 @@ namespace App\Services\GrowthHacking;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Wave\Plugins\EvenLeads\Models\Setting;
+use Wave\Setting;
 
 class ContactExtractorService
 {

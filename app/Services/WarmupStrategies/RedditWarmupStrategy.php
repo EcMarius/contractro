@@ -3,8 +3,8 @@
 namespace App\Services\WarmupStrategies;
 
 use App\Models\AccountWarmup;
-use Wave\Plugins\EvenLeads\Services\AIReplyService;
-use Wave\Plugins\EvenLeads\Services\RedditService;
+use App\Services\AIReplyService;
+use App\Services\RedditService;
 use Illuminate\Support\Facades\Log;
 
 class RedditWarmupStrategy extends BaseWarmupStrategy

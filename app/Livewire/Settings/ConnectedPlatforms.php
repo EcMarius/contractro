@@ -3,7 +3,7 @@
 namespace App\Livewire\Settings;
 
 use Livewire\Component;
-use Wave\Plugins\EvenLeads\Models\PlatformConnection;
+use App\Models\PlatformConnection;
 use Illuminate\Support\Facades\Auth;
 
 class ConnectedPlatforms extends Component
@@ -30,7 +30,7 @@ class ConnectedPlatforms extends Component
     protected function loadPlatforms()
     {
         $user = Auth::user();
-        $accounts = \Wave\Plugins\EvenLeads\Models\PlatformConnection::where('user_id', $user->id)
+        $accounts = \App\Models\PlatformConnection::where('user_id', $user->id)
             ->active()
             ->orderBy('platform')
             ->orderBy('created_at', 'desc')
@@ -99,7 +99,7 @@ class ConnectedPlatforms extends Component
     public function connectAnother($platform)
     {
         // Check if user has reached the limit
-        $currentCount = \Wave\Plugins\EvenLeads\Models\PlatformConnection::where('user_id', Auth::id())
+        $currentCount = \App\Models\PlatformConnection::where('user_id', Auth::id())
             ->where('platform', $platform)
             ->count();
 

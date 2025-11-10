@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Wave\Plan;
-use Wave\Plugins\EvenLeads\Models\Setting;
+use Wave\Setting;
 use Illuminate\Support\Facades\Http;
 
 class StripeSyncPrices extends Command

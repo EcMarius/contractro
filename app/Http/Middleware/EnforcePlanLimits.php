@@ -5,10 +5,10 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wave\Plugins\EvenLeads\Models\Campaign;
-use Wave\Plugins\EvenLeads\Models\Lead;
-use Wave\Plugins\EvenLeads\Models\AIGeneration;
-use Wave\Plugins\EvenLeads\Models\SyncHistory;
+use App\Models\Campaign;
+use App\Models\Lead;
+use App\Models\AIGeneration;
+use App\Models\SyncHistory;
 
 class EnforcePlanLimits
 {

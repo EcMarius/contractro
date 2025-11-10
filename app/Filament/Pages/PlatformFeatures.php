@@ -10,8 +10,8 @@ use App\Models\LicenseCheckLog;
 use App\Models\User;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\DB;
-use Wave\Plugins\EvenLeads\Models\Lead;
-use Wave\Plugins\EvenLeads\Models\Campaign;
+use App\Models\Lead;
+use App\Models\Campaign;
 use BackedEnum;
 
 class PlatformFeatures extends Page

@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Models\LeadMessage;
 use App\Models\User;
-use Wave\Plugins\EvenLeads\Models\Lead;
-use Wave\Plugins\EvenLeads\Services\AIReplyService;
-use Wave\Plugins\EvenLeads\Services\PlanLimitService;
+use App\Models\Lead;
+use App\Services\AIReplyService;
+use App\Services\PlanLimitService;
 use Illuminate\Support\Facades\Log;
 
 class LeadMessagingService

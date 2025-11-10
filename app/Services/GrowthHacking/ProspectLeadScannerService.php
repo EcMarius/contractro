@@ -4,8 +4,8 @@ namespace App\Services\GrowthHacking;
 
 use App\Models\GrowthHackingProspect;
 use App\Models\GrowthHackingLead;
-use Wave\Plugins\EvenLeads\Services\RedditService;
-use Wave\Plugins\EvenLeads\Services\LeadRelevanceService;
+use App\Services\RedditService;
+use App\Services\LeadRelevanceService;
 use Illuminate\Support\Facades\Log;
 
 class ProspectLeadScannerService

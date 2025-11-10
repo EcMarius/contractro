@@ -4,8 +4,8 @@ namespace App\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Wave\Plugins\EvenLeads\Models\Campaign;
-use Wave\Plugins\EvenLeads\Models\Lead;
+use App\Models\Campaign;
+use App\Models\Lead;
 use Carbon\Carbon;
 
 class UserStatsOverviewWidget extends BaseWidget

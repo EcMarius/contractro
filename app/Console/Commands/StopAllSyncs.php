@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Wave\Plugins\EvenLeads\Models\Campaign;
+use App\Models\Campaign;
 use Illuminate\Support\Facades\DB;
 
 class StopAllSyncs extends Command

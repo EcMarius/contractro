@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Wave\Plugins\EvenLeads\Services\SyncLogger;
+use App\Services\SyncLogger;
 
 class CleanupSyncLogs extends Command
 {

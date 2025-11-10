@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Wave\Plugins\EvenLeads\Models\Setting;
+use Wave\Setting;
 
 class AutomatedSyncDefaultSeeder extends Seeder
 {

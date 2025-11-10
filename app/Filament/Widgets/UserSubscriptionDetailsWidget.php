@@ -3,10 +3,10 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\Widget;
-use Wave\Plugins\EvenLeads\Models\Campaign;
-use Wave\Plugins\EvenLeads\Models\Lead;
-use Wave\Plugins\EvenLeads\Models\AIGeneration;
-use Wave\Plugins\EvenLeads\Models\SyncHistory;
+use App\Models\Campaign;
+use App\Models\Lead;
+use App\Models\AIGeneration;
+use App\Models\SyncHistory;
 use Carbon\Carbon;
 
 class UserSubscriptionDetailsWidget extends Widget

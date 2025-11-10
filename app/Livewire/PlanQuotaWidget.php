@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
-use Wave\Plugins\EvenLeads\Services\PlanLimitService;
+use App\Services\PlanLimitService;
 
 class PlanQuotaWidget extends Component
 {

@@ -31,7 +31,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Spatie\Permission\Models\Role;
 use Wave\Plan;
-use Wave\Plugins\EvenLeads\Models\Setting;
+use Wave\Setting;
 
 class PlanResource extends Resource
 {
@@ -196,7 +196,7 @@ class PlanResource extends Resource
                             ->label('Available AI Models')
                             ->multiple()
                             ->searchable()
-                            ->options(fn () => \Wave\Plugins\EvenLeads\Models\Setting::getAvailableAIModels())
+                            ->options(fn () => \Wave\Setting::getAvailableAIModels())
                             ->hint('Select one or more models. Users will be able to choose from these models.')
                             ->helperText('Select which AI models users on this plan can access for lead analysis. Models list is synced from EvenLeads settings.')
                             ->columnSpanFull(),

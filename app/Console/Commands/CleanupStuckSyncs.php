@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Wave\Plugins\EvenLeads\Models\SyncHistory;
+use App\Models\SyncHistory;
 use Carbon\Carbon;
 
 class CleanupStuckSyncs extends Command

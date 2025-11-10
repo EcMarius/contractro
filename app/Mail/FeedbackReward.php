@@ -5,7 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Wave\Plugins\EvenLeads\Models\Feedback;
+use App\Models\Feedback;
 
 class FeedbackReward extends Mailable
 {

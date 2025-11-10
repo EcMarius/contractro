@@ -5,9 +5,9 @@ namespace App\Services\GrowthHacking;
 use App\Models\User;
 use App\Models\GrowthHackingProspect;
 use App\Models\GrowthHackingLead;
-use Wave\Plugins\EvenLeads\Models\Setting;
-use Wave\Plugins\EvenLeads\Models\Lead;
-use Wave\Plugins\EvenLeads\Models\Campaign;
+use Wave\Setting;
+use App\Models\Lead;
+use App\Models\Campaign;
 use Illuminate\Support\Facades\Log;
 
 class TrialActivationService

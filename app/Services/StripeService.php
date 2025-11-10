@@ -5,7 +5,7 @@ namespace App\Services;
 use Wave\Plan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Wave\Plugins\EvenLeads\Models\Setting;
+use Wave\Setting;
 
 class StripeService
 {

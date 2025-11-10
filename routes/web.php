@@ -141,8 +141,8 @@ Route::middleware(['web', 'auth'])->group(function () {
 
         // Add trial period if user doesn't have a subscription and hasn't used trial
         $user = auth()->user();
-        $trialDays = (int) \Wave\Plugins\EvenLeads\Models\Setting::getValue('trial_days', 7);
-        $defaultTrialPlanId = \Wave\Plugins\EvenLeads\Models\Setting::getValue('trial_plan_id', null);
+        $trialDays = (int) \Wave\Setting::getValue('trial_days', 7);
+        $defaultTrialPlanId = \Wave\Setting::getValue('trial_plan_id', null);
 
         \Log::info('Trial check', [
             'trial_days' => $trialDays,

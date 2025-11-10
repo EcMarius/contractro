@@ -3,8 +3,8 @@
 namespace App\Services\GrowthHacking;
 
 use App\Models\GrowthHackingProspect;
-use Wave\Plugins\EvenLeads\Models\Campaign;
-use Wave\Plugins\EvenLeads\Models\Setting;
+use App\Models\Campaign;
+use Wave\Setting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 

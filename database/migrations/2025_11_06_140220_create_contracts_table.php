@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('organization_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('template_id')->nullable()->constrained('contract_templates')->onDelete('set null');
-            $table->foreignId('lead_id')->nullable()->constrained('leads')->onDelete('set null');
+            $table->unsignedBigInteger('lead_id')->nullable(); // Foreign key removed - leads table doesn't exist
             $table->string('contract_number')->unique();
             $table->string('title');
             $table->text('description')->nullable();

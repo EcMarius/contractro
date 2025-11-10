@@ -1,5 +1,5 @@
 @php
-    use Wave\Plugins\EvenLeads\Models\Setting;
+    use App\Models\Setting;
     use Wave\Plan;
 
     $trialDays = Setting::getValue('trial_days', 7);

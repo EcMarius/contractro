@@ -20,10 +20,10 @@
                     $user = auth()->user();
                     $stats = [];
                     try {
-                        $leadCount = \Wave\Plugins\EvenLeads\Models\Lead::whereHas('campaign', function($q) use ($user) {
+                        $leadCount = \App\Models\Lead::whereHas('campaign', function($q) use ($user) {
                             $q->where('user_id', $user->id);
                         })->count();
-                        $campaignCount = \Wave\Plugins\EvenLeads\Models\Campaign::where('user_id', $user->id)->count();
+                        $campaignCount = \App\Models\Campaign::where('user_id', $user->id)->count();
                         $stats = [
                             'leads' => $leadCount,
                             'campaigns' => $campaignCount,

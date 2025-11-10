@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
-use Wave\Plugins\EvenLeads\Models\Setting;
+use Wave\Setting;
 
 class NgrokService
 {

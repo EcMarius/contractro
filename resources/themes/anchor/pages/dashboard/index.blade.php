@@ -14,7 +14,7 @@
 
 			if ($byoapiRequired && !$byoapiDismissedToday) {
 				$user = auth()->user();
-				$connectedPlatforms = \Wave\Plugins\EvenLeads\Models\PlatformConnection::where('user_id', $user->id)
+				$connectedPlatforms = \App\Models\PlatformConnection::where('user_id', $user->id)
 					->active()
 					->pluck('platform')
 					->unique()

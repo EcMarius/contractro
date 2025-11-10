@@ -76,9 +76,9 @@
         </section>
     </section>
     @php
-        $totalCampaigns = \Wave\Plugins\EvenLeads\Models\Campaign::count();
-        $totalLeads = \Wave\Plugins\EvenLeads\Models\Lead::count();
-        $aiRepliesThisMonth = \Wave\Plugins\EvenLeads\Models\AIGeneration::whereMonth('created_at', now()->month)->count();
+        $totalCampaigns = \App\Models\Campaign::count();
+        $totalLeads = \App\Models\Lead::count();
+        $aiRepliesThisMonth = \App\Models\AIGeneration::whereMonth('created_at', now()->month)->count();
     @endphp
     <section class="flex gap-5 mb-5">
         <section class="flex flex-col gap-5 items-center w-full xl:flex-row">

@@ -1,5 +1,5 @@
 @php
-    use Wave\Plugins\EvenLeads\Models\Setting;
+    use App\Models\Setting;
     $trialDays = Setting::getValue('trial_days', 7);
     $currency = Setting::getValue('site.currency', 'EUR');
     $currencyPosition = Setting::getValue('site.currency_position', 'append');

@@ -235,7 +235,7 @@ class User extends WaveUser implements MustVerifyEmail
      */
     public function campaigns(): HasMany
     {
-        return $this->hasMany(\Wave\Plugins\EvenLeads\Models\Campaign::class);
+        return $this->hasMany(\App\Models\Campaign::class);
     }
 
     /**
@@ -243,7 +243,7 @@ class User extends WaveUser implements MustVerifyEmail
      */
     public function sync_history(): HasMany
     {
-        return $this->hasMany(\Wave\Plugins\EvenLeads\Models\SyncHistory::class);
+        return $this->hasMany(\App\Models\SyncHistory::class);
     }
 
     /**

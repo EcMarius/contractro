@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Wave\Plugins\EvenLeads\Models\Campaign;
+use App\Models\Campaign;
 use Wave\Plugins\SocialAuth\Models\SocialAccount;
 
 /**

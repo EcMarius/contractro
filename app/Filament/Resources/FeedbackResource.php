@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FeedbackResource\Pages;
-use Wave\Plugins\EvenLeads\Models\Feedback;
+use App\Models\Feedback;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;

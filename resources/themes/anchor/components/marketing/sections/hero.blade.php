@@ -1,5 +1,5 @@
 @php
-    use Wave\Plugins\EvenLeads\Models\Setting;
+    use App\Models\Setting;
     $trialDays = Setting::getValue('trial_days', 7);
 @endphp
 
@@ -19,7 +19,7 @@
                 // Get active platforms with caching (1 hour TTL)
                 $activePlatformNames = Cache::remember('evenleads.active_platforms', 3600, function() {
                     try {
-                        return \Wave\Plugins\EvenLeads\Models\Platform::where('is_active', true)->pluck('name')->toArray();
+                        return \App\Models\Platform::where('is_active', true)->pluck('name')->toArray();
                     } catch (\Exception $e) {
                         return ['reddit']; // Fallback if table doesn't exist (localhost)
                     }
@@ -52,7 +52,7 @@
                 // Get all platforms with caching (1 hour TTL)
                 $allPlatforms = Cache::remember('evenleads.all_platforms', 3600, function() {
                     try {
-                        return \Wave\Plugins\EvenLeads\Models\Platform::orderBy('is_active', 'desc')->orderBy('id')->get()->toArray();
+                        return \App\Models\Platform::orderBy('is_active', 'desc')->orderBy('id')->get()->toArray();
                     } catch (\Exception $e) {
                         // Fallback hardcoded platforms for localhost
                         return [
