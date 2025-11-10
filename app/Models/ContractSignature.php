@@ -25,6 +25,7 @@ class ContractSignature extends Model
         'signed_at',
         'declined_at',
         'decline_reason',
+        'last_reminder_sent_at',
         'ip_address',
         'user_agent',
         'verification_token',
@@ -37,6 +38,7 @@ class ContractSignature extends Model
         'requested_at' => 'datetime',
         'signed_at' => 'datetime',
         'declined_at' => 'datetime',
+        'last_reminder_sent_at' => 'datetime',
         'expires_at' => 'datetime',
     ];
 
@@ -56,9 +58,30 @@ class ContractSignature extends Model
             }
         });
 
+        static::created(function ($signature) {
+            // Send signature request notification
+            \Illuminate\Support\Facades\Notification::route('mail', $signature->signer_email)
+                ->notify(new \App\Notifications\ContractSignatureRequested($signature->contract, $signature));
+        });
+
         static::updated(function ($signature) {
+            // Check for status changes
             if ($signature->isDirty('status')) {
                 $signature->contract->checkSignatureStatus();
+
+                // If signature was just signed, notify contract owner
+                if ($signature->status === 'signed' && $signature->getOriginal('status') !== 'signed') {
+                    $signature->contract->user->notify(
+                        new \App\Notifications\ContractSigned($signature->contract, $signature)
+                    );
+
+                    // Check if all signatures are completed
+                    if ($signature->contract->signatures()->where('status', '!=', 'signed')->count() === 0) {
+                        $signature->contract->user->notify(
+                            new \App\Notifications\ContractFullySigned($signature->contract)
+                        );
+                    }
+                }
             }
         });
     }

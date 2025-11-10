@@ -6,7 +6,11 @@ use App\Models\Contract;
 use App\Models\ContractTemplate;
 use App\Models\ContractSignature;
 use App\Models\User;
+use App\Notifications\ContractSignatureRequested;
+use App\Notifications\ContractSigned;
+use App\Notifications\ContractFullySigned;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class ContractService
@@ -98,7 +102,7 @@ class ContractService
         try {
             $order = 0;
             foreach ($signers as $signer) {
-                ContractSignature::create([
+                $signature = ContractSignature::create([
                     'contract_id' => $contract->id,
                     'user_id' => $signer['user_id'] ?? null,
                     'signer_name' => $signer['name'],
@@ -108,11 +112,19 @@ class ContractService
                     'status' => 'pending',
                     'expires_at' => $signer['expires_at'] ?? now()->addDays(14),
                 ]);
+
+                // Send notification to signer
+                if ($signature->user_id) {
+                    // Signer is a registered user
+                    $signature->user->notify(new ContractSignatureRequested($contract, $signature));
+                } else {
+                    // Signer is external (email only)
+                    Notification::route('mail', $signature->signer_email)
+                        ->notify(new ContractSignatureRequested($contract, $signature));
+                }
             }
 
             $contract->update(['status' => 'pending_signature']);
-
-            // TODO: Send email notifications to signers
 
             DB::commit();
             return $contract->fresh();
@@ -131,10 +143,28 @@ class ContractService
         try {
             $signature->sign($signatureData, $signatureType);
 
-            // Check if all signatures are complete
-            $signature->contract->checkSignatureStatus();
+            // Notify contract owner about the signature
+            $contract = $signature->contract;
+            $contract->user->notify(new ContractSigned($contract, $signature));
 
-            // TODO: Send notifications
+            // Check if all signatures are complete
+            $contract->checkSignatureStatus();
+
+            // If contract is now fully signed, notify all signers and owner
+            if ($contract->status === 'signed') {
+                // Notify contract owner
+                $contract->user->notify(new ContractFullySigned($contract));
+
+                // Notify all signers
+                foreach ($contract->signatures as $sig) {
+                    if ($sig->user_id) {
+                        $sig->user->notify(new ContractFullySigned($contract));
+                    } else {
+                        Notification::route('mail', $sig->signer_email)
+                            ->notify(new ContractFullySigned($contract));
+                    }
+                }
+            }
 
             DB::commit();
         } catch (\Exception $e) {

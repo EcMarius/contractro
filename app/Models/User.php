@@ -255,6 +255,14 @@ class User extends WaveUser implements MustVerifyEmail
     }
 
     /**
+     * Get all licenses for this user
+     */
+    public function licenses(): HasMany
+    {
+        return $this->hasMany(\App\Models\License::class);
+    }
+
+    /**
      * Get the pending data deletion request for this user
      */
     public function pendingDeletionRequest()
