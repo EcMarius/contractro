@@ -57,12 +57,8 @@
 
 		public function loadConnectedPlatforms()
 		{
-			// Load lead generation platform connections (Reddit, X, Facebook, LinkedIn)
-			$connections = // Platform model removedConnection::where('user_id', auth()->id())
-				->active()
-				->orderBy('platform')
-				->orderBy('created_at', 'desc')
-				->get();
+			// Platform connections removed - not applicable for contract platform
+			$connections = collect([]);
 
 			// Group connections by platform
 			$this->connectedPlatforms = $connections->groupBy('platform')->map(function($platformConnections, $platformName) {
@@ -94,7 +90,7 @@
 
 		public function disconnectPlatform($accountId)
 		{
-			$connection = // Platform model removedConnection::where('id', $accountId)
+			$connection = \App\Models\PlatformConnection::where('id', $accountId)
 				->where('user_id', auth()->id())
 				->first();
 
