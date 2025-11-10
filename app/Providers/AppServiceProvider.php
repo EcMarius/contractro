@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Folio\Folio;
 
@@ -51,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register theme view namespace
+        View::addNamespace('theme', resource_path('themes/anchor'));
+
         // Register theme anonymous components (all subdirectories)
         Blade::anonymousComponentPath(resource_path('themes/anchor/components'));
         Blade::anonymousComponentPath(resource_path('themes/anchor/components/app'));

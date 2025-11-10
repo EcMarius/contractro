@@ -56,4 +56,4 @@
 <script src="{{ asset('js/extension-bridge.js') }}"></script>
 
 {{-- PostHog Analytics (loaded in head for early initialization) --}}
-@include('posthog::script')
+{{-- @include('posthog::script') --}}
