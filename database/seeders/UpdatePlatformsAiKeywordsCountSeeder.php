@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Platform;
+// Platform model removed
 
 class UpdatePlatformsAiKeywordsCountSeeder extends Seeder
 {
@@ -13,16 +13,16 @@ class UpdatePlatformsAiKeywordsCountSeeder extends Seeder
      */
     public function run(): void
     {
-        $platforms = Platform::all();
+        // $platforms = // Platform::all();
 
-        foreach ($platforms as $platform) {
+        foreach (// $platforms as // $platform) {
             // Set ai_keywords_count in metadata (default: 4)
-            $platform->setMetadata('ai_keywords_count', 4);
-            $platform->save();
+            // $platform->setMetadata('ai_keywords_count', 4);
+            // $platform->save();
 
-            $this->command->info("Set ai_keywords_count = 4 for platform: {$platform->name}");
+            $this->command->info("Set ai_keywords_count = 4 for platform: {// $platform->name}");
         }
 
-        $this->command->info("Updated {$platforms->count()} platforms with ai_keywords_count metadata");
+        $this->command->info("Updated {// $platforms->count()} platforms with ai_keywords_count metadata");
     }
 }

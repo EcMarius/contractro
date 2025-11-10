@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Campaign;
-use App\Models\Platform;
+// Platform model removed - no longer used
 use App\Models\SyncHistory;
 use App\Jobs\SyncCampaignJob;
 
@@ -57,24 +57,8 @@ class SyncController extends Controller
             ], 404);
         }
 
-        // Check if any platform requires extension sync (and doesn't have Apify configured)
-        $platformsRequiringExtension = [];
-        $campaignPlatforms = $campaign->platforms ?? [];
-
-        foreach ($campaignPlatforms as $platformName) {
-            $platform = Platform::where('name', $platformName)->first();
-
-            if ($platform && $platform->requires_extension_sync) {
-                // Check if this platform has Apify configured (can sync without extension)
-                $hasApify = $platform->hasPluginConfig('apify');
-
-                if (!$hasApify) {
-                    $platformsRequiringExtension[] = $platformName;
-                }
-            }
-        }
-
-        if (!empty($platformsRequiringExtension)) {
+        // Platform model removed - extension sync check no longer needed
+        if (false) {
             return response()->json([
                 'success' => true,
                 'requires_extension' => true,
@@ -123,28 +107,7 @@ class SyncController extends Controller
         if ($campaign->last_sync_at && $campaign->last_sync_at->gt(now()->subMinutes(15))) {
             $nextAvailableSync = $campaign->last_sync_at->addMinutes(15);
 
-            // Check if platform is chronological and sync was within 30 minutes
-            $platforms = \App\Models\Platform::whereIn('name', $campaign->platforms)->get();
-            $isChronological = $platforms->contains('is_chronological', true);
-
-            if ($isChronological && $campaign->last_sync_at->gt(now()->subMinutes(30))) {
-                // Return confirmation required instead of error
-                return response()->json([
-                    'success' => false,
-                    'requires_confirmation' => true,
-                    'message' => 'Recent sync detected on chronological platform',
-                    'data' => [
-                        'last_sync_at' => $campaign->last_sync_at,
-                        'minutes_ago' => now()->diffInMinutes($campaign->last_sync_at),
-                        'warning' => [
-                            'title' => 'Chronological Platform Warning',
-                            'message' => 'This platform processes data chronologically. Since you synced ' . now()->diffInMinutes($campaign->last_sync_at) . ' minutes ago, there is a high chance no new leads will be found until new posts appear.',
-                            'important' => 'This will consume 1 manual sync from your quota even if no new leads are found.',
-                            'platforms' => $platforms->where('is_chronological', true)->pluck('display_name')->toArray(),
-                        ],
-                    ],
-                ], 200);
-            }
+            // Platform chronological check removed - no longer applicable to contract platform
 
             return response()->json([
                 'success' => false,

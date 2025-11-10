@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\PlatformSchema;
 use App\Services\SchemaService;
-use App\Models\Platform;
+// Platform model removed - no longer used
 use Illuminate\Http\Request;
 
 /**
@@ -73,22 +73,10 @@ class SchemaController extends Controller
             ], 404);
         }
 
-        // Get platform messaging configuration
-        $platformModel = Platform::where('name', $platform)->first();
-        $messagingConfig = null;
-
-        if ($platformModel) {
-            $messagingConfig = [
-                'input_selectors' => json_decode($platformModel->message_input_selectors ?? '[]'),
-                'send_button_selectors' => json_decode($platformModel->message_send_button_selectors ?? '[]'),
-                'supports_enter_to_send' => (bool) $platformModel->supports_enter_to_send,
-            ];
-        }
-
+        // Platform model removed - messaging config no longer needed for contract platform
         return response()->json([
             'success' => true,
             'schema' => $schema,
-            'messaging' => $messagingConfig,
         ]);
     }
 

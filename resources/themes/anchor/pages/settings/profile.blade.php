@@ -58,7 +58,7 @@
 		public function loadConnectedPlatforms()
 		{
 			// Load lead generation platform connections (Reddit, X, Facebook, LinkedIn)
-			$connections = \App\Models\PlatformConnection::where('user_id', auth()->id())
+			$connections = // Platform model removedConnection::where('user_id', auth()->id())
 				->active()
 				->orderBy('platform')
 				->orderBy('created_at', 'desc')
@@ -94,7 +94,7 @@
 
 		public function disconnectPlatform($accountId)
 		{
-			$connection = \App\Models\PlatformConnection::where('id', $accountId)
+			$connection = // Platform model removedConnection::where('id', $accountId)
 				->where('user_id', auth()->id())
 				->first();
 
@@ -757,7 +757,7 @@
 					<!-- Connect Additional Platforms -->
 					@php
 						// Get active platforms from database - only show those with proper OAuth credentials configured
-						$activePlatforms = \App\Models\Platform::where('is_active', true)
+						$activePlatforms = // Platform model removed::where('is_active', true)
 							->get()
 							->filter(function($platform) {
 								// Only show platforms that should be visible (have credentials configured)
