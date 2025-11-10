@@ -15,22 +15,22 @@
             </p>
         </div>
 
-        <div class="max-w-6xl mx-auto mt-16">
-            <div class="overflow-hidden bg-white border shadow-xl rounded-2xl border-zinc-200">
+        <div class="max-w-7xl mx-auto mt-16">
+            <div class="overflow-hidden bg-white border-2 shadow-2xl rounded-3xl border-yellow-400">
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead>
-                            <tr class="bg-gradient-to-r from-blue-50 to-indigo-50">
-                                <th class="px-6 py-4 text-left">
-                                    <span class="text-sm font-medium text-zinc-500">Funcționalitate</span>
+                            <tr style="background-color: #f5e42a;">
+                                <th class="px-8 py-5 text-left">
+                                    <span class="text-base font-bold text-black">Funcționalitate</span>
                                 </th>
-                                <th class="px-6 py-4 text-center">
-                                    <span class="text-sm font-medium text-zinc-500">Manual / Excel</span>
+                                <th class="px-8 py-5 text-center">
+                                    <span class="text-base font-bold text-black">Manual / Excel</span>
                                 </th>
-                                <th class="px-6 py-4 text-center bg-white rounded-t-xl">
+                                <th class="px-8 py-5 text-center bg-white rounded-t-xl">
                                     <div class="inline-flex items-center gap-2">
-                                        <span class="text-lg font-bold text-blue-600">ContractRO</span>
-                                        <span class="px-2 py-1 text-xs font-semibold text-emerald-700 bg-emerald-100 rounded-full">Recomandat</span>
+                                        <span class="text-xl font-bold text-black">ContractRO</span>
+                                        <span class="px-3 py-1.5 text-xs font-bold text-black rounded-full" style="background-color: #f5e42a;">Recomandat</span>
                                     </div>
                                 </th>
                             </tr>

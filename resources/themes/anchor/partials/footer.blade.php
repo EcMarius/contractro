@@ -1,10 +1,10 @@
 
 <!-- Section 1 -->
-<footer class="pt-10">
+<footer class="pt-10" style="background-color: #f5e42a;">
     <x-container>
         <div class="flex flex-wrap items-start justify-between pb-20">
             <div class="w-full md:w-1/6">
-                <a href="{{ route('home') }}" class="flex items-center w-auto mt-1 text-lg font-bold transition-all duration-300 ease-out brightness-0 hover:brightness-100">
+                <a href="{{ route('home') }}" class="flex items-center w-auto mt-1 text-lg font-bold transition-all duration-300 ease-out">
                     <x-logo class="flex-shrink-0 w-auto h-8"></x-logo>
                 </a>
                 @if(setting('site.footer_description'))
