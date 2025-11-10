@@ -42,7 +42,7 @@
                     : $activePlatforms[0];
             @endphp
             <p class="mx-auto mt-5 text-lg font-normal text-left md:text-xl sm:max-w-md lg:ml-0 lg:max-w-lg sm:text-center lg:text-left text-zinc-500">
-                Stop wasting hours searching for potential customers. EvenLeads finds qualified leads from {{ $platformText }} automatically<span class="hidden sm:inline">. Get notified instantly when someone needs your service</span>.
+                Stop wasting hours searching for potential customers. ContractRO finds qualified leads from {{ $platformText }} automatically<span class="hidden sm:inline">. Get notified instantly when someone needs your service</span>.
             </p>
             <div class="flex flex-col gap-3 justify-center items-center mx-auto mt-8 md:gap-2 lg:justify-start md:ml-0 md:flex-row">
                 <x-button tag="a" href="/register" size="lg" class="w-full lg:w-auto">Start Free Trial</x-button>

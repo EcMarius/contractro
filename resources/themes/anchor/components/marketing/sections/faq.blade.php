@@ -13,7 +13,7 @@
     <x-marketing.elements.heading
         level="h2"
         title="Frequently Asked Questions"
-        description="Get answers to common questions about EvenLeads"
+        description="Get answers to common questions about ContractRO"
     />
 
     <div class="mx-auto max-w-3xl mt-12 space-y-4">
