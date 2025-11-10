@@ -49,16 +49,9 @@ Route::get('stripe/portal', '\Wave\Http\Controllers\Billing\Stripe@redirect_to_c
 Route::redirect('billing', 'settings/subscription')->name('billing');
 
 try {
-    if (User::first()) {
-        /***** Dynamic Page Routes *****/
-        foreach (Page::all() as $page) {
-            Route::view($page->slug, 'theme::page', ['page' => $page->toArray()])->name($page->slug);
-        }
-    }
-
-    // If no users are found, redirect to the installer or dummy page
-    if (! User::first()) {
-        Route::view('/', 'wave::welcome');
+    /***** Dynamic Page Routes *****/
+    foreach (Page::all() as $page) {
+        Route::view($page->slug, 'theme::page', ['page' => $page->toArray()])->name($page->slug);
     }
 } catch (QueryException $e) {
     // Handle the exception or log it if needed
