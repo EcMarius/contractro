@@ -1,8 +1,8 @@
 @php
-    use App\Models\Setting;
+    use Wave\Setting;
     use Wave\Plan;
 
-    $trialDays = Setting::getValue('trial_days', 7);
+    $trialDays = Setting::get('trial_days', 7);
     $plans = Plan::where('active', 1)->whereNotNull('monthly_price')->where('monthly_price', '>', 0)->orderBy('monthly_price')->get();
 @endphp
 

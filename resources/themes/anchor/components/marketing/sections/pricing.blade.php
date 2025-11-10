@@ -1,9 +1,9 @@
 @php
-    use App\Models\Setting;
-    $trialDays = Setting::getValue('trial_days', 7);
-    $currency = Setting::getValue('site.currency', 'EUR');
-    $currencyPosition = Setting::getValue('site.currency_position', 'append');
-    $currencyFormat = Setting::getValue('site.currency_format', 'symbol');
+    use Wave\Setting;
+    $trialDays = Setting::get('trial_days', 7);
+    $currency = Setting::get('site.currency', 'EUR');
+    $currencyPosition = Setting::get('site.currency_position', 'append');
+    $currencyFormat = Setting::get('site.currency_format', 'symbol');
 
     // Convert currency to symbol if needed
     if ($currencyFormat === 'symbol') {
@@ -156,10 +156,10 @@
                     $hasYearly = !empty($plan->yearly_price);
 
                     // Get trial plan setting from ContractRO settings
-                    $defaultTrialPlanId = Setting::getValue('trial_plan_id', null);
+                    $defaultTrialPlanId = Setting::get('trial_plan_id', null);
 
                     // Get trial days from ContractRO settings
-                    $planTrialDays = Setting::getValue('trial_days', 7);
+                    $planTrialDays = Setting::get('trial_days', 7);
 
                     // Determine if this plan should show trial option
                     // Only show trial if:

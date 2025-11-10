@@ -1,6 +1,6 @@
 @php
-    use App\Models\Setting;
-    $trialDays = Setting::getValue('trial_days', 7);
+    use Wave\Setting;
+    $trialDays = Setting::get('trial_days', 7);
 @endphp
 
 <section class="flex relative top-0 flex-col justify-center items-center -mt-24 w-full min-h-screen bg-white lg:min-h-screen">

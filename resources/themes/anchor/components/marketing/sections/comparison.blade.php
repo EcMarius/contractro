@@ -1,9 +1,9 @@
 @php
-    use App\Models\Setting;
+    use Wave\Setting;
     use App\Models\Platform;
     use Wave\Plan;
 
-    $trialDays = Setting::getValue('trial_days', 7);
+    $trialDays = Setting::get('trial_days', 7);
     $lowestPlan = Plan::where('active', 1)->where('monthly_price', '>', 0)->orderBy('monthly_price', 'asc')->first();
     $lowestPrice = $lowestPlan ? $lowestPlan->monthly_price : 29;
 
