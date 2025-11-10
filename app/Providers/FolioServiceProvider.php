@@ -20,6 +20,12 @@ class FolioServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register theme pages with component namespace
+        $themePath = resource_path('themes/anchor/pages');
+        if (file_exists($themePath)) {
+            Folio::path($themePath);
+        }
+
         // Register custom auth pages to override DevDojo Auth vendor pages
         // This must be registered early to take priority over vendor/devdojo/auth
         $customAuthPagesPath = resource_path('views/pages/auth');
