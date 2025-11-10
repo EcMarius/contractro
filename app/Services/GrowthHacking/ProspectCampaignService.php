@@ -22,7 +22,7 @@ class ProspectCampaignService
                 throw new \Exception('No AI analysis available for prospect');
             }
 
-            $apiKey = Setting::getValue('openai_api_key');
+            $apiKey = Setting::get('openai_api_key');
 
             if (!$apiKey) {
                 throw new \Exception('OpenAI API key not configured');

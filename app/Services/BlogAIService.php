@@ -14,7 +14,7 @@ class BlogAIService
     public function __construct($userId = null)
     {
         $this->userId = $userId ?? Auth::id();
-        $this->apiKey = Setting::getValue('openai_api_key');
+        $this->apiKey = Setting::get('openai_api_key');
     }
 
     /**
@@ -25,14 +25,14 @@ class BlogAIService
         $user = \App\Models\User::find($this->userId);
 
         if (!$user || !$user->subscription('default')) {
-            $defaultModel = Setting::getValue('openai_model', 'gpt-4o-mini');
+            $defaultModel = Setting::get('openai_model', 'gpt-4o-mini');
             return [$defaultModel];
         }
 
         $plan = $user->subscription('default')->plan;
 
         if (!$plan || empty($plan->openai_models)) {
-            $defaultModel = Setting::getValue('openai_model', 'gpt-4o-mini');
+            $defaultModel = Setting::get('openai_model', 'gpt-4o-mini');
             return [$defaultModel];
         }
 

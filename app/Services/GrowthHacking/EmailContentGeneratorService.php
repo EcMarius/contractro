@@ -15,7 +15,7 @@ class EmailContentGeneratorService
     public function generateEmail(GrowthHackingProspect $prospect): array
     {
         try {
-            $apiKey = Setting::getValue('openai_api_key');
+            $apiKey = Setting::get('openai_api_key');
 
             if (!$apiKey) {
                 throw new \Exception('OpenAI API key not configured');

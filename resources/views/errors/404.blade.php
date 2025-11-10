@@ -71,7 +71,7 @@
                 <!-- Creative Message -->
                 <div class="mb-8 p-4 bg-zinc-50 border border-zinc-200 rounded-lg max-w-2xl mx-auto">
                     <p class="text-sm text-zinc-700">
-                        While you're here, EvenLeads is probably finding new potential leads for your business. Want to check them out?
+                        While you're here, ContractRO is probably finding new potential leads for your business. Want to check them out?
                     </p>
                 </div>
 

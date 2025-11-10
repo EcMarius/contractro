@@ -14,7 +14,7 @@ class ContactExtractorService
     public function analyzeWebsiteWithAI(string $url, string $content, array $inboundLinks, array $basicContactInfo): array
     {
         try {
-            $apiKey = Setting::getValue('openai_api_key');
+            $apiKey = Setting::get('openai_api_key');
 
             if (!$apiKey) {
                 throw new \Exception('OpenAI API key not configured');

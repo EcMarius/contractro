@@ -16,7 +16,7 @@ class NgrokService
     public function __construct()
     {
         try {
-            $this->apiKey = Setting::getValue('ngrok.api_key');
+            $this->apiKey = Setting::get('ngrok.api_key');
         } catch (\Exception $e) {
             // Database might not be ready during boot
             $this->apiKey = null;
@@ -29,7 +29,7 @@ class NgrokService
     protected function getApiKey(): ?string
     {
         try {
-            return Setting::getValue('ngrok.api_key');
+            return Setting::get('ngrok.api_key');
         } catch (\Exception $e) {
             return null;
         }
@@ -273,7 +273,7 @@ class NgrokService
             // Check if Stripe is configured
             $stripeKey = null;
             try {
-                $stripeKey = Setting::getValue('stripe.test.secret_key') ?? config('wave.stripe.secret_key');
+                $stripeKey = Setting::get('stripe.test.secret_key') ?? config('wave.stripe.secret_key');
             } catch (\Exception $e) {
                 // Settings table might not be available yet
                 return;

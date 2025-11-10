@@ -36,7 +36,7 @@ class StripeSyncPrices extends Command
             $this->info("🔧 Using TEST mode (forced via --test flag)");
         } else {
             // Auto-detect from database settings
-            $configuredMode = Setting::getValue('stripe.mode');
+            $configuredMode = Setting::get('stripe.mode');
 
             if (empty($configuredMode)) {
                 $configuredMode = setting('stripe.mode', 'test');
@@ -47,7 +47,7 @@ class StripeSyncPrices extends Command
         }
 
         // Get Stripe credentials for the detected/selected mode
-        $secretKey = Setting::getValue("stripe.{$mode}.secret_key");
+        $secretKey = Setting::get("stripe.{$mode}.secret_key");
 
         // If not found, try wave settings helper
         if (empty($secretKey)) {

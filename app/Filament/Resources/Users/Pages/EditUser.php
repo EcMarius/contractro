@@ -29,12 +29,12 @@ class EditUser extends EditRecord
                 ->requiresConfirmation()
                 ->modalHeading('Reset Trial Period')
                 ->modalDescription(function () {
-                    $trialDays = (int) Setting::getValue('trial_days', 7);
+                    $trialDays = (int) Setting::get('trial_days', 7);
                     return "This will reset the user's trial period to {$trialDays} days from today. The user will be able to use trial features again.";
                 })
                 ->action(function () {
-                    $trialDays = (int) Setting::getValue('trial_days', 7);
-                    $trialPlanId = (int) Setting::getValue('trial_plan_id');
+                    $trialDays = (int) Setting::get('trial_days', 7);
+                    $trialPlanId = (int) Setting::get('trial_plan_id');
 
                     // Update or create subscription with new trial
                     $subscription = $this->record->subscriptions()->first();

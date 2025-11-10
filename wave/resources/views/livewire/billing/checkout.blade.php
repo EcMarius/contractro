@@ -1,10 +1,10 @@
 @php
     use Wave\Setting;
-    $trialDays = Setting::getValue('trial_days', 7);
-    $defaultTrialPlan = Setting::getValue('trial_plan_id', null);
-    $currency = Setting::getValue('site.currency', 'EUR');
-    $currencyPosition = Setting::getValue('site.currency_position', 'append');
-    $currencyFormat = Setting::getValue('site.currency_format', 'symbol');
+    $trialDays = Setting::get('trial_days', 7);
+    $defaultTrialPlan = Setting::get('trial_plan_id', null);
+    $currency = Setting::get('site.currency', 'EUR');
+    $currencyPosition = Setting::get('site.currency_position', 'append');
+    $currencyFormat = Setting::get('site.currency_format', 'symbol');
 
     // Convert currency to symbol if needed
     if ($currencyFormat === 'symbol') {

@@ -24,7 +24,7 @@ class TrialActivationService
             }
 
             // Check if site has trial enabled
-            $trialDays = Setting::getValue('trial_days', 0);
+            $trialDays = Setting::get('trial_days', 0);
 
             if ($trialDays > 0) {
                 // Activate trial
