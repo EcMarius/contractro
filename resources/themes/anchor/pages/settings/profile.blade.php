@@ -756,35 +756,9 @@
 
 					<!-- Connect Additional Platforms -->
 					@php
-						// Get active platforms from database - only show those with proper OAuth credentials configured
-						$activePlatforms = // Platform model removed::where('is_active', true)
-							->get()
-							->filter(function($platform) {
-								// Only show platforms that should be visible (have credentials configured)
-								return $platform->shouldBeVisible();
-							})
-							->mapWithKeys(function($platform) {
-								// Map platform colors and icons
-								$iconColors = [
-									'reddit' => ['icon_bg' => 'bg-orange-100 dark:bg-orange-900/30', 'icon_text' => 'text-orange-600 dark:text-orange-400'],
-									'facebook' => ['icon_bg' => 'bg-blue-100 dark:bg-blue-900/30', 'icon_text' => 'text-blue-600 dark:text-blue-400'],
-									'x' => ['icon_bg' => 'bg-zinc-100 dark:bg-zinc-700', 'icon_text' => 'text-zinc-900 dark:text-zinc-100'],
-									'linkedin' => ['icon_bg' => 'bg-indigo-100 dark:bg-indigo-900/30', 'icon_text' => 'text-indigo-600 dark:text-indigo-400']
-								];
-
-								$colors = $iconColors[$platform->name] ?? ['icon_bg' => 'bg-gray-100 dark:bg-gray-700', 'icon_text' => 'text-gray-600 dark:text-gray-400'];
-
-								return [
-									$platform->name => [
-										'name' => $platform->display_name,
-										'icon_bg' => $colors['icon_bg'],
-										'icon_text' => $colors['icon_text']
-									]
-								];
-							})
-							->toArray();
-
-						$connectedPlatformKeys = collect($connectedPlatforms)->pluck('platform')->toArray();
+						// Platform connections removed - not applicable for contract platform
+						$activePlatforms = [];
+						$connectedPlatformKeys = [];
 					@endphp
 
 					@if(count($activePlatforms) > count($connectedPlatformKeys))
