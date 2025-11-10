@@ -19,3 +19,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - When doing modifications, please use ./cc.sh (using the ssh-mcp server, if available) in the website path to clear all the cached, use "./cc.sh without-queue" only when we did not made modifications on the queue work, because it makes no sense to restart the queue worker if we did not modified it.
 - When updating db on the server, use artisan tinker on ssh-mcp
 - IF you modify the evenleads-extension, after you do all the modifications, ALWAYS build it
+
+## CONTRACTRO BRAND GUIDELINES
+
+**Brand Colors:**
+- Primary Color: Yellow `#f5e42a`
+- Secondary Color: Black `#000000`
+
+**Color Usage:**
+- Hero Section: Yellow background (#f5e42a)
+- Header/Navigation: Yellow background (#f5e42a)
+- Content Sections: White background (#ffffff)
+- Footer: Yellow background (#f5e42a)
+- Primary Buttons: Black background with yellow text
+- Secondary Buttons: Yellow background with black text
+
+**Logo Files:**
+- Favicon: `public/contractro-logos/contractro-small-logo.svg`
+- Main Logo: `public/contractro-logos/contractro-logo-big.svg`
+
+**Typography:**
+- Headings: Bold, Black color
+- Body Text: Regular, Dark gray
+- On Yellow Background: Black text for contrast
